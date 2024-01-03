@@ -1,0 +1,442 @@
+# thesis-template-in-org-mode -*- mode: org; coding: utf-8; -*-
+# --------------------------------------------------------------------------------------------------
+# FOR HTML
+# --------
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+# FOR PDF / LaTeX
+# ---------------
+#+LATEX_CLASS: koma-book
+#+LATEX_CLASS_OPTIONS: [a4paper, fontsize=11pt, BCOR=8mm, DIV=11]
+#+LATEX_HEADER: \input{preamble}
+#+STARTUP: latexpreview
+
+# GENERAL
+# -------
+#
+#   set toc and title to :t for html export ...
+#
+#+OPTIONS: toc:nil tex:t num:t title:nil
+# tex:verbatim
+#+CATEGORY: thesis
+#+KEYWORDS: inf cs thesis org latex pdf html template
+#+LANGUAGE: en-GB
+#+EXPORT_FILE_NAME: thesis-template-in-org-mode
+# +SELECT_TAGS: export
+# +EXCLUDE_TAGS: todo
+# +LATEX_HEADER: \renewcommand\maketitle{}
+# --------------------------------------------------------------------------------------------------
+#+TITLE: Thesis template in ~org-mode~
+#+SUBTITLE: convertable to ~html~, ~tex~ and ~pdf~
+#+DATE: Mi 3. Jan CET 2024
+#+AUTHOR: Felix Drees
+#+EMAIL: name@domain.abcdefg
+# --------------------------------------------------------------------------------------------------
+
+#+LATEX: \input{titlepage}
+
+#+TOC: headlines
+#+TOC: listings
+#+TOC: tables
+
+#+latex: \clearpage
+
+#+begin_abstract
+this is the section where i will put my english abstract ...
+#+end_abstract
+
+#+begin_export latex
+\selectlanguage{ngerman}
+\begin{abstract}
+Hier die deutsche zusammenfassung ...
+\end{abstract}
+\selectlanguage{british}
+#+end_export
+
+
+* nix shell (env)
+
+#+name: nix-config-cat
+#+attr_latex: :options frame=single :wrap src text
+#+caption: ~nix-shell~ config for generating a build environment
+#+begin_src shell :results output pp :exports both
+cat shell.nix
+#+end_src
+
+#+RESULTS: nix-config-cat
+#+begin_example
+{ pkgs ? import <nixpkgs> {} }:
+
+pkgs.mkShell {
+  buildInputs = with pkgs; [
+    (python310.withPackages(ps: with ps; [ numpy latexify-py scipy pygments ]))
+    graphviz
+  ];
+
+  shellHook = ''
+    echo "entering dev environment"
+  '';
+}
+#+end_example
+
+
+* emacs config
+
+** packages
+
+#+name: emacsPackageList
+#+begin_src shell :results output :exports results
+cat ~/.config/doom/packages.el | grep "^(package"
+#+end_src
+
+#+RESULTS: emacsPackageList
+: (package! evil-tutor)
+: (package! pdf-tools)
+: (package! org-special-block-extras) ;; (use-package org-special-block-extras :ensure t)
+
+
+** emacs config
+
+#+begin_comment
+# +name: emacsConfig
+# +begin_src shell :results output pp :exports results
+cat ~/.config/doom/config.el
+# +end_src
+#+end_comment
+
+#+begin_src
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+;; ...
+
+;; add latex classes for org-mocde export to latex (pdf)
+(add-to-list 'org-latex-classes
+             '("koma-book"
+               "\\documentclass{scrbook}"
+               ("\\chapter{%s}" . "\\chapter*{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(add-to-list 'org-latex-classes
+             '("koma-article"
+               "\\documentclass{scrartcl}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+;; syntax highlighting for org-mode code block
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; ...
+#+end_src
+
+
+* convert python 2 latex
+
+#+name: py2texImports
+#+attr_latex: :options frame=single :wrap src text
+#+begin_src python :session main :exports code :results none :wrap src text
+import math
+import numpy as np
+import scipy
+import latexify
+#+end_src
+
+
+#+name: py2texImportTable
+#+begin_src python :results table :session main :exports results :hlines yes :colnames yes
+[line.split("=") for line in
+ f"{latexify.__version__ = }\n{np.__version__ = }\n{scipy.__version__ = }".split("\n")]
+#+end_src
+
+#+CAPTION: table of libararys with coresponding version
+#+RESULTS: py2texImportTable
+| latexify.__version__ | '0.0.0a0' |
+| np.__version__       | '1.24.2'  |
+| scipy.__version__    | '1.10.1'  |
+
+
+With the imported libs, we can now convert a ~python~ function to ~latex~
+
+
+#+name: isPrimeFunc
+#+attr_latex: :options frame=single :wrap src text
+#+caption: code block containing prime checking functions
+#+begin_src python -n -r :results output :session main :exports code
+def recHelper(x: int, d: int = 3) -> int:      (ref:recHelperRef)
+    # forall x in [3, infty)
+    if x % 2 == 0:
+        return 0
+    elif d > math.floor(math.sqrt(x)):
+        return 1
+    elif x % d == 0:
+        return 0
+    else:
+        return recHelper(x, d + 2)
+
+def isPrime(x: int) -> int:                    (ref:isPrimeRef)
+    if x <= 1:  # forall x in (infty, 1] : 1
+        return 0
+    elif x == 2:
+        return 1
+    else:  # forall x in (2, infty)
+        return recHelper(x, 3)
+#+end_src
+
+#+RESULTS: isPrimeFunc
+
+In line [[(isPrimeRef)]] we remember the current position.
+[[(recHelperRef)][Line (recHelperRef)]] jumps to point-min.
+
+
+#+name: genLatexForPrimeFunc
+#+begin_src python :results output drawer :session main :exports results
+print(f"\\[ {latexify.get_latex(isPrime)} \\]\n" \
+      f"\\\\\n\\[ {latexify.get_latex(recHelper)} \\]")
+#+end_src
+
+#+RESULTS: genLatexForPrimeFunc
+:results:
+\[ \mathrm{isPrime}(x) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \le {1}} \\ {1}, & \mathrm{if} \ {x = {2}} \\ \mathrm{recHelper}\left(x, {3}\right), & \mathrm{otherwise} \end{array} \right. \]
+\\
+\[ \mathrm{recHelper}(x, d) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \mathbin{\%} {2} = {0}} \\ {1}, & \mathrm{if} \ {d > \left\lfloor{\sqrt{x}}\right\rfloor} \\ {0}, & \mathrm{if} \ {x \mathbin{\%} d = {0}} \\ \mathrm{recHelper}\left(x, d + {2}\right), & \mathrm{otherwise} \end{array} \right. \]
+:end:
+
+
+#+name: checkIfPrime
+#+begin_src python :session main :exports none :output none :var x=5
+bool(isPrime(x))
+#+end_src
+
+#+RESULTS: checkIfPrime
+: True
+
+
+Now we can call the ~isPrime~ function with the parameter ~5~ and ~6~:
+
+ - is ~5~ a prime number? result of ~isPrime~ func: call_checkIfPrime(x=5) {{{results(=True=)}}}
+ - is ~6~ a prime number? result of ~isPrime~ func: call_checkIfPrime(x=6) {{{results(=False=)}}}
+
+
+* Funktionskomposition
+
+Graph using the ~dot~ language
+
+#+name: dotGraph
+#+BEGIN_SRC dot :file function-composition.png :cmdline -Kdot -Tpng :exports both
+digraph G {
+    node [shape=circle, fontname="Courier", fontsize=16]
+    edge [fontname="Courier", fontsize=16]
+    A:nw -> A [label="id"]
+    A -> B [label="f"]
+    B -> C [label="g"]
+    A -> C [xlabel="g . f "]
+    {rank=same; A B}
+}
+#+END_SRC
+
+#+ATTR_LATEX: :placement [H] :float nil :width 0.4\textwidth
+#+caption: function composition and identity
+#+RESULTS: dotGraph
+[[file:function-composition.png]]
+
+
+Graph using latex ~tikz picture~
+
+#+begin_export latex
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[
+      node distance=15ex,
+      auto,
+      on grid,
+      shorten >=1pt
+    ]
+    \node [state, initial] (q0) {$q_0$};
+    \node [state, accepting, right=of q0] (q1) {$q_1$};
+    \path[->]
+      (q0) edge node {$a$} (q1);
+  \end{tikzpicture}
+  \caption[Graph des Büchi-Automaten $\hat A$.]{Graph des Büchi-Automaten $\hat A$. Der Zustand $q_1$ hat dabei keine ausgehende Kante. Der Zustand ist trotzdem akzeptierend, da beide enthaltenen Zustände von $\acute A$ akzeptierend sind. Die naive Anwendung des Leerheitstests auf alternierenden Büchi-Automaten liefert in diesem Fall also zu viele akzeptierende Zustände.}
+  \label{fig-buechi}
+\end{figure}
+#+end_export
+
+
+* Some random Proof
+
+Sei
+
+    \[ A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} \in \mathbb{R}^{3 \times 3}. \]
+
+    Zeigen Sie, dass für alle $\beta \in \mathbb{N}_{>0}$ gilt:
+
+    \[ A^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix}. \]
+
+    \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} footnote \url{https://youtu.be/XkY2DOUCWMU}
+    Die Matrix $A$ auch als Lineare Transformation in $\R^3$ interpretiert werden.
+
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=7cm]{rotate_shear_record.png}
+        \caption{Composition of Transformations}
+        Quelle: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
+        \label{fig:my_label_01}
+    \end{figure}
+
+
+
+    Diese Interpretation erleichtert das nachvollziehen dieses zu beweisenden Satzes, und lässt ihn fast schon trivial erscheinen.
+
+\begin{figure}[!h]
+    \centering
+    \label{fig:my_label}
+
+    \begin{tikzpicture}
+        \begin{scope}
+            \tdplotsetmaincoords{70}{110}
+            \draw (0,0,0) node[above left] {};
+            \draw[thick, ->] (0,0,0) -- (2,0,0) node[anchor=north west]{$y$};
+            \draw[thick, ->] (0,0,0) -- (0,2,0) node[anchor=south west]{$z$};
+            \draw[thick, ->] (0,0,0) -- (0,0,2) node[anchor=south east]{$x$};
+
+            \draw[thick, ->,green] (0,0,0) -- (1,0,0) node[anchor=north east] {$\vec{j}$};
+            \draw[thick, ->,red] (0,0,0) -- (0,1,0) node[anchor=north west]{$\vec{k}$};
+            \draw[thick, ->,blue] (0,0,0) -- (0,1,1) node[anchor=south east]{$\vec{i}$};
+            % \tdplotdrawarc{(0,0,0)}{0.5}{0}{110}{anchor=north}{$\phi$}
+        \end{scope}
+        \begin{scope}[shift={(5, 0)}]
+            \draw[thick, <->] (0, -0.5) -- (0, 2) node[anchor=south west]{$z$};
+            \draw[thick, <->] (-0.5, 0) -- (2, 0) node[anchor=north west]{$x$};
+
+            \draw[thick, ->,blue] (0, 0) -- (1, 1) node[anchor=west]{$\vec{i}_1$};
+            \draw[thick, ->,blue] (0, 0) -- (1, 2) node[anchor=west]{$\vec{i}_2$};
+            \draw[thick, ->,blue] (0, 0) -- (1, -0.5) node[anchor=west]{$\vec{i}_{-0.5}$};
+
+            \draw[dashed, <->] (1, -0.7) node[anchor=north west]{$1$} -- (1, 2.2);
+            %\tdplotdrawarc{(0,0)}{0.7}{0}{45}{}{};
+        \end{scope}
+    \end{tikzpicture}
+
+    \caption{$\R^3$ mit linearer Transformation $A^1$}
+\end{figure}
+
+    \[ \text{Mit } \vec{i} = (1, 0, \beta)^T \text{ und } \vec{j} = (0, 1, 0)^T \text{ und } \vec{k} = (0, 0, 1)^T. \]
+
+
+    Somit wird lediglich die $x$ Koordinate Transformiert.
+    Egal wie oft man diese Transformation potenziert, die $y$ und $z$ Achsen werden sich nicht verändern, hingegen wird sich die $x$ Achse zunehmend der $y$ Achse annähern.
+
+    $\mathrm{Z\kern-.3em\raise-0.5ex\hbox{Z}}$
+
+    \[ \forall \beta \in \N^* \mid \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
+
+
+#+ATTR_LATEX: :options [Proof of important theorem]
+#+BEGIN_proof
+
+    \induction{\beta}
+
+    \indv
+
+    \[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
+
+    \rem
+    \begin{quote}
+        $~~$\\
+        \indb{\beta}{0}
+
+man könnte auch bei 0 anfangen ...
+
+    \end{quote}
+
+    \indb{\beta}{1}
+
+    \[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^1 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} \]
+
+    \inds{\beta}
+
+    \begin{align}
+        \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^{\beta + 1} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+        \Leftrightarrow \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta \cdot \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+        \xLeftrightarrow{\star} \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \cdot \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+        \Leftrightarrow \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix}
+    \end{align}
+    
+#+END_proof
+
+
+* TODO drawing functions and their root function / derivation
+
+some ~python~ and ~plotlib~ code ...
+
+#+begin_src python :exports code
+print("hello world")
+#+end_src
+
+#+RESULTS:
+: None
+
+
+* logic and stuff ...
+
+\lipsum[2-8]
+
+
+** forward direction (\rightarrow)
+
+#+name: proff
+#+begin_tree
+- $\rightarrow I^1$ :: (A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A)
+  - $\rightarrow I^2$ :: \lnot B \rightarrow \lnot A
+    - $\lnot I^3$ :: \lnot A
+      - $\lnot E$ :: \perp
+        - mp :: B
+          - [A]^3
+          - [A \rightarrow B]^1
+        - [\lnot B]^2
+#+end_tree
+
+#+begin_export html
+</br></br>
+#+end_export
+
+
+** back direction (\leftarrow)
+
+#+begin_tree
+- $\rightarrow I^4$ :: (\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)
+  - $\rightarrow I^5$ :: A \rightarrow B
+    - $\text{raa}^6$ :: B
+      - $\lnot E$ :: \perp
+        - [A]^5
+        - mp :: \lnot A
+          - [\lnot B]^6
+          - [\lnot B \rightarrow \lnot A]^4
+#+end_tree
+
+#+begin_export html
+</br></br>
+#+end_export
+
+
+** both directions (\leftrightarrow)
+
+#+begin_tree
+- $\leftrightarrow$ I :: \vdash (A \rightarrow B) \leftrightarrow (\lnot B \rightarrow \lnot A)
+  - (A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A)
+  - (\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)
+#+end_tree

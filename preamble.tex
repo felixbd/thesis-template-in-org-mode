@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   based on Artikel-Vorlage (komplex)
+%   https://stuga.math.uni-bremen.de/wiki/LaTeX:_Vorlagen
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[ngerman,british]{babel}
+
+\usepackage{amsmath,amssymb,amsthm,amsfonts,amsbsy,latexsym}
+\usepackage{mathtools}
+\usepackage{extarrows}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate,url}
+\usepackage{graphicx}
+
+\usepackage{tikz}
+
+\usetikzlibrary{%
+  automata,%
+  positioning,%
+}
+
+\tikzset{
+  every state/.style={
+    draw=maincolor,
+    thick,
+    fill=maincolor!18,
+    minimum size=0pt
+  }
+}
+
+\usepackage{bibgerm}
+\usepackage[german=guillemets]{csquotes}
+% \usepackage{makecell}
+\usepackage{subcaption}
+% \usepackage{eurosym}
+\usepackage{lipsum}
+
+% \usepackage[style=alphabetic,maxbibnames=99,maxalphanames=5]{biblatex}
+% or
+% \bibliographystyle{alphadin}
+
+\usepackage{selinput}
+\SelectInputMappings{
+  adieresis={ä},
+  germandbls={ß},
+  Euro={€},
+}
+
+% add h1 for abstract
+\renewenvironment{abstract}{%
+    \small
+    \begin{center}
+      {\normalfont\sectfont\nobreak\abstractname}
+    \end{center}
+}{%
+\endquotation
+}
+
+%%% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\fline}{\bigskip\noindent}
+\newcommand{\field}[1]{\mathbb{#1}}
+\newcommand{\N}{\field{N}}
+\newcommand{\Z}{\field{Z}}
+\newcommand{\Q}{\field{Q}}
+\newcommand{\R}{\field{R}}
+\newcommand{\C}{\field{C}}
+\newcommand{\K}{\field{K}}
+\newcommand{\B}{\field{B}}
+
+\newtheorem*{fakt}{Fakt}
+\newtheorem{fazit}{Fazit}
+\newtheorem{satz}{Satz}
+\newtheorem{theo}{Theorem}
+\newtheorem{lemma}[satz]{Lemma}
+\newtheorem{chara}{Charakterisierung}
+
+\theoremstyle{definition}
+\newtheorem{defi}{Definition}
+\newtheorem{termi}{Terminologie}
+
+\theoremstyle{remark}
+\newtheorem*{beh}{Behauptung}
+\newtheorem{rem}{Bemerkung}
+\newtheorem*{folg}{Folgerung}
+\newtheorem{korr}{Korollar}
+\newtheorem*{bsp}{Beispiel}
+\newtheorem*{bspe}{Beispiele}
+\newtheorem{aufg}{\textbf{Aufgabenstellung}}
+
+\newcommand{\induction}[1]{\textbf{Beweis} (durch vollständige Induktion nach $#1$): }
+\newcommand{\proofcon}{\textbf{Beweis} (durch Kontraposition):}
+\newcommand{\proofind}{\textbf{Beweis} (indirekt): }
+\newcommand{\indb}[2]{Induktionsbeginn ($#1 = #2$): }
+\newcommand{\indv}{Induktionsvoraussetzung ($\star$): }
+\newcommand{\inds}[1]{Induktionsschritt ($#1\rightsquigarrow #1 +1$): }
+
+\newcommand{\expo}[1]{\exp\left\{{#1}\right\}}
+\newcommand{\series}[1]{\sum_{#1}^{\infty}}
+\newcommand{\stetig}[2]{\mathscr{C}(#1,#2)}
+\newcommand{\topologie}{\mathfrak{T}}
+
+%%% PHYSICS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{units}
+
+%%% CS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{dirtree}
+
+%\usepackage{listings}
+%\usepackage{xcolor}
+
+%\definecolor{codegreen}{rgb}{0,0.6,0}
+%\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+%\definecolor{codepurple}{rgb}{0.58,0,0.82}
+%\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+%\lstdefinestyle{mystyle}{
+%    backgroundcolor=\color{backcolour},
+%    commentstyle=\color{codegreen},
+%    keywordstyle=\color{magenta},
+%    numberstyle=\tiny\color{codegray},
+%    stringstyle=\color{codepurple},
+%    basicstyle=\ttfamily\footnotesize,
+%    breakatwhitespace=false,
+%    breaklines=true,
+%    captionpos=b,
+%    keepspaces=true,
+%    numbers=left,
+%    numbersep=5pt,
+%    showspaces=false,
+%    showstringspaces=false,
+%    showtabs=false,
+%    tabsize=2
+%}
+
+%\lstset{style=mystyle}
