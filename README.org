@@ -1,60 +1,296 @@
 # thesis-template-in-org-mode -*- mode: org; coding: utf-8; -*-
 # --------------------------------------------------------------------------------------------------
+#
+# The Documentation (either in its HTML/LaTeX/PDF format or in its Org-Mode format)
+# is licensed under the *GNU Free Documentation License version 1.3* or later.
+#
+# The code examples are licensed under the *GNU General Public License v3* or later.
+#
+# --------------------------------------------------------------------------------------------------
 # FOR HTML
 # --------
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE:           https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
 # FOR PDF / LaTeX
 # ---------------
-#+LATEX_CLASS: koma-book
+#+LATEX_CLASS:         koma-book
 #+LATEX_CLASS_OPTIONS: [a4paper, fontsize=11pt, BCOR=8mm, DIV=11]
-#+LATEX_HEADER: \input{preamble}
-#+STARTUP: latexpreview
+#+LATEX_HEADER:        \input{preamble}
+#+latex_header:        \usepackage{tcolorbox}
+#+STARTUP:             latexpreview align fold nodlcheck hidestars oddeven lognotestate
 
 # GENERAL
 # -------
-#
-#   set toc and title to :t for html export ...
-#
-#+OPTIONS: toc:nil tex:t num:t title:nil
+#+OPTIONS:             toc:nil tex:t num:t title:nil
 # tex:verbatim
-#+CATEGORY: thesis
-#+KEYWORDS: inf cs thesis org latex pdf html template
-#+LANGUAGE: en-GB
-#+EXPORT_FILE_NAME: thesis-template-in-org-mode
-# +SELECT_TAGS: export
-# +EXCLUDE_TAGS: todo
-# +LATEX_HEADER: \renewcommand\maketitle{}
+#+PRIORITIES:          A B C
+#+TAGS:                Write(w) Update(u) Fix(f) Check(c)
+#+CATEGORY:            thesis
+#+DESCRIPTION:         tutorial for writing a thesis in gnu/Emacs's org-mode
+#+KEYWORDS:            inf cs thesis org latex PDF HTML template
+#+LANGUAGE:            en-GB
+#+EXPORT_FILE_NAME:    thesis-template-in-org-mode
+#+SELECT_TAGS:         export
+#+EXCLUDE_TAGS:        Toto
 # --------------------------------------------------------------------------------------------------
-#+TITLE: Thesis template in ~org-mode~
-#+SUBTITLE: convertable to ~html~, ~tex~ and ~pdf~
+#+TITLE: Unleashing the Power of GNU/Emacs and Org-Mode
+#+SUBTITLE: A Cache of Wisdom for Thesis Writing
 #+DATE: Mi 3. Jan CET 2024
 #+AUTHOR: Felix Drees
-#+EMAIL: name@domain.abcdefg
+#+EMAIL: not-my-mail@domain.example-tld
 # --------------------------------------------------------------------------------------------------
 
+# include the content of the ./titlepage.tex file for latex export
 #+LATEX: \input{titlepage}
+
+# ==================================================================================================
+#
+#   LICENSE notes for HTML export
+#
+
+#+begin_export html
+<blockquote>
+  <p>
+    The Documentation (either in its HTML, PDF, LaTeX or in its Org-Mode format) is licensed under the
+    <a href="https://www.gnu.org/licenses/fdl-1.3.txt">GNU Free Documentation License version 1.3</a> or later.
+  </p>
+  <p>
+    The code examples are licensed under the
+    <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU General Public License v3</a> or later.
+  </p>
+</blockquote>
+
+<table>
+  <tr>
+    <td>
+      <a href="https://www.gnu.org/licenses/fdl-1.3.txt">
+        <img src="https://www.gnu.org/graphics/gfdl-logo-small.png"
+             alt="GNU Free Documentation License version 1.3" />
+      </a>
+    </td>
+    <td>
+      <a href="https://www.gnu.org/licenses/gpl-3.0.txt">
+        <img src="https://www.gnu.org/graphics/gplv3-127x51.png"
+             alt="GNU General Public License v3" />
+      </a>
+    </td>
+  </tr>
+</table>
+#+end_export
+
+
+# ==================================================================================================
+#
+#   Abstract's
+#
+
+#+name: englishAbstract
+#+begin_abstract
+The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis papers.
+This article provides a detailed guide on how to seamlessly integrate these tools, facilitating a smooth transition
+between generating HTML and LaTeX documents, as well as PDFs, all from a single Org Mode file. Furthermore, a Nix shell,
+accompanied by a shell.nix file, is introduced to ensure efficient management of the development environment.
+#+end_abstract
+
+#+latex: \vspace{2cm}
+
+# set the language for the German Abstract
+#+latex: \selectlanguage{ngerman}
+
+#+name: germanAbstract
+#+begin_abstract
+Die Vereinigung von Doom/Emacs, Org Mode und LaTeX bietet eine leistungsstarke Plattform zur Verfassung eleganter Abschlussarbeiten.
+Dieser Artikel erläutert detailliert, wie man diese Werkzeuge optimal kombiniert, um nahtlos zwischen der Erstellung von HTML- und
+LaTeX-Dokumenten sowie PDFs aus einer einzigen Org-Mode-Datei zu wechseln.  Zusätzlich wird eine Nix-Shell mit einer begleitenden
+shell.nix-Datei vorgestellt, um eine effiziente Verwaltung der Entwicklungs- und Arbeitsumgebung zu gewährleisten.
+#+end_abstract
+
+# reset the language to English
+#+latex: \selectlanguage{british}
+
+
+# ==================================================================================================
+#
+#   TOC's for contents, code blocks, tables and figures
+#
 
 #+TOC: headlines
 #+TOC: listings
 #+TOC: tables
+#+latex: \listoffigures
 
 #+latex: \clearpage
 
-#+begin_abstract
-this is the section where i will put my english abstract ...
-#+end_abstract
 
-#+begin_export latex
-\selectlanguage{ngerman}
-\begin{abstract}
-Hier die deutsche zusammenfassung ...
-\end{abstract}
-\selectlanguage{british}
-#+end_export
+* Introduction / Motivation:
+
+Embarking on the journey of using GNU/Emacs with Org-Mode for thesis writing may seem like a daunting task, especially if you're unfamiliar with the intricate workings of GNU/Emacs itself. Some may question the need to delve into Org-Mode when alternatives like LaTeX are readily available and widely embraced. However, dismissing the potential of GNU/Emacs and Org-Mode prematurely might mean overlooking a transformative experience that can redefine your approach to document creation.
 
 
-* nix shell (env)
+** Why bother writing Org-Mode when I can use LaTeX instead?
+
+While LaTeX is a formidable typesetting system, Org-Mode complements it by offering a more versatile and flexible platform for document creation. Org-Mode's simplicity and ease of use, coupled with the ability to seamlessly integrate LaTeX, provide a unique writing experience that combines the best of both worlds.
+
+
+*** The possibilities with Org-Mode are endless!
+
+
+**** Include and evaluate code:
+
+Integrate code seamlessly within your document, making it a dynamic and interactive platform for technical content.
+
+
+**** Write LaTeX in a more relaxed surrounding:
+
+Org-Mode simplifies the LaTeX integration, providing a more user-friendly and intuitive environment for crafting your documents.
+
+
+** summery
+
+For this tutorial, we will be using a distribution of GNU/Emacs called DOOM Emacs.  Additionally, on our GNU/Linux platform, we'll leverage a package manager known as Nix to generate an environment for building both PDF and HTML versions of your thesis.  This powerful combination of tools will enhance your writing experience and streamline the process of creating, editing, and compiling your thesis documents.
+
+
+*** motivating videos
+
+- [[https://youtu.be/BAFZ-vTnfSo?feature=shared][Literate Documentation with Emacs and Org Mode]]
+- [[https://youtu.be/0g9BcZvQbXU?feature=shared][Consistent Technical Documents Using Emacs and Org Mode]]
+- [[https://youtu.be/cklJ58i-HUY?feature=shared][EmacsConf 2023: Authoring and presenting university courses with Emacs and a full libre software ...]]
+- [[https://www.youtube.com/live/vz9aLmxYJB0?feature=shared][Emacs Tips - How to Give Presentations with Org Mode]]
+- [[https://youtu.be/YmQ1CYMz-OY?feature=shared][EmacsConf 2022: Health data journaling and visualization with Org Mode and GNUplot - David O'Toole]]
+
+
+* (Doom) GNU/Emacs setup and configuration
+
+Start by installing Doom Emacs.
+
+https://youtu.be/37H7bD-G7nE?feature=shared
+
+
+** packages ~~/.config/doom/package.el~
+
+After installing Doom Emacs - follow up by installing useful packages.
+If you are not familiar with Doom Emacs's ~evil~ mode (which is a vim style set of key bindings in Emacs),
+it might be a good idea to install ~evil-tutor~ and check out the tutorial for ~evil~ mode.
+
+The ~pdf-tools~ (optional for this tutorial) will give you additional functionality for working with PDF documents in Doom Emacs, the most important being the support for viewing the PDF document in a Emacs buffer.
+
+Finlay install ~org-special-block-extras~ for additional ~org-mode~ blocks for math and other usefull stuff.
+
+#+begin_box Note
+If you want to use the special blocks in you current org mode session - do not forget to enable it with:
+kbd:M-x ~org-special-block-extras-mode~
+#+end_box
+
+#+name: emacsPackageList
+#+begin_src shell :results output :exports results
+cat ~/.config/doom/packages.el | grep "^(package"
+#+end_src
+
+#+RESULTS: emacsPackageList
+: (package! evil-tutor)
+: (package! pdf-tools)
+: (package! org-special-block-extras) ;; (use-package org-special-block-extras :ensure t)
+: (package! gnuplot)
+: (package! gnuplot-mode)
+
+
+#+begin_box Note
+Do not forget to ~doom sync~ after adding new packages to your ~package.el~ file and reload Emacs.
+#+end_box
+
+
+** config ~~/.config/doom/config.el~
+
+To complete the Doom Emacs setup / configuration you only have to addapt your ~config.el~ file.
+We will now add the ~koma~ latex document classes and add support for code highlighting.
+
+# +name: emacsConfig
+# +begin_src shell :results output pp :exports results
+# cat ~/.config/doom/config.el
+# +end_src
+
+#+RESULTS: emacsConfig
+#+begin_example
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+;; ------------------------------------------------------------------------------
+
+;; ...
+
+;; add latex classes for org-mocde export to latex (pdf)
+(after! org
+  (setq org-latex-classes
+        '(("article" "\\documentclass[11pt]{article}"
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
+  (add-to-list 'org-latex-classes
+               '("koma-book" "\\documentclass{scrbook}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  (add-to-list 'org-latex-classes
+               '("koma-article"
+                 "\\documentclass{scrartcl}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  )
+
+;; for syntax highlighting in org-mode
+;;  (setq org-latex-src-block-background 'minted
+(setq org-latex-listings 'minted
+      org-latex-packages-alist '(("" "minted"))
+      org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+
+;; ------------------------------------------------------------------------------
+#+end_example
+
+
+
+#+begin_box Note
+Before running kbd:SPC-h-r-r (M-x doom/reload) - either wait for the ~nix~ ~env~ setup or
+install ~pygments~ yourself via ~pip3 install pygments~.
+#+end_box
+
+
+* nix shell environment
+
+Now that Emacs is ready - we can procued by declaring an ~shell.nix~ environment file, in which we will
+specify all the  packages we will use for compiling the ~org-mode~ file and all library's and other stuff used in the thesis (e.g. ~numpy~ ~python~ ~haskell~).
+
+We will use ~gnuplot~ for plotting stuff, ~graphics~ for generating nice graphs in the ~dot~ language.
+In addition we need ~texlive~ and therefore can use ~tikz~ to generate nice plots/graphs.
+Last but not least, we install the ~pygments~ lib we are using for highlighting the code blocks in addition to the
+~python~ packages used in the source code in the thesis.
+
+If you want to install ~haskell~ or ~R~ for your thesis and haven't done so system wide - this might be a good opportunity to add the software.
+
+#+begin_box Install Nix (the package manager)
+
+#+attr_latex: :options frame=single :wrap src text
+#+begin_src shell
+sh <(curl -L https://nixos.org/nix/install) --daemon
+#+end_src
+
+https://nixos.org/download
+#+end_box
 
 #+name: nix-config-cat
 #+attr_latex: :options frame=single :wrap src text
@@ -69,8 +305,18 @@ cat shell.nix
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    (python310.withPackages(ps: with ps; [ numpy latexify-py scipy pygments ]))
+    (python310.withPackages(ps: with ps; [
+	numpy         # for math
+	latexify-py   # for converting python funcs to latex
+	scipy         # for math and physics
+	pygments      # for syntax highlighting
+	matplotlib    # for plotting
+	seaborn       # for plotting
+	scikit-learn  # for ml stuff
+    ]))
+    texlive.combined.scheme-full
     graphviz
+    gnuplot
   ];
 
   shellHook = ''
@@ -80,68 +326,39 @@ pkgs.mkShell {
 #+end_example
 
 
-* emacs config
+Run ~nix-shell~ to enter the now defined development environment.
 
-** packages
-
-#+name: emacsPackageList
-#+begin_src shell :results output :exports results
-cat ~/.config/doom/packages.el | grep "^(package"
-#+end_src
-
-#+RESULTS: emacsPackageList
-: (package! evil-tutor)
-: (package! pdf-tools)
-: (package! org-special-block-extras) ;; (use-package org-special-block-extras :ensure t)
+After entering our specified environment - you can run ~make doom~ to start Doom Emacs.
 
 
-** emacs config
+* start messing around
 
-#+begin_comment
-# +name: emacsConfig
-# +begin_src shell :results output pp :exports results
-cat ~/.config/doom/config.el
-# +end_src
-#+end_comment
+Since everything should be ready by now - please feel free to mess around with the ~README.org~ file within Emacs.
 
-#+begin_src
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+1. start the nix development environment
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+   #+begin_src shell
+nix-shell  # schould open a nix shell with all the packages defined in the local shell.nix config
+   #+end_src
 
-;; ...
+2. open doom Emacs form within the development environment
 
-;; add latex classes for org-mocde export to latex (pdf)
-(add-to-list 'org-latex-classes
-             '("koma-book"
-               "\\documentclass{scrbook}"
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+   #+begin_src shell
+make doom  # should open a new doom emacs window (from within the nix shell)
+   #+end_src
 
-(add-to-list 'org-latex-classes
-             '("koma-article"
-               "\\documentclass{scrartcl}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+3. open ~README.org~
 
-;; syntax highlighting for org-mode code block
-(setq org-latex-listings 'minted
-      org-latex-packages-alist '(("" "minted"))
-      org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+   in doom Emacs, you could either open a file with kbd:M-x ~dired~ or by using ~SPC-.~
 
-;; ...
-#+end_src
+4. mess around
+
+   Finlay adapt the ~README.org~ file for your needs or just explore the file from within Emacs.
+
+
+#+begin_box Export to HTML and PDF
+You can export your derivative with the key binding: kbd:C-c kbd:C-e
+#+end_box
 
 
 * convert python 2 latex
@@ -162,14 +379,14 @@ import latexify
  f"{latexify.__version__ = }\n{np.__version__ = }\n{scipy.__version__ = }".split("\n")]
 #+end_src
 
-#+CAPTION: table of libararys with coresponding version
+#+CAPTION: table of library's with corresponding version
 #+RESULTS: py2texImportTable
 | latexify.__version__ | '0.0.0a0' |
 | np.__version__       | '1.24.2'  |
 | scipy.__version__    | '1.10.1'  |
 
 
-With the imported libs, we can now convert a ~python~ function to ~latex~
+With the imported library's, we can now convert a ~python~ function to ~latex~
 
 
 #+name: isPrimeFunc
@@ -198,8 +415,9 @@ def isPrime(x: int) -> int:                    (ref:isPrimeRef)
 
 #+RESULTS: isPrimeFunc
 
-In line [[(isPrimeRef)]] we remember the current position.
-[[(recHelperRef)][Line (recHelperRef)]] jumps to point-min.
+
+In line [[(isPrimeRef)]] is the main definition of the recursive basecase.
+[[(recHelperRef)][Line (recHelperRef)]] starts by declaring a recursive helper for the main prime checking function.
 
 
 #+name: genLatexForPrimeFunc
@@ -227,11 +445,11 @@ bool(isPrime(x))
 
 Now we can call the ~isPrime~ function with the parameter ~5~ and ~6~:
 
- - is ~5~ a prime number? result of ~isPrime~ func: call_checkIfPrime(x=5) {{{results(=True=)}}}
- - is ~6~ a prime number? result of ~isPrime~ func: call_checkIfPrime(x=6) {{{results(=False=)}}}
+ - is ~5~ a prime number? result of ~isPrime~ function: call_checkIfPrime(x=5) {{{results(=True=)}}}
+ - is ~6~ a prime number? result of ~isPrime~ function: call_checkIfPrime(x=6) {{{results(=False=)}}}
 
 
-* Funktionskomposition
+* Function composition
 
 Graph using the ~dot~ language
 
@@ -256,50 +474,63 @@ digraph G {
 
 Graph using latex ~tikz picture~
 
+
 #+begin_export latex
 \begin{figure}
-  \centering
-  \begin{tikzpicture}[
-      node distance=15ex,
-      auto,
-      on grid,
-      shorten >=1pt
-    ]
-    \node [state, initial] (q0) {$q_0$};
-    \node [state, accepting, right=of q0] (q1) {$q_1$};
-    \path[->]
-      (q0) edge node {$a$} (q1);
-  \end{tikzpicture}
-  \caption[Graph des Büchi-Automaten $\hat A$.]{Graph des Büchi-Automaten $\hat A$. Der Zustand $q_1$ hat dabei keine ausgehende Kante. Der Zustand ist trotzdem akzeptierend, da beide enthaltenen Zustände von $\acute A$ akzeptierend sind. Die naive Anwendung des Leerheitstests auf alternierenden Büchi-Automaten liefert in diesem Fall also zu viele akzeptierende Zustände.}
-  \label{fig-buechi}
+    \centering
+    \begin{tikzpicture}[scale=3]
+    	% Knoten
+    	\node (s) at (0,0) [circle,draw] {s};
+    	\node (0) at (1.5,0.5) [circle,draw] {0};
+    	\node (1) at (1.5,-0.5) [circle,draw] {1};
+    	\node (t) at (3,0) [circle,draw] {t};
+
+    	% Kanten
+    	\draw[->] (s) to [bend left =10] node[left] {$100$} (0);
+    	\draw[dashed, ->] (0) to [bend left =10] node[left] {$0$} (s);
+
+    	\draw[->] (s) to [bend left =10] node[left] {$100$} (1);
+    	\draw[dashed, ->] (1) to [bend left =10] node[left] {$0$} (s);
+
+    	\draw[->] (0) to [bend left =10] node[left] {$1$} (1);
+    	\draw[dashed, ->] (1) to [bend left =10] node[left] {$0$} (0);
+
+    	\draw[->] (0) to [bend left =10] node[left] {$100$} (t);
+    	\draw[dashed, ->] (t) to [bend left =10] node[left] {$0$} (0);
+
+    	\draw[->] (1) to [bend left =10] node[left] {$100$} (t);
+    	\draw[dashed, ->] (t) to [bend left =10] node[left] {$0$} (1);
+    \end{tikzpicture}
+    \label{latex-graph}
+    \caption[Graph]{Some random Graph}
 \end{figure}
 #+end_export
 
 
 * Some random Proof
 
-Sei
+Let
 
     \[ A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} \in \mathbb{R}^{3 \times 3}. \]
 
-    Zeigen Sie, dass für alle $\beta \in \mathbb{N}_{>0}$ gilt:
+    Proof that the following applies to all $\beta \in \mathbb{N}_{>0}$ :
 
     \[ A^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix}. \]
 
     \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} footnote \url{https://youtu.be/XkY2DOUCWMU}
-    Die Matrix $A$ auch als Lineare Transformation in $\R^3$ interpretiert werden.
+    The Matrix $A$ can also be interpreted as a linear transformation in $\R^3$.
 
     \begin{figure}[!htb]
         \centering
         \includegraphics[width=7cm]{rotate_shear_record.png}
         \caption{Composition of Transformations}
-        Quelle: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
+        Source: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
         \label{fig:my_label_01}
     \end{figure}
 
 
+ This interpretation makes it easier to understand the theorem to be proven, and makes it seem almost trivial.
 
-    Diese Interpretation erleichtert das nachvollziehen dieses zu beweisenden Satzes, und lässt ihn fast schon trivial erscheinen.
 
 \begin{figure}[!h]
     \centering
@@ -331,14 +562,13 @@ Sei
         \end{scope}
     \end{tikzpicture}
 
-    \caption{$\R^3$ mit linearer Transformation $A^1$}
+    \caption{$\R^3$ with linearer transformation $A^1$}
 \end{figure}
 
-    \[ \text{Mit } \vec{i} = (1, 0, \beta)^T \text{ und } \vec{j} = (0, 1, 0)^T \text{ und } \vec{k} = (0, 0, 1)^T. \]
+\[ \text{With} \vec{i} = (1, 0, \beta)^T \text{ and } \vec{j} = (0, 1, 0)^T \text{ and } \vec{k} = (0, 0, 1)^T. \]
 
-
-    Somit wird lediglich die $x$ Koordinate Transformiert.
-    Egal wie oft man diese Transformation potenziert, die $y$ und $z$ Achsen werden sich nicht verändern, hingegen wird sich die $x$ Achse zunehmend der $y$ Achse annähern.
+This means that only the $x$ coordinate is transformed.
+No matter how often you exponentiate this transformation, the $y$ and $z$ axes will not change, but the $x$ axis will increasingly approach the $y$ axis.
 
     $\mathrm{Z\kern-.3em\raise-0.5ex\hbox{Z}}$
 
@@ -354,14 +584,20 @@ Sei
 
     \[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
 
+
+
+    \vspace{1cm}
+
     \rem
+
     \begin{quote}
         $~~$\\
-        \indb{\beta}{0}
-
-man könnte auch bei 0 anfangen ...
-
+        \indb{\beta}{0} is also a valid starting point ...
     \end{quote}
+
+
+    \vspace{1cm}
+
 
     \indb{\beta}{1}
 
@@ -379,21 +615,273 @@ man könnte auch bei 0 anfangen ...
 #+END_proof
 
 
-* TODO drawing functions and their root function / derivation
+* plotting functions and their root function / derivation
 
-some ~python~ and ~plotlib~ code ...
+** python
 
 #+begin_src python :exports code
-print("hello world")
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Set seed for reproducibility
+np.random.seed(42)
+
+# Generate random 5x5 covariance matrix
+cov_matrix = np.random.rand(5, 5)
+cov_matrix = np.dot(cov_matrix, cov_matrix.T)
+
+# Generate random data with the specified covariance matrix
+data = np.random.multivariate_normal(mean=[0, 0, 0, 0, 0], cov=cov_matrix, size=100)
+
+# Create scatter plot
+plt.figure(figsize=(12, 6))
+
+# Scatter plot
+plt.subplot(1, 3, 1)
+sns.scatterplot(x=data[:, 0], y=data[:, 1])
+plt.title('Scatter Plot')
+
+# Box plot
+plt.subplot(1, 3, 2)
+sns.boxplot(data=data)
+plt.title('Box Plot')
+
+# Violin plot
+plt.subplot(1, 3, 3)
+sns.violinplot(data=data, inner='quartile', palette='muted')
+plt.title('Violin Plot')
+
+plt.tight_layout()
+# plt.show()
+plt.savefig("random-py-plot.png")
+#+end_src
+
+#+RESULTS:
+: None
+
+[[file:random-py-plot.png]]
+
+
+
+#+begin_src python
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+import numpy as np
+
+# Load the Iris dataset from scikit-learn
+iris = load_iris()
+iris_data = iris.data
+iris_feature_names = iris.feature_names
+
+# Create a covariance matrix
+cov_matrix = np.cov(iris_data, rowvar=False)
+
+# Create a heatmap using Seaborn
+plt.figure(figsize=(8, 6))
+sns.heatmap(cov_matrix, annot=True, cmap='coolwarm', xticklabels=iris_feature_names, yticklabels=iris_feature_names)
+plt.title('Covariance Matrix of Iris Dataset Features')
+# plt.show()
+plt.savefig("random-covariance-fig.png")
 #+end_src
 
 #+RESULTS:
 : None
 
 
-* logic and stuff ...
+[[file:random-covariance-fig.png]]
 
-\lipsum[2-8]
+
+** tikzpicture
+
+
+#+begin_export latex
+\begin{tikzpicture}
+  \begin{axis}[
+    xlabel=$x$,
+    ylabel=$y$,
+    domain=0.1:5,
+    xmin=0, xmax=5,
+    ymin=-5, ymax=5,
+    samples=100,
+    grid=major,
+    legend pos=north west,
+  ]
+
+    \addplot[color=blue,smooth,thick] {sin(deg(x))};
+    \addplot[color=red,smooth,thick] {exp(x)};
+    \addplot[color=green,smooth,thick] {ln(x)};
+    \addplot[color=orange,smooth,thick] {log2(x)};
+    \addplot[color=purple,smooth,thick] {x^5 - x^3};
+
+    \legend{$\sin(x)$, $e^x$, $\ln(x)$, $\log_2(x)$, $x^5 - x^3$}
+
+  \end{axis}
+\end{tikzpicture}
+#+end_export
+
+
+** org plot
+
+see https://orgmode.org/manual/Org-Plot.html
+
+#+PLOT: title:"Citas" ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]" file:"./images/citas.png"
+| Sede      | Max cites | H-index |
+|-----------+-----------+---------|
+| Chile     |    257.72 |   21.39 |
+| Leeds     |    165.77 |   19.68 |
+| Sao Paolo |     71.00 |   11.50 |
+| Stockholm |    134.19 |   14.33 |
+| Morelia   |    257.56 |   17.67 |
+
+[[file:./images/citas.png]]
+
+
+
+#+PLOT: title:"An evaluation of plaintext document formats" transpose:yes type:radar min:0 max:4 file:"./images/eval-of-plaintext-formats.png"
+| Format            | Fine-grained-control | Initial Effort | Syntax simplicity | Editor Support | Integration's | Ease-of-referencing | Versatility |
+|-------------------+----------------------+----------------+-------------------+----------------+---------------+---------------------+-------------|
+| Word              |                    2 |              4 |                 4 |              2 |             3 |                   2 |           2 |
+| LaTeX             |                    4 |              1 |                 1 |              3 |             2 |                   4 |           3 |
+| Org Mode          |                    4 |              2 |               3.5 |              1 |             4 |                   4 |           4 |
+| Markdown          |                    1 |              3 |                 3 |              4 |             3 |                   3 |           1 |
+| Markdown + Pandoc |                  2.5 |            2.5 |               2.5 |              3 |             3 |                   3 |           2 |
+
+
+[[file:./images/eval-of-plaintext-formats.png]]
+
+
+
+| Sede          | Max cites |              |
+|---------------+-----------+--------------|
+| Chile         |    257.72 | WWWWWWWWWWWW |
+| Leeds         |    165.77 | WWWWWWWh     |
+| Sao Paolo     |     71.00 | WWW;         |
+| Stockholm     |    134.19 | WWWWWW:      |
+| Morelia       |    257.56 | WWWWWWWWWWWW |
+| Rochefourchat |      0.00 |              |
+| test ...      |      42.0 | WW           |
+#+TBLFM: $3='(orgtbl-ascii-draw $2 0.0 257.72 12)
+
+
+
+** gnu plot
+
+see https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads by David O'Toole
+#+BEGIN: columnview :hlines 1 :id myid
+#+tblname: mydata
+| Date             | exercise minutes | sleep hours | nicotine doses | distress scale | missed doses | pain scale |
+|------------------+------------------+-------------+----------------+----------------+--------------+------------|
+|                  |                  |             |                |                |              |            |
+| [2022-09-13 Tue] |                0 |          12 |              8 |              5 |            0 |          0 |
+| [2022-09-14 Wed] |                0 |          12 |              7 |              4 |            0 |          0 |
+| [2022-09-15 Thu] |               20 |          12 |              8 |              3 |            1 |          0 |
+| [2022-09-16 Fri] |               15 |          14 |              5 |              3 |            0 |          0 |
+| [2022-09-17 Sat] |               30 |          12 |              7 |              4 |            0 |          1 |
+| [2022-09-18 Sun] |               15 |           9 |              7 |              5 |            0 |          2 |
+| [2022-09-19 Mon] |                0 |           7 |              6 |              6 |            0 |          3 |
+| [2022-09-20 Tue] |               20 |           8 |              7 |              4 |            0 |          3 |
+| [2022-09-21 Wed] |               15 |          10 |              5 |              3 |            0 |          3 |
+| [2022-09-22 Thu] |               20 |          11 |              6 |            3.5 |            0 |          3 |
+| [2022-09-23 Fri] |                0 |           9 |              6 |              3 |            0 |          3 |
+| [2022-09-24 Sat] |               10 |          13 |              6 |              2 |            0 |          3 |
+| [2022-09-25 Sun] |                0 |         8.5 |              5 |              2 |            0 |          2 |
+| [2022-09-26 Mon] |               15 |          13 |              7 |              6 |            0 |          2 |
+| [2022-09-27 Tue] |                0 |          10 |              5 |              5 |            1 |          2 |
+| [2022-09-28 Wed] |               30 |          10 |              5 |              3 |            0 |          2 |
+| [2022-09-29 Thu] |                0 |          12 |              4 |              3 |            0 |          2 |
+| [2022-09-30 Fri] |               20 |           6 |              4 |              4 |            0 |          2 |
+| [2022-10-01 Sat] |               10 |         7.5 |              6 |              3 |            0 |          2 |
+| [2022-10-02 Sun] |               15 |           8 |              7 |              2 |            0 |          2 |
+| [2022-10-03 Mon] |                0 |           6 |              5 |              2 |            0 |          2 |
+| [2022-10-04 Tue] |                0 |         8.5 |              5 |              4 |            0 |          2 |
+| [2022-10-05 Wed] |               15 |           8 |              5 |              4 |            0 |          2 |
+| [2022-10-06 Thu] |               25 |         8.5 |              5 |              4 |            0 |          2 |
+| [2022-10-07 Fri] |               25 |           6 |              5 |              3 |            0 |          2 |
+| [2022-10-08 Sat] |               20 |           9 |              0 |              3 |            0 |          2 |
+| [2022-10-09 Sun] |                0 |           6 |              3 |              4 |            0 |          2 |
+| [2022-10-10 Mon] |                0 |           6 |              5 |              5 |            0 |          2 |
+| [2022-10-11 Tue] |                0 |         6.5 |              4 |              4 |            0 |          2 |
+| [2022-10-12 Wed] |                0 |           3 |              0 |              3 |            0 |          2 |
+| [2022-10-13 Thu] |                0 |         4.5 |              0 |              3 |            0 |          3 |
+| [2022-10-14 Fri] |                0 |           4 |              0 |              3 |            0 |          3 |
+| [2022-10-15 Sat] |                0 |           5 |              0 |              3 |            1 |          2 |
+| [2022-10-16 Sun] |                0 |           2 |              0 |              4 |            0 |          1 |
+| [2022-10-17 Mon] |                0 |         4.5 |              0 |              3 |            0 |          2 |
+#+END:
+
+
+#+begin_src gnuplot :var data=mydata
+# clear graphics from any previous run
+reset
+
+# define output parameters
+set terminal pngcairo font "Arial" size 900,900
+set output './example.png'
+
+# use org-mode format for input
+set datafile separator "\t"
+set timefmt "%Y-%m-%d"
+
+# set up for time series data
+set xdata time
+set x2tics 1 format '' scale 0
+
+# one X tick per day
+set xtics 24*60*60
+
+# vertical line on each day
+set grid xtics
+
+# one Y tick every five points
+set ytics 5
+
+# rotate labels to fit better
+set xtics rotate by 60 right
+
+set key box lc 'gray60'
+set xtics format "%a %m/%d"
+set yrange [0:40]
+
+set linetype 1 lw 2 lc rgb 'forest-green' ps 1 pt 9
+set linetype 2 lw 2 lc rgb 'purple' ps 1 pt 1
+set linetype 3 lw 2 lc rgb 'dark-yellow' ps 1 pt 1
+set linetype 4 lw 2 lc rgb 'dark-pink' ps 1 pt 1
+set linetype 5 lw 2 lc rgb 'red' ps 1 pt 11
+set linetype 6 lw 2 lc rgb 'orange' ps 1 pt 1
+set linetype 7 lw 1 lc rgb 'forest-green'
+
+set arrow 7 from graph 0, first 20 to graph 1, first 20 lt 7 dt '..'
+set label "20" at graph 0.52, first 20 font 'Arial,16' tc rgb 'forest-green'
+set linetype 8 lw 1 lc rgb 'purple'
+set arrow 8 from graph 0, first 8 to graph 1, first 8 lt 8 dt '..'
+set label "8" at graph 0.52, first 8 font 'Arial,16' tc rgb 'purple'
+set linetype 9 lw 1 lc rgb 'dark-yellow'
+set arrow 9 from graph 0, first 5 to graph 1, first 5 lt 9 dt '..'
+set label "5" at graph 0.52, first 5 font 'Arial,16' tc rgb 'dark-yellow'
+
+plot data using 1:($2 == 0 ? NaN : $2) with points title 'exercise (minutes)' lt 1, \
+     data using 1:3 with lines title 'sleep (hours)' lt 2, \
+     data using 1:4 with lines title 'nicotine (doses)' lt 3, \
+     data using 1:5 with lines title 'distress (scale)' lt 4, \
+     data using 1:($6 == 0 ? NaN : $6) with points title 'missed (doses)' lt 5, \
+     data using 1:7 with lines title 'pain (scale)' lt 6
+#+end_src
+
+#+RESULTS:
+
+
+
+# +CAPTION: This is the caption
+# +NAME: fig:org_label
+[[file:./example.png]]
+
+
+
+* logic resolution proof
+
+\lipsum[2-4]
 
 
 ** forward direction (\rightarrow)

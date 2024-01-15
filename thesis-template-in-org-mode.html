@@ -3,12 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
 <head>
-<!-- 2024-01-03 Mi 05:20 -->
+<!-- 2024-01-15 Mo 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Thesis template in ~org-mode~</title>
+<title>Unleashing the Power of GNU/Emacs and Org-Mode</title>
 <meta name="author" content="Felix Drees" />
-<meta name="keywords" content="inf cs thesis org latex pdf html template" />
+<meta name="description" content="tutorial for writing a thesis in gnu/Emacs's org-mode" />
+<meta name="keywords" content="inf cs thesis org latex PDF HTML template" />
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
@@ -118,26 +119,97 @@
 </head>
 <body>
 <div id="content" class="content">
+<blockquote>
+  <p>
+    The Documentation (either in its HTML, PDF, LaTeX or in its Org-Mode format) is licensed under the
+    <a href="https://www.gnu.org/licenses/fdl-1.3.txt">GNU Free Documentation License version 1.3</a> or later.
+  </p>
+  <p>
+    The code examples are licensed under the
+    <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU General Public License v3</a> or later.
+  </p>
+</blockquote>
+
+<table>
+  <tr>
+    <td>
+      <a href="https://www.gnu.org/licenses/fdl-1.3.txt">
+        <img src="https://www.gnu.org/graphics/gfdl-logo-small.png"
+             alt="GNU Free Documentation License version 1.3" />
+      </a>
+    </td>
+    <td>
+      <a href="https://www.gnu.org/licenses/gpl-3.0.txt">
+        <img src="https://www.gnu.org/graphics/gplv3-127x51.png"
+             alt="GNU General Public License v3" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+
+<div class="abstract" id="org6d4f54d">
+<p>
+The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis papers.
+This article provides a detailed guide on how to seamlessly integrate these tools, facilitating a smooth transition
+between generating HTML and LaTeX documents, as well as PDFs, all from a single Org Mode file. Furthermore, a Nix shell,
+accompanied by a shell.nix file, is introduced to ensure efficient management of the development environment.
+</p>
+
+</div>
+
+<div class="abstract" id="org3969951">
+<p>
+Die Vereinigung von Doom/Emacs, Org Mode und LaTeX bietet eine leistungsstarke Plattform zur Verfassung eleganter Abschlussarbeiten.
+Dieser Artikel erläutert detailliert, wie man diese Werkzeuge optimal kombiniert, um nahtlos zwischen der Erstellung von HTML- und
+LaTeX-Dokumenten sowie PDFs aus einer einzigen Org-Mode-Datei zu wechseln.  Zusätzlich wird eine Nix-Shell mit einer begleitenden
+shell.nix-Datei vorgestellt, um eine effiziente Verwaltung der Entwicklungs- und Arbeitsumgebung zu gewährleisten.
+</p>
+
+</div>
+
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orga57b4b4">1. nix shell (env)</a></li>
-<li><a href="#org4fc1cca">2. emacs config</a>
+<li><a href="#orgd92576c">1. Introduction / Motivation:</a>
 <ul>
-<li><a href="#orge04506d">2.1. packages</a></li>
-<li><a href="#org718e363">2.2. emacs config</a></li>
+<li><a href="#org187e5b7">1.1. Why bother writing Org-Mode when I can use LaTeX instead?</a>
+<ul>
+<li><a href="#org3cd16d5">1.1.1. The possibilities with Org-Mode are endless!</a></li>
 </ul>
 </li>
-<li><a href="#org72d8ea5">3. convert python 2 latex</a></li>
-<li><a href="#orgf4baefc">4. Funktionskomposition</a></li>
-<li><a href="#org394cbb8">5. Some random Proof</a></li>
-<li><a href="#org82814db">6. <span class="todo TODO">TODO</span> drawing functions and their root function / derivation</a></li>
-<li><a href="#org5612a3e">7. logic and stuff &#x2026;</a>
+<li><a href="#org3c072bd">1.2. summery</a>
 <ul>
-<li><a href="#org1ae0361">7.1. forward direction (&rarr;)</a></li>
-<li><a href="#org4c2050e">7.2. back direction (&larr;)</a></li>
-<li><a href="#org8938437">7.3. both directions (&harr;)</a></li>
+<li><a href="#orgc63b1a1">1.2.1. motivating videos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgd32c6b3">2. (Doom) GNU/Emacs setup and configuration</a>
+<ul>
+<li><a href="#orgbb955f2">2.1. packages <code>~/.config/doom/package.el</code></a></li>
+<li><a href="#org72e0a98">2.2. config <code>~/.config/doom/config.el</code></a></li>
+</ul>
+</li>
+<li><a href="#orgcc4f5ba">3. nix shell environment</a></li>
+<li><a href="#org0556eac">4. start messing around</a></li>
+<li><a href="#org9d55365">5. convert python 2 latex</a></li>
+<li><a href="#org28fe5aa">6. Function composition</a></li>
+<li><a href="#org6a63b86">7. Some random Proof</a></li>
+<li><a href="#orgadda299">8. plotting functions and their root function / derivation</a>
+<ul>
+<li><a href="#org554aac5">8.1. python</a></li>
+<li><a href="#org5f3c740">8.2. tikzpicture</a></li>
+<li><a href="#org6747752">8.3. org plot</a></li>
+<li><a href="#org162974c">8.4. gnu plot</a></li>
+</ul>
+</li>
+<li><a href="#orgdb8a650">9. logic resolution proof</a>
+<ul>
+<li><a href="#org617b729">9.1. forward direction (&rarr;)</a></li>
+<li><a href="#org7cf36d6">9.2. back direction (&larr;)</a></li>
+<li><a href="#org219bea5">9.3. both directions (&harr;)</a></li>
 </ul>
 </li>
 </ul>
@@ -147,8 +219,8 @@
 <h2>List of Listings</h2>
 <div id="text-list-of-listings">
 <ul>
-<li><a href="#orga9ae852"><span class="listing-number">Listing 1:</span> <code>nix-shell</code> config for generating a build environment</a></li>
-<li><a href="#org1b6986c"><span class="listing-number">Listing 2:</span> code block containing prime checking functions</a></li>
+<li><a href="#org61b7ec0"><span class="listing-number">Listing 1:</span> <code>nix-shell</code> config for generating a build environment</a></li>
+<li><a href="#org2e0697c"><span class="listing-number">Listing 2:</span> code block containing prime checking functions</a></li>
 </ul>
 </div>
 </div>
@@ -156,87 +228,170 @@
 <h2>List of Tables</h2>
 <div id="text-list-of-tables">
 <ul>
-<li><span class="table-number">Table 1:</span> table of libararys with coresponding version</li>
+<li><span class="table-number">Table 1:</span> table of library's with corresponding version</li>
 </ul>
 </div>
 </div>
-
-<div class="abstract" id="org753f360">
+<div id="outline-container-orgd92576c" class="outline-2">
+<h2 id="orgd92576c"><span class="section-number-2">1.</span> Introduction / Motivation:</h2>
+<div class="outline-text-2" id="text-1">
 <p>
-this is the section where i will put my english abstract &#x2026;
+Embarking on the journey of using GNU/Emacs with Org-Mode for thesis writing may seem like a daunting task, especially if you're unfamiliar with the intricate workings of GNU/Emacs itself. Some may question the need to delve into Org-Mode when alternatives like LaTeX are readily available and widely embraced. However, dismissing the potential of GNU/Emacs and Org-Mode prematurely might mean overlooking a transformative experience that can redefine your approach to document creation.
+</p>
+</div>
+<div id="outline-container-org187e5b7" class="outline-3">
+<h3 id="org187e5b7"><span class="section-number-3">1.1.</span> Why bother writing Org-Mode when I can use LaTeX instead?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+While LaTeX is a formidable typesetting system, Org-Mode complements it by offering a more versatile and flexible platform for document creation. Org-Mode's simplicity and ease of use, coupled with the ability to seamlessly integrate LaTeX, provide a unique writing experience that combines the best of both worlds.
+</p>
+</div>
+<div id="outline-container-org3cd16d5" class="outline-4">
+<h4 id="org3cd16d5"><span class="section-number-4">1.1.1.</span> The possibilities with Org-Mode are endless!</h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org6aadc23"></a>Include and evaluate code:<br />
+<div class="outline-text-5" id="text-1-1-1-1">
+<p>
+Integrate code seamlessly within your document, making it a dynamic and interactive platform for technical content.
+</p>
+</div>
+</li>
+<li><a id="org8e6851d"></a>Write LaTeX in a more relaxed surrounding:<br />
+<div class="outline-text-5" id="text-1-1-1-2">
+<p>
+Org-Mode simplifies the LaTeX integration, providing a more user-friendly and intuitive environment for crafting your documents.
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org3c072bd" class="outline-3">
+<h3 id="org3c072bd"><span class="section-number-3">1.2.</span> summery</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+For this tutorial, we will be using a distribution of GNU/Emacs called DOOM Emacs.  Additionally, on our GNU/Linux platform, we'll leverage a package manager known as Nix to generate an environment for building both PDF and HTML versions of your thesis.  This powerful combination of tools will enhance your writing experience and streamline the process of creating, editing, and compiling your thesis documents.
+</p>
+</div>
+<div id="outline-container-orgc63b1a1" class="outline-4">
+<h4 id="orgc63b1a1"><span class="section-number-4">1.2.1.</span> motivating videos</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li><a href="https://youtu.be/BAFZ-vTnfSo?feature=shared">Literate Documentation with Emacs and Org Mode</a></li>
+<li><a href="https://youtu.be/0g9BcZvQbXU?feature=shared">Consistent Technical Documents Using Emacs and Org Mode</a></li>
+<li><a href="https://youtu.be/cklJ58i-HUY?feature=shared">EmacsConf 2023: Authoring and presenting university courses with Emacs and a full libre software &#x2026;</a></li>
+<li><a href="https://www.youtube.com/live/vz9aLmxYJB0?feature=shared">Emacs Tips - How to Give Presentations with Org Mode</a></li>
+<li><a href="https://youtu.be/YmQ1CYMz-OY?feature=shared">EmacsConf 2022: Health data journaling and visualization with Org Mode and GNUplot - David O'Toole</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd32c6b3" class="outline-2">
+<h2 id="orgd32c6b3"><span class="section-number-2">2.</span> (Doom) GNU/Emacs setup and configuration</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Start by installing Doom Emacs.
+</p>
+
+<p>
+<a href="https://youtu.be/37H7bD-G7nE?feature=shared">https://youtu.be/37H7bD-G7nE?feature=shared</a>
+</p>
+</div>
+<div id="outline-container-orgbb955f2" class="outline-3">
+<h3 id="orgbb955f2"><span class="section-number-3">2.1.</span> packages <code>~/.config/doom/package.el</code></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+After installing Doom Emacs - follow up by installing useful packages.
+If you are not familiar with Doom Emacs's <code>evil</code> mode (which is a vim style set of key bindings in Emacs),
+it might be a good idea to install <code>evil-tutor</code> and check out the tutorial for <code>evil</code> mode.
+</p>
+
+<p>
+The <code>pdf-tools</code> (optional for this tutorial) will give you additional functionality for working with PDF documents in Doom Emacs, the most important being the support for viewing the PDF document in a Emacs buffer.
+</p>
+
+<p>
+Finlay install <code>org-special-block-extras</code> for additional <code>org-mode</code> blocks for math and other usefull stuff.
+</p>
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+If you want to use the special blocks in you current org mode session - do not forget to enable it with:
+<abbr class="tooltip" style="border: none; text-decoration: none;" title="M-x ∷ execute-extended-command<br>Read a command name, then read the arguments and call the command.<br>To pass a prefix argument to the command you are<br>invoking, give a prefix argument to ‘execute-extended-command’.<br><br>(fn PREFIXARG &optional COMMAND-NAME TYPED)"><kbd style="border-color: red">M-x</kbd></abbr> <code>org-special-block-extras-mode</code>
 </p>
 
 </div>
-<div id="outline-container-orga57b4b4" class="outline-2">
-<h2 id="orga57b4b4"><span class="section-number-2">1.</span> nix shell (env)</h2>
-<div class="outline-text-2" id="text-1">
-<div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 1: </span><code>nix-shell</code> config for generating a build environment</label><pre class="src src-shell" id="orga9ae852"><span style="color: #ECBE7B;">cat</span> shell.nix
-</pre>
-</div>
 
-<pre class="example" id="orga473eac">
-{ pkgs ? import &lt;nixpkgs&gt; {} }:
-
-pkgs.mkShell {
-  buildInputs = with pkgs; [
-    (python310.withPackages(ps: with ps; [ numpy latexify-py scipy pygments ]))
-    graphviz
-  ];
-
-  shellHook = ''
-    echo "entering dev environment"
-  '';
-}
-</pre>
-</div>
-</div>
-<div id="outline-container-org4fc1cca" class="outline-2">
-<h2 id="org4fc1cca"><span class="section-number-2">2.</span> emacs config</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-orge04506d" class="outline-3">
-<h3 id="orge04506d"><span class="section-number-3">2.1.</span> packages</h3>
-<div class="outline-text-3" id="text-2-1">
 <pre class="example">
 (package! evil-tutor)
 (package! pdf-tools)
 (package! org-special-block-extras) ;; (use-package org-special-block-extras :ensure t)
+(package! gnuplot)
+(package! gnuplot-mode)
 </pre>
+
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+Do not forget to <code>doom sync</code> after adding new packages to your <code>package.el</code> file and reload Emacs.
+</p>
+
 </div>
 </div>
-<div id="outline-container-org718e363" class="outline-3">
-<h3 id="org718e363"><span class="section-number-3">2.2.</span> emacs config</h3>
+</div>
+<div id="outline-container-org72e0a98" class="outline-3">
+<h3 id="org72e0a98"><span class="section-number-3">2.2.</span> config <code>~/.config/doom/config.el</code></h3>
 <div class="outline-text-3" id="text-2-2">
-<div class="org-src-container">
-<pre class="src src-nil">;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+<p>
+To complete the Doom Emacs setup / configuration you only have to addapt your <code>config.el</code> file.
+We will now add the <code>koma</code> latex document classes and add support for code highlighting.
+</p>
+
+<pre class="example" id="orgb28ed43">
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
+;; ------------------------------------------------------------------------------
+
 ;; ...
 
 ;; add latex classes for org-mocde export to latex (pdf)
-(add-to-list 'org-latex-classes
-             '("koma-book"
-               "\\documentclass{scrbook}"
-               ("\\chapter{%s}" . "\\chapter*{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(after! org
+  (setq org-latex-classes
+        '(("article" "\\documentclass[11pt]{article}"
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 
-(add-to-list 'org-latex-classes
-             '("koma-article"
-               "\\documentclass{scrartcl}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("koma-book" "\\documentclass{scrbook}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
-;; syntax highlighting for org-mode code block
+  (add-to-list 'org-latex-classes
+               '("koma-article"
+                 "\\documentclass{scrartcl}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  )
+
+;; for syntax highlighting in org-mode
+;;  (setq org-latex-src-block-background 'minted
 (setq org-latex-listings 'minted
       org-latex-packages-alist '(("" "minted"))
       org-latex-pdf-process
@@ -244,17 +399,151 @@ pkgs.mkShell {
         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
-;; ...
+
+;; ------------------------------------------------------------------------------
+</pre>
+
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+Before running <kbd style="">SPC-h-r-r</kbd> (M-x doom/reload) - either wait for the <code>nix</code> <code>env</code> setup or
+install <code>pygments</code> yourself via <code>pip3 install pygments</code>.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc4f5ba" class="outline-2">
+<h2 id="orgcc4f5ba"><span class="section-number-2">3.</span> nix shell environment</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Now that Emacs is ready - we can procued by declaring an <code>shell.nix</code> environment file, in which we will
+specify all the  packages we will use for compiling the <code>org-mode</code> file and all library's and other stuff used in the thesis (e.g. <code>numpy</code> <code>python</code> <code>haskell</code>).
+</p>
+
+<p>
+We will use <code>gnuplot</code> for plotting stuff, <code>graphics</code> for generating nice graphs in the <code>dot</code> language.
+In addition we need <code>texlive</code> and therefore can use <code>tikz</code> to generate nice plots/graphs.
+Last but not least, we install the <code>pygments</code> lib we are using for highlighting the code blocks in addition to the
+<code>python</code> packages used in the source code in the thesis.
+</p>
+
+<p>
+If you want to install <code>haskell</code> or <code>R</code> for your thesis and haven't done so system wide - this might be a good opportunity to add the software.
+</p>
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Install Nix (the package manager)</h3> 
+
+<div class="org-src-container">
+<pre class="src src-shell">sh &lt;<span style="color: #51afef;">(</span><span style="color: #ECBE7B;">curl</span> -L https://nixos.org/nix/install<span style="color: #51afef;">)</span> --daemon
 </pre>
 </div>
+
+<p>
+<a href="https://nixos.org/download">https://nixos.org/download</a>
+</p>
+
 </div>
-</div>
-</div>
-<div id="outline-container-org72d8ea5" class="outline-2">
-<h2 id="org72d8ea5"><span class="section-number-2">3.</span> convert python 2 latex</h2>
-<div class="outline-text-2" id="text-3">
+
 <div class="org-src-container">
-<pre class="src src-python" id="orgf50cde0"><span style="color: #51afef;">import</span> math
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><code>nix-shell</code> config for generating a build environment</label><pre class="src src-shell" id="org61b7ec0"><span style="color: #ECBE7B;">cat</span> shell.nix
+</pre>
+</div>
+
+<pre class="example" id="org62beaf1">
+{ pkgs ? import &lt;nixpkgs&gt; {} }:
+
+pkgs.mkShell {
+  buildInputs = with pkgs; [
+    (python310.withPackages(ps: with ps; [
+	numpy         # for math
+	latexify-py   # for converting python funcs to latex
+	scipy         # for math and physics
+	pygments      # for syntax highlighting
+	matplotlib    # for plotting
+	seaborn       # for plotting
+	scikit-learn  # for ml stuff
+    ]))
+    texlive.combined.scheme-full
+    graphviz
+    gnuplot
+  ];
+
+  shellHook = ''
+    echo "entering dev environment"
+  '';
+}
+</pre>
+
+
+<p>
+Run <code>nix-shell</code> to enter the now defined development environment.
+</p>
+
+<p>
+After entering our specified environment - you can run <code>make doom</code> to start Doom Emacs.
+</p>
+</div>
+</div>
+<div id="outline-container-org0556eac" class="outline-2">
+<h2 id="org0556eac"><span class="section-number-2">4.</span> start messing around</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Since everything should be ready by now - please feel free to mess around with the <code>README.org</code> file within Emacs.
+</p>
+
+<ol class="org-ol">
+<li><p>
+start the nix development environment
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">nix-shell  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">schould open a nix shell with all the packages defined in the local shell.nix config</span>
+</pre>
+</div></li>
+
+<li><p>
+open doom Emacs form within the development environment
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">make</span> doom  <span style="color: #5B6268;"># </span><span style="color: #5B6268;">should open a new doom emacs window (from within the nix shell)</span>
+</pre>
+</div></li>
+
+<li><p>
+open <code>README.org</code>
+</p>
+
+<p>
+in doom Emacs, you could either open a file with <abbr class="tooltip" style="border: none; text-decoration: none;" title="M-x ∷ execute-extended-command<br>Read a command name, then read the arguments and call the command.<br>To pass a prefix argument to the command you are<br>invoking, give a prefix argument to ‘execute-extended-command’.<br><br>(fn PREFIXARG &optional COMMAND-NAME TYPED)"><kbd style="border-color: red">M-x</kbd></abbr> <code>dired</code> or by using <code>SPC-.</code>
+</p></li>
+
+<li><p>
+mess around
+</p>
+
+<p>
+Finlay adapt the <code>README.org</code> file for your needs or just explore the file from within Emacs.
+</p></li>
+</ol>
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Export to HTML and PDF</h3> 
+<p>
+You can export your derivative with the key binding: <abbr class="tooltip" style="border: none; text-decoration: none;" title="C-c ∷ (keymap (keymap (38 keymap (22 . yas-visit-snippet-file) (14 . yas-new-snippet) (19 . yas-insert-snippet))) (keymap (36 . flyspell-correct-word-before-point)) (keymap (33 keymap (120 . flycheck-disable-checker) (118 . flycheck-verify-setup) (86 . flycheck-version) (105 . flycheck-manual) (72 . display-local-help) (101 . flycheck-explain-error-at-point) (104 . flycheck-display-error-at-point) (63 . flycheck-describe-checker) (115 . flycheck-select-checker) (23 . flycheck-copy-errors-as-kill) (108 . flycheck-list-errors) (112 . flycheck-previous-error) (110 . flycheck-next-error) (3 . flycheck-compile) (67 . flycheck-clear) (99 . flycheck-buffer))) (keymap (112 . persp-key-map)) (keymap (keymap (33554444 . +org/remove-link) (22 keymap (27 keymap (8 . org-babel-mark-block)) (107 . org-babel-remove-result-one-or-many) (120 . org-babel-do-key-sequence-in-edit-buffer) (24 . org-babel-do-key-sequence-in-edit-buffer) (104 . org-babel-describe-bindings) (97 . org-babel-sha1-hash) (1 . org-babel-sha1-hash) (122 . org-babel-switch-to-session-with-code) (26 . org-babel-switch-to-session) (73 . org-babel-view-src-block-info) (105 . org-babel-lob-ingest) (9 . org-babel-view-src-block-info) (108 . org-babel-load-in-session) (12 . org-babel-load-in-session) (106 . org-babel-insert-header-arg) (10 . org-babel-insert-header-arg) (99 . org-babel-check-src-block) (3 . org-babel-check-src-block) (102 . org-babel-tangle-file) (6 . org-babel-tangle-file) (116 . org-babel-tangle) (20 . org-babel-tangle) (100 . org-babel-demarcate-block) (4 . org-babel-demarcate-block) (115 . org-babel-execute-subtree) (19 . org-babel-execute-subtree) (98 . org-babel-execute-buffer) (2 . org-babel-execute-buffer) (18 . org-babel-goto-named-result) (114 . org-babel-goto-named-result) (103 . org-babel-goto-named-src-block) (21 . org-babel-goto-src-block-head) (117 . org-babel-goto-src-block-head) (118 . org-babel-expand-src-block) (22 . org-babel-expand-src-block) (15 . org-babel-open-src-block-result) (111 . org-babel-open-src-block-result) (5 . org-babel-execute-maybe) (101 . org-babel-execute-maybe) (14 . org-babel-next-src-block) (110 . org-babel-next-src-block) (16 . org-babel-previous-src-block) (112 . org-babel-previous-src-block)) (67108908 . org-insert-structure-template) (67108906 . org-list-make-subtree) (64 . org-mark-subtree) (58 . org-toggle-fixed-width) (5 . org-export-dispatch) (123 . org-table-toggle-formula-debugger) (125 . org-table-toggle-coordinate-overlays) (1 . org-attach) (126 . org-table-create-with-table.el) (124 . org-table-create-or-convert-from-region) (34 keymap (103 . org-plot/gnuplot) (97 . orgtbl-ascii-plot)) (96 . org-table-edit-field) (39 . org-edit-special) (61 . org-table-eval-formula) (43 . org-table-sum) (63 . org-table-field-info) (35 . org-update-statistics-cookies) (11 . org-kill-note-or-show-branches) (3 . org-ctrl-c-ctrl-c) (94 . org-sort) (9 . org-toggle-inline-images) (42 . org-ctrl-c-star) (45 . org-ctrl-c-minus) (93 . org-remove-file) (91 . org-agenda-file-to-front) (60 . org-date-from-calendar) (62 . org-goto-calendar) (25 . org-evaluate-time-range) (44 . org-priority) (33 . org-timestamp-inactive) (46 . org-timestamp) (26 . org-add-note) (38 . org-mark-ring-goto) (37 . org-mark-ring-push) (15 . org-open-at-point) (12 . org-insert-link) (13 . org-ctrl-c-ret) (92 . org-match-sparse-tree) (47 . org-sparse-tree) (23 . org-refile) (59 . org-toggle-comment) (4 . org-deadline) (19 . org-schedule) (17 . org-set-tags-command) (20 . org-todo) (10 . org-goto) (36 . org-archive-subtree) (27 keymap (12 . org-insert-all-links) (108 . org-insert-last-stored-link) (23 . org-refile-reverse) (119 . org-refile-copy) (98 . org-previous-block) (102 . org-next-block)) (2 . org-backward-heading-same-level) (6 . org-forward-heading-same-level) (31 . org-down-element) (30 . org-up-element) (18 . org-fold-reveal) (C-tab . org-cycle-force-archived) (24 keymap (73 . org-info-find-node) (91 . org-reftex-citation) (64 . org-cite-insert) (71 . org-feed-goto-inbox) (103 . org-feed-update-all) (33 . org-reload) (3 . org-columns) (44 . org-timer-pause-or-continue) (59 . org-timer-set-timer) (95 . org-timer-stop) (48 . org-timer-start) (45 . org-timer-item) (46 . org-timer) (111 . org-toggle-ordered-property) (69 . org-inc-effort) (101 . org-set-effort) (80 . org-set-property-and-value) (112 . org-set-property) (18 . org-toggle-radio-button) (2 . org-toggle-checkbox) (92 . org-toggle-pretty-entities) (22 . org-toggle-inline-images) (12 . org-latex-preview) (21 . org-dblock-update) (120 . org-dynamic-block-insert-dblock) (4 . org-clock-display) (17 . org-clock-cancel) (10 . org-clock-goto) (15 . org-clock-out) (26 . org-resolve-clocks) (24 . org-clock-in-last) (9 . org-clock-in) (20 . org-toggle-timestamp-overlays) (25 . org-paste-special) (27 keymap (22 . org-redisplay-inline-images) (119 . org-copy-special)) (23 . org-cut-special) (102 . org-footnote-action) (6 . org-emphasize) (62 . org-agenda-remove-restriction-lock) (60 . org-agenda-set-restriction-lock) (16 . org-previous-link) (14 . org-next-link) (118 . org-copy-visible) (99 . org-clone-subtree-with-time-shift) (113 . org-toggle-tags-groups) (98 . org-tree-to-indirect-buffer) (65 . org-archive-to-archive-sibling) (97 . org-toggle-archive-tag) (100 . org-insert-drawer) (1 . org-archive-subtree-default) (19 . org-archive-subtree))) keymap (13 . outline-insert-heading) (67108926 . outline-demote) (67108924 . outline-promote) (22 . outline-move-subtree-down) (30 . outline-move-subtree-up) (15 . outline-hide-other) (17 . outline-hide-sublevels) (11 . outline-show-branches) (12 . outline-hide-leaves) (5 . outline-show-entry) (3 . outline-hide-entry) (1 . outline-show-all) (20 . outline-hide-body) (2 . outline-backward-same-level) (6 . outline-forward-same-level) (21 . outline-up-heading) (4 . outline-hide-subtree) (19 . outline-show-subtree) (9 . outline-show-children) (16 . outline-previous-visible-heading) (14 . outline-next-visible-heading) (64 . outline-mark-subtree)) mode-specific-command-prefix)<br>Prefix command (definition is a keymap associating keystrokes with commands)."><kbd style="border-color: red">C-c</kbd></abbr> <abbr class="tooltip" style="border: none; text-decoration: none;" title="C-e ∷ evil-scroll-line-down<br>Scroll the window COUNT lines downwards.<br><br>(fn COUNT)"><kbd style="border-color: red">C-e</kbd></abbr>
+</p>
+
+</div>
+</div>
+</div>
+<div id="outline-container-org9d55365" class="outline-2">
+<h2 id="org9d55365"><span class="section-number-2">5.</span> convert python 2 latex</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-python" id="orgbdad653"><span style="color: #51afef;">import</span> math
 <span style="color: #51afef;">import</span> numpy <span style="color: #51afef;">as</span> np
 <span style="color: #51afef;">import</span> scipy
 <span style="color: #51afef;">import</span> latexify
@@ -263,7 +552,7 @@ pkgs.mkShell {
 
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Table 1:</span> table of libararys with coresponding version</caption>
+<caption class="t-above"><span class="table-number">Table 1:</span> table of library's with corresponding version</caption>
 
 <colgroup>
 <col  class="org-left" />
@@ -290,12 +579,12 @@ pkgs.mkShell {
 
 
 <p>
-With the imported libs, we can now convert a <code>python</code> function to <code>latex</code>
+With the imported library's, we can now convert a <code>python</code> function to <code>latex</code>
 </p>
 
 
 <div class="org-src-container">
-<label class="org-src-name"><span class="listing-number">Listing 2: </span>code block containing prime checking functions</label><pre class="src src-python" id="org1b6986c"><span id="coderef-recHelperRef" class="coderef-off"><span class="linenr"> 1: </span><span style="color: #51afef;">def</span> <span style="color: #c678dd;">recHelper</span>(x: <span style="color: #c678dd;">int</span>, d: <span style="color: #c678dd;">int</span> = <span style="color: #da8548; font-weight: bold;">3</span>) -&gt; <span style="color: #c678dd;">int</span>:</span>
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>code block containing prime checking functions</label><pre class="src src-python" id="org2e0697c"><span id="coderef-recHelperRef" class="coderef-off"><span class="linenr"> 1: </span><span style="color: #51afef;">def</span> <span style="color: #c678dd;">recHelper</span>(x: <span style="color: #c678dd;">int</span>, d: <span style="color: #c678dd;">int</span> = <span style="color: #da8548; font-weight: bold;">3</span>) -&gt; <span style="color: #c678dd;">int</span>:</span>
 <span class="linenr"> 2: </span>    <span style="color: #5B6268;"># </span><span style="color: #5B6268;">forall x in [3, infty)</span>
 <span class="linenr"> 3: </span>    <span style="color: #51afef;">if</span> x % <span style="color: #da8548; font-weight: bold;">2</span> == <span style="color: #da8548; font-weight: bold;">0</span>:
 <span class="linenr"> 4: </span>        <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>
@@ -316,9 +605,10 @@ With the imported libs, we can now convert a <code>python</code> function to <co
 </pre>
 </div>
 
+
 <p>
-In line <a href="#coderef-isPrimeRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-isPrimeRef');" onmouseout="CodeHighlightOff(this, 'coderef-isPrimeRef');">12</a> we remember the current position.
-<a href="#coderef-recHelperRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-recHelperRef');" onmouseout="CodeHighlightOff(this, 'coderef-recHelperRef');">Line 1</a> jumps to point-min.
+In line <a href="#coderef-isPrimeRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-isPrimeRef');" onmouseout="CodeHighlightOff(this, 'coderef-isPrimeRef');">12</a> is the main definition of the recursive basecase.
+<a href="#coderef-recHelperRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-recHelperRef');" onmouseout="CodeHighlightOff(this, 'coderef-recHelperRef');">Line 1</a> starts by declaring a recursive helper for the main prime checking function.
 </p>
 
 
@@ -334,33 +624,33 @@ Now we can call the <code>isPrime</code> function with the parameter <code>5</co
 </p>
 
 <ul class="org-ul">
-<li>is <code>5</code> a prime number? result of <code>isPrime</code> func: <code>True</code></li>
-<li>is <code>6</code> a prime number? result of <code>isPrime</code> func: <code>False</code></li>
+<li>is <code>5</code> a prime number? result of <code>isPrime</code> function: <code>True</code></li>
+<li>is <code>6</code> a prime number? result of <code>isPrime</code> function: <code>False</code></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgf4baefc" class="outline-2">
-<h2 id="orgf4baefc"><span class="section-number-2">4.</span> Funktionskomposition</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org28fe5aa" class="outline-2">
+<h2 id="org28fe5aa"><span class="section-number-2">6.</span> Function composition</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 Graph using the <code>dot</code> language
 </p>
 
 <div class="org-src-container">
-<pre class="src src-dot" id="org4b2f9f2">digraph G {
-    node [shape=circle, fontname=<span style="color: #98be65;">"Courier"</span>, fontsize=16]
-    edge [fontname=<span style="color: #98be65;">"Courier"</span>, fontsize=16]
-    A:nw -&gt; A [label=<span style="color: #98be65;">"id"</span>]
-    A -&gt; B [label=<span style="color: #98be65;">"f"</span>]
-    B -&gt; C [label=<span style="color: #98be65;">"g"</span>]
-    A -&gt; C [xlabel=<span style="color: #98be65;">"g . f "</span>]
+<pre class="src src-dot" id="org2972adc">digraph G {
+    node [shape=circle, fontname="Courier", fontsize=16]
+    edge [fontname="Courier", fontsize=16]
+    A:nw -&gt; A [label="id"]
+    A -&gt; B [label="f"]
+    B -&gt; C [label="g"]
+    A -&gt; C [xlabel="g . f "]
     {rank=same; A B}
 }
 </pre>
 </div>
 
 
-<div id="orge6da383" class="figure">
+<div id="org3a9d42e" class="figure">
 <p><img src="function-composition.png" alt="function-composition.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>function composition and identity</p>
@@ -372,11 +662,11 @@ Graph using latex <code>tikz picture</code>
 </p>
 </div>
 </div>
-<div id="outline-container-org394cbb8" class="outline-2">
-<h2 id="org394cbb8"><span class="section-number-2">5.</span> Some random Proof</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-org6a63b86" class="outline-2">
+<h2 id="org6a63b86"><span class="section-number-2">7.</span> Some random Proof</h2>
+<div class="outline-text-2" id="text-7">
 <p>
-Sei
+Let
 </p>
 
 <p>
@@ -384,7 +674,7 @@ Sei
 </p>
 
 <p>
-Zeigen Sie, dass für alle \(\beta \in \mathbb{N}_{>0}\) gilt:
+Proof that the following applies to all \(\beta \in \mathbb{N}_{>0}\) :
 </p>
 
 <p>
@@ -393,22 +683,22 @@ Zeigen Sie, dass für alle \(\beta \in \mathbb{N}_{>0}\) gilt:
 
 <p>
 \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} footnote \url{https://youtu.be/XkY2DOUCWMU}
-Die Matrix \(A\) auch als Lineare Transformation in \(\R^3\) interpretiert werden.
+The Matrix \(A\) can also be interpreted as a linear transformation in \(\R^3\).
 </p>
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=7cm]{rotate_shear_record.png}
     \caption{Composition of Transformations}
-    Quelle: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
+    Source: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
     \label{fig:my_label_01}
 \end{figure}
 
 
-
 <p>
-Diese Interpretation erleichtert das nachvollziehen dieses zu beweisenden Satzes, und lässt ihn fast schon trivial erscheinen.
+This interpretation makes it easier to understand the theorem to be proven, and makes it seem almost trivial.
 </p>
+
 
 \begin{figure}[!h]
     \centering
@@ -440,17 +730,16 @@ Diese Interpretation erleichtert das nachvollziehen dieses zu beweisenden Satzes
         \end{scope}
     \end{tikzpicture}
 
-    \caption{$\R^3$ mit linearer Transformation $A^1$}
+    \caption{$\R^3$ with linearer transformation $A^1$}
 \end{figure}
 
 <p>
-\[ \text{Mit } \vec{i} = (1, 0, \beta)^T \text{ und } \vec{j} = (0, 1, 0)^T \text{ und } \vec{k} = (0, 0, 1)^T. \]
+\[ \text{With} \vec{i} = (1, 0, \beta)^T \text{ and } \vec{j} = (0, 1, 0)^T \text{ and } \vec{k} = (0, 0, 1)^T. \]
 </p>
 
-
 <p>
-Somit wird lediglich die \(x\) Koordinate Transformiert.
-Egal wie oft man diese Transformation potenziert, die \(y\) und \(z\) Achsen werden sich nicht verändern, hingegen wird sich die \(x\) Achse zunehmend der \(y\) Achse annähern.
+This means that only the \(x\) coordinate is transformed.
+No matter how often you exponentiate this transformation, the \(y\) and \(z\) axes will not change, but the \(x\) axis will increasingly approach the \(y\) axis.
 </p>
 
 <p>
@@ -462,7 +751,7 @@ Egal wie oft man diese Transformation potenziert, die \(y\) und \(z\) Achsen wer
 </p>
 
 
-<div class="proof" id="org184f980">
+<div class="proof" id="org702366a">
 <p>
 
 </p>
@@ -479,16 +768,26 @@ Egal wie oft man diese Transformation potenziert, die \(y\) und \(z\) Achsen wer
 \[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
 </p>
 
+
+
+<p>
+\vspace{1cm}
+</p>
+
 <p>
 \rem
 </p>
-    \begin{quote}
-        $~~$\\
-        \indb{\beta}{0}
 
-man könnte auch bei 0 anfangen ...
+\begin{quote}
+    $~~$\\
+    \indb{\beta}{0} is also a valid starting point ...
+\end{quote}
 
-    \end{quote}
+
+<p>
+\vspace{1cm}
+</p>
+
 
 <p>
 \indb{\beta}{1}
@@ -512,45 +811,756 @@ man könnte auch bei 0 anfangen ...
 </div>
 </div>
 </div>
-<div id="outline-container-org82814db" class="outline-2">
-<h2 id="org82814db"><span class="section-number-2">6.</span> <span class="todo TODO">TODO</span> drawing functions and their root function / derivation</h2>
-<div class="outline-text-2" id="text-6">
-<p>
-some <code>python</code> and <code>plotlib</code> code &#x2026;
-</p>
-
+<div id="outline-container-orgadda299" class="outline-2">
+<h2 id="orgadda299"><span class="section-number-2">8.</span> plotting functions and their root function / derivation</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-org554aac5" class="outline-3">
+<h3 id="org554aac5"><span class="section-number-3">8.1.</span> python</h3>
+<div class="outline-text-3" id="text-8-1">
 <div class="org-src-container">
-<pre class="src src-python"><span style="color: #c678dd;">print</span>(<span style="color: #98be65;">"hello world"</span>)
+<pre class="src src-python"><span style="color: #51afef;">import</span> numpy <span style="color: #51afef;">as</span> np
+<span style="color: #51afef;">import</span> matplotlib.pyplot <span style="color: #51afef;">as</span> plt
+<span style="color: #51afef;">import</span> seaborn <span style="color: #51afef;">as</span> sns
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Set seed for reproducibility</span>
+np.random.seed(<span style="color: #da8548; font-weight: bold;">42</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Generate random 5x5 covariance matrix</span>
+<span style="color: #dcaeea;">cov_matrix</span> = np.random.rand(<span style="color: #da8548; font-weight: bold;">5</span>, <span style="color: #da8548; font-weight: bold;">5</span>)
+<span style="color: #dcaeea;">cov_matrix</span> = np.dot(cov_matrix, cov_matrix.T)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Generate random data with the specified covariance matrix</span>
+<span style="color: #dcaeea;">data</span> = np.random.multivariate_normal(mean=[<span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>, <span style="color: #da8548; font-weight: bold;">0</span>], cov=cov_matrix, size=<span style="color: #da8548; font-weight: bold;">100</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Create scatter plot</span>
+plt.figure(figsize=(<span style="color: #da8548; font-weight: bold;">12</span>, <span style="color: #da8548; font-weight: bold;">6</span>))
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Scatter plot</span>
+plt.subplot(<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #da8548; font-weight: bold;">3</span>, <span style="color: #da8548; font-weight: bold;">1</span>)
+sns.scatterplot(x=data[:, <span style="color: #da8548; font-weight: bold;">0</span>], y=data[:, <span style="color: #da8548; font-weight: bold;">1</span>])
+plt.title(<span style="color: #98be65;">'Scatter Plot'</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Box plot</span>
+plt.subplot(<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #da8548; font-weight: bold;">3</span>, <span style="color: #da8548; font-weight: bold;">2</span>)
+sns.boxplot(data=data)
+plt.title(<span style="color: #98be65;">'Box Plot'</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Violin plot</span>
+plt.subplot(<span style="color: #da8548; font-weight: bold;">1</span>, <span style="color: #da8548; font-weight: bold;">3</span>, <span style="color: #da8548; font-weight: bold;">3</span>)
+sns.violinplot(data=data, inner=<span style="color: #98be65;">'quartile'</span>, palette=<span style="color: #98be65;">'muted'</span>)
+plt.title(<span style="color: #98be65;">'Violin Plot'</span>)
+
+plt.tight_layout()
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">plt.show()</span>
+plt.savefig(<span style="color: #98be65;">"random-py-plot.png"</span>)
 </pre>
 </div>
-</div>
-</div>
-<div id="outline-container-org5612a3e" class="outline-2">
-<h2 id="org5612a3e"><span class="section-number-2">7.</span> logic and stuff &#x2026;</h2>
-<div class="outline-text-2" id="text-7">
-<p>
-\lipsum[2-8]
+
+
+<div id="org09f7553" class="figure">
+<p><img src="random-py-plot.png" alt="random-py-plot.png" />
 </p>
 </div>
-<div id="outline-container-org1ae0361" class="outline-3">
-<h3 id="org1ae0361"><span class="section-number-3">7.1.</span> forward direction (&rarr;)</h3>
-<div class="outline-text-3" id="text-7-1">
+
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #51afef;">import</span> seaborn <span style="color: #51afef;">as</span> sns
+<span style="color: #51afef;">import</span> matplotlib.pyplot <span style="color: #51afef;">as</span> plt
+<span style="color: #51afef;">from</span> sklearn.datasets <span style="color: #51afef;">import</span> load_iris
+<span style="color: #51afef;">import</span> numpy <span style="color: #51afef;">as</span> np
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Load the Iris dataset from scikit-learn</span>
+<span style="color: #dcaeea;">iris</span> = load_iris()
+<span style="color: #dcaeea;">iris_data</span> = iris.data
+<span style="color: #dcaeea;">iris_feature_names</span> = iris.feature_names
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Create a covariance matrix</span>
+<span style="color: #dcaeea;">cov_matrix</span> = np.cov(iris_data, rowvar=<span style="color: #a9a1e1;">False</span>)
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Create a heatmap using Seaborn</span>
+plt.figure(figsize=(<span style="color: #da8548; font-weight: bold;">8</span>, <span style="color: #da8548; font-weight: bold;">6</span>))
+sns.heatmap(cov_matrix, annot=<span style="color: #a9a1e1;">True</span>, cmap=<span style="color: #98be65;">'coolwarm'</span>, xticklabels=iris_feature_names, yticklabels=iris_feature_names)
+plt.title(<span style="color: #98be65;">'Covariance Matrix of Iris Dataset Features'</span>)
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">plt.show()</span>
+plt.savefig(<span style="color: #98be65;">"random-covariance-fig.png"</span>)
+</pre>
+</div>
+
+
+
+<div id="org0d75a9d" class="figure">
+<p><img src="random-covariance-fig.png" alt="random-covariance-fig.png" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5f3c740" class="outline-3">
+<h3 id="org5f3c740"><span class="section-number-3">8.2.</span> tikzpicture</h3>
+<div class="outline-text-3" id="text-8-2">
+</div>
+</div>
+<div id="outline-container-org6747752" class="outline-3">
+<h3 id="org6747752"><span class="section-number-3">8.3.</span> org plot</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+see <a href="https://orgmode.org/manual/Org-Plot.html">https://orgmode.org/manual/Org-Plot.html</a>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Sede</th>
+<th scope="col" class="org-right">Max cites</th>
+<th scope="col" class="org-right">H-index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Chile</td>
+<td class="org-right">257.72</td>
+<td class="org-right">21.39</td>
+</tr>
+
+<tr>
+<td class="org-left">Leeds</td>
+<td class="org-right">165.77</td>
+<td class="org-right">19.68</td>
+</tr>
+
+<tr>
+<td class="org-left">Sao Paolo</td>
+<td class="org-right">71.00</td>
+<td class="org-right">11.50</td>
+</tr>
+
+<tr>
+<td class="org-left">Stockholm</td>
+<td class="org-right">134.19</td>
+<td class="org-right">14.33</td>
+</tr>
+
+<tr>
+<td class="org-left">Morelia</td>
+<td class="org-right">257.56</td>
+<td class="org-right">17.67</td>
+</tr>
+</tbody>
+</table>
+
+
+<div id="orged1ea11" class="figure">
+<p><img src="./images/citas.png" alt="citas.png" />
+</p>
+</div>
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Format</th>
+<th scope="col" class="org-right">Fine-grained-control</th>
+<th scope="col" class="org-right">Initial Effort</th>
+<th scope="col" class="org-right">Syntax simplicity</th>
+<th scope="col" class="org-right">Editor Support</th>
+<th scope="col" class="org-right">Integration's</th>
+<th scope="col" class="org-right">Ease-of-referencing</th>
+<th scope="col" class="org-right">Versatility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Word</td>
+<td class="org-right">2</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left">LaTeX</td>
+<td class="org-right">4</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">4</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left">Org Mode</td>
+<td class="org-right">4</td>
+<td class="org-right">2</td>
+<td class="org-right">3.5</td>
+<td class="org-right">1</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-left">Markdown</td>
+<td class="org-right">1</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left">Markdown + Pandoc</td>
+<td class="org-right">2.5</td>
+<td class="org-right">2.5</td>
+<td class="org-right">2.5</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div id="org254c667" class="figure">
+<p><img src="./images/eval-of-plaintext-formats.png" alt="eval-of-plaintext-formats.png" />
+</p>
+</div>
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Sede</th>
+<th scope="col" class="org-right">Max cites</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Chile</td>
+<td class="org-right">257.72</td>
+<td class="org-left">WWWWWWWWWWWW</td>
+</tr>
+
+<tr>
+<td class="org-left">Leeds</td>
+<td class="org-right">165.77</td>
+<td class="org-left">WWWWWWWh</td>
+</tr>
+
+<tr>
+<td class="org-left">Sao Paolo</td>
+<td class="org-right">71.00</td>
+<td class="org-left">WWW;</td>
+</tr>
+
+<tr>
+<td class="org-left">Stockholm</td>
+<td class="org-right">134.19</td>
+<td class="org-left">WWWWWW:</td>
+</tr>
+
+<tr>
+<td class="org-left">Morelia</td>
+<td class="org-right">257.56</td>
+<td class="org-left">WWWWWWWWWWWW</td>
+</tr>
+
+<tr>
+<td class="org-left">Rochefourchat</td>
+<td class="org-right">0.00</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">test &#x2026;</td>
+<td class="org-right">42.0</td>
+<td class="org-left">WW</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org162974c" class="outline-3">
+<h3 id="org162974c"><span class="section-number-3">8.4.</span> gnu plot</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+see <a href="https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads">https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads</a> by David O'Toole
+</p>
+<table id="org5877283" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-right">exercise minutes</th>
+<th scope="col" class="org-right">sleep hours</th>
+<th scope="col" class="org-right">nicotine doses</th>
+<th scope="col" class="org-right">distress scale</th>
+<th scope="col" class="org-right">missed doses</th>
+<th scope="col" class="org-right">pain scale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-13 Di]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">8</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-14 Mi]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-15 Do]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">12</td>
+<td class="org-right">8</td>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-16 Fr]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">14</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-17 Sa]</span></span></td>
+<td class="org-right">30</td>
+<td class="org-right">12</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-18 So]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">9</td>
+<td class="org-right">7</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-19 Mo]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">7</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-20 Di]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">8</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-21 Mi]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-22 Do]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">11</td>
+<td class="org-right">6</td>
+<td class="org-right">3.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-23 Fr]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">9</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-24 Sa]</span></span></td>
+<td class="org-right">10</td>
+<td class="org-right">13</td>
+<td class="org-right">6</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-25 So]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-26 Mo]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">13</td>
+<td class="org-right">7</td>
+<td class="org-right">6</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-27 Di]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-28 Mi]</span></span></td>
+<td class="org-right">30</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-29 Do]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">4</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-30 Fr]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">6</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-01 Sa]</span></span></td>
+<td class="org-right">10</td>
+<td class="org-right">7.5</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-02 So]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">8</td>
+<td class="org-right">7</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-03 Mo]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-04 Di]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-05 Mi]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">8</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-06 Do]</span></span></td>
+<td class="org-right">25</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-07 Fr]</span></span></td>
+<td class="org-right">25</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-08 Sa]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">9</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-09 So]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-10 Mo]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-11 Di]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6.5</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-12 Mi]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-13 Do]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-14 Fr]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sa]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-16 So]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-17 Mo]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div id="org06894df" class="figure">
+<p><img src="./example.png" alt="example.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdb8a650" class="outline-2">
+<h2 id="orgdb8a650"><span class="section-number-2">9.</span> logic resolution proof</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+\lipsum[2-4]
+</p>
+</div>
+<div id="outline-container-org617b729" class="outline-3">
+<h3 id="org617b729"><span class="section-number-3">9.1.</span> forward direction (&rarr;)</h3>
+<div class="outline-text-3" id="text-9-1">
 \[\frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad [A]^3 \qquad [A \rightarrow B]^1}{B}[\text{mp}] \qquad [\lnot B]^2}{\perp}[\text{$\lnot E$}]}{\lnot A}[\text{$\lnot I^3$}]}{\lnot B \rightarrow \lnot A}[\text{$\rightarrow I^2$}]}{(A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A)}[\text{$\rightarrow I^1$}]\]
 
 </br></br>
 </div>
 </div>
-<div id="outline-container-org4c2050e" class="outline-3">
-<h3 id="org4c2050e"><span class="section-number-3">7.2.</span> back direction (&larr;)</h3>
-<div class="outline-text-3" id="text-7-2">
+<div id="outline-container-org7cf36d6" class="outline-3">
+<h3 id="org7cf36d6"><span class="section-number-3">9.2.</span> back direction (&larr;)</h3>
+<div class="outline-text-3" id="text-9-2">
 \[\frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad [A]^5 \qquad \frac{\displaystyle  \qquad [\lnot B]^6 \qquad [\lnot B \rightarrow \lnot A]^4}{\lnot A}[\text{mp}]}{\perp}[\text{$\lnot E$}]}{B}[\text{$\text{raa}^6$}]}{A \rightarrow B}[\text{$\rightarrow I^5$}]}{(\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)}[\text{$\rightarrow I^4$}]\]
 
 </br></br>
 </div>
 </div>
-<div id="outline-container-org8938437" class="outline-3">
-<h3 id="org8938437"><span class="section-number-3">7.3.</span> both directions (&harr;)</h3>
-<div class="outline-text-3" id="text-7-3">
+<div id="outline-container-org219bea5" class="outline-3">
+<h3 id="org219bea5"><span class="section-number-3">9.3.</span> both directions (&harr;)</h3>
+<div class="outline-text-3" id="text-9-3">
 \[\frac{\displaystyle  \qquad (A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A) \qquad (\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)}{\vdash (A \rightarrow B) \leftrightarrow (\lnot B \rightarrow \lnot A)}[\text{$\leftrightarrow$ I}]\]
 </div>
 </div>
@@ -559,7 +1569,7 @@ some <code>python</code> and <code>plotlib</code> code &#x2026;
 <div id="postamble" class="status">
 <p class="date">Date: Mi 3. Jan CET 2024</p>
 <p class="author">Author: Felix Drees</p>
-<p class="date">Created: 2024-01-03 Mi 05:20</p>
+<p class="date">Created: 2024-01-15 Mo 22:12</p>
 </div>
 </body>
 </html>
