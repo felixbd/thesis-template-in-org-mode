@@ -1,3 +1,4 @@
+#+begin_src nix
 { pkgs ? import <nixpkgs> {} }:
 
 pkgs.mkShell {

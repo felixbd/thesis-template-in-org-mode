@@ -39,7 +39,7 @@
   }
 }
 
-\usepackage{bibgerm}
+% \usepackage{bibgerm}
 \usepackage[german=guillemets]{csquotes}
 % \usepackage{makecell}
 \usepackage{subcaption}
@@ -50,23 +50,31 @@
 % or
 % \bibliographystyle{alphadin}
 
-\usepackage{selinput}
-\SelectInputMappings{
-  adieresis={ä},
-  germandbls={ß},
-  Euro={€},
-}
+% \usepackage{selinput}
+% \SelectInputMappings{
+%   adieresis={ä},
+%   germandbls={ß},
+%   Euro={€},
+% }
 
-% add h1 for abstract
-% TODO: check if abstract env exists
-\renewenvironment{abstract}{%
-    \small
-    \begin{center}
-      {\normalfont\sectfont\nobreak\abstractname}
-    \end{center}
-}{%
-\endquotation
+% Check if the abstract environment is already defined
+\makeatletter
+\@ifundefined{abstract}{
+    % Redefine the abstract environment
+    \newenvironment{abstract}{%
+        \small
+        \begin{center}
+          {\normalfont\sectfont\nobreak\abstractname}
+        \end{center}
+        \quotation
+    }{%
+        \endquotation
+    }
+}{
+    \PackageWarning{abstract}{Environment 'abstract' already defined.}
 }
+\makeatother
+
 
 %%% MATH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\fline}{\bigskip\noindent}
@@ -117,31 +125,31 @@
 %%% CS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{dirtree}
 
-\usepackage{listings}
-\usepackage{xcolor}
+% \usepackage{listings}
+% \usepackage{xcolor}
 
-\definecolor{codegreen}{rgb}{0,0.6,0}
-\definecolor{codegray}{rgb}{0.5,0.5,0.5}
-\definecolor{codepurple}{rgb}{0.58,0,0.82}
-\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
-\lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,
-    breaklines=true,
-    captionpos=b,
-    keepspaces=true,
-    numbers=left,
-    numbersep=5pt,
-    showspaces=false,
-    showstringspaces=false,
-    showtabs=false,
-    tabsize=2
-}
+% \lstdefinestyle{mystyle}{
+%     backgroundcolor=\color{backcolour},
+%     commentstyle=\color{codegreen},
+%     keywordstyle=\color{magenta},
+%     numberstyle=\tiny\color{codegray},
+%     stringstyle=\color{codepurple},
+%     basicstyle=\ttfamily\footnotesize,
+%     breakatwhitespace=false,
+%     breaklines=true,
+%     captionpos=b,
+%     keepspaces=true,
+%     numbers=left,
+%     numbersep=5pt,
+%     showspaces=false,
+%     showstringspaces=false,
+%     showtabs=false,
+%     tabsize=2
+% }
 
-\lstset{style=mystyle}
+% \lstset{style=mystyle}

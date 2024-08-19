@@ -9,19 +9,23 @@
 # --------------------------------------------------------------------------------------------------
 # FOR HTML
 # --------
-#+SETUPFILE:           https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+# +SETUPFILE:           https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
 # FOR PDF / LaTeX
 # ---------------
 #+LATEX_CLASS:         koma-book
 #+LATEX_CLASS_OPTIONS: [a4paper, fontsize=11pt, BCOR=8mm, DIV=11]
+
+# +LATEX_HEADER:       \usepackage[showframe]{geometry}
+#+LATEX_HEADER_EXTRA: \usepackage[]{geometry}
 #+LATEX_HEADER:        \input{preamble}
 #+latex_header:        \usepackage{tcolorbox}
 #+STARTUP:             latexpreview align fold nodlcheck hidestars oddeven lognotestate
 
 # GENERAL
 # -------
-#+OPTIONS:             toc:nil tex:t num:t title:nil
+#+OPTIONS:             toc:nil tex:t num:t
+#+OPTIONS:             title:nil
 # tex:verbatim
 #+PRIORITIES:          A B C
 #+TAGS:                Write(w) Update(u) Fix(f) Check(c)
@@ -35,54 +39,13 @@
 # --------------------------------------------------------------------------------------------------
 #+TITLE: Unleashing the Power of GNU/Emacs and Org-Mode
 #+SUBTITLE: A Cache of Wisdom for Thesis Writing
-#+DATE: Mi 3. Jan CET 2024
+#+DATE: {{{time(%Y-%m-%dT%H:%M:%S%z)}}}
 #+AUTHOR: Felix Drees
-#+EMAIL: not-my-mail@domain.example-tld
+# +EMAIL:
 # --------------------------------------------------------------------------------------------------
 
-# include the content of the ./titlepage.tex file for latex export
-#+LATEX: \input{titlepage}
+#+LATEX: \input{coverpage}
 
-# ==================================================================================================
-#
-#   LICENSE notes for HTML export
-#
-
-#+begin_export html
-<blockquote>
-  <p>
-    The Documentation (either in its HTML, PDF, LaTeX or in its Org-Mode format) is licensed under the
-    <a href="https://www.gnu.org/licenses/fdl-1.3.txt">GNU Free Documentation License version 1.3</a> or later.
-  </p>
-  <p>
-    The code examples are licensed under the
-    <a href="https://www.gnu.org/licenses/gpl-3.0.txt">GNU General Public License v3</a> or later.
-  </p>
-</blockquote>
-
-<table>
-  <tr>
-    <td>
-      <a href="https://www.gnu.org/licenses/fdl-1.3.txt">
-        <img src="https://www.gnu.org/graphics/gfdl-logo-small.png"
-             alt="GNU Free Documentation License version 1.3" />
-      </a>
-    </td>
-    <td>
-      <a href="https://www.gnu.org/licenses/gpl-3.0.txt">
-        <img src="https://www.gnu.org/graphics/gplv3-127x51.png"
-             alt="GNU General Public License v3" />
-      </a>
-    </td>
-  </tr>
-</table>
-#+end_export
-
-
-# ==================================================================================================
-#
-#   Abstract's
-#
 
 #+name: englishAbstract
 #+begin_abstract
@@ -159,6 +122,8 @@ For this tutorial, we will be using a distribution of GNU/Emacs called DOOM Emac
 - [[https://youtu.be/YmQ1CYMz-OY?feature=shared][EmacsConf 2022: Health data journaling and visualization with Org Mode and GNUplot - David O'Toole]]
 
 
+
+
 * (Doom) GNU/Emacs setup and configuration
 
 Start by installing Doom Emacs.
@@ -182,16 +147,20 @@ kbd:M-x ~org-special-block-extras-mode~
 #+end_box
 
 #+name: emacsPackageList
-#+begin_src shell :results output :exports results
-cat ~/.config/doom/packages.el | grep "^(package"
+#+begin_src sh :results output raw :wrap src emacs-lisp :exports both
+grep "^(package" ~/.config/doom/packages.el | sed 's/).*//; s/$/)/'
 #+end_src
 
 #+RESULTS: emacsPackageList
-: (package! evil-tutor)
-: (package! pdf-tools)
-: (package! org-special-block-extras) ;; (use-package org-special-block-extras :ensure t)
-: (package! gnuplot)
-: (package! gnuplot-mode)
+#+begin_src emacs-lisp
+(package! evil-tutor)
+(package! pdf-tools)
+(package! org-special-block-extras)
+(package! gnuplot)
+(package! gnuplot-mode)
+(package! smex)
+(package! fireplace)
+#+end_src
 
 
 #+begin_box Note
@@ -204,24 +173,41 @@ Do not forget to ~doom sync~ after adding new packages to your ~package.el~ file
 To complete the Doom Emacs setup / configuration you only have to addapt your ~config.el~ file.
 We will now add the ~koma~ latex document classes and add support for code highlighting.
 
-# +name: emacsConfig
-# +begin_src shell :results output pp :exports results
-# cat ~/.config/doom/config.el
-# +end_src
+#+name: emacsConfig
+#+begin_src sh :results output raw :wrap src emacs-lisp :exports both
+grep -v '^\s*;' ~/.config/doom/config.el | awk 'NF {print $0; blank=0} !NF && !blank {print ""; blank=1}'
+# sed '/^$/N;/^\n$/D;P;D'
+#+end_src
 
 #+RESULTS: emacsConfig
-#+begin_example
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+#+begin_src emacs-lisp
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+(global-set-key (kbd "C-x <up>") 'windmove-up)
+(global-set-key (kbd "C-x <down>") 'windmove-down)
+(global-set-key (kbd "C-x <left>") 'windmove-left)
+(global-set-key (kbd "C-x <right>") 'windmove-right)
 
-;; ------------------------------------------------------------------------------
+(ido-mode 1)
+(ido-everywhere 1)
 
-;; ...
+(setq tramp-auto-save-directory "/tmp")
 
-;; add latex classes for org-mocde export to latex (pdf)
 (after! org
+  (setq org-ascii-text-width 120)
+
+  (setq org-latex-listings 'minted
+        org-latex-packages-alist '(("" "minted"))
+        org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+  (setq org-latex-minted-options '(("frame" "lines")
+                                   ("linenos" "true")
+                                   ("fontsize" "\\small")
+                                   ("breaklines" "true")
+                                   ("breakanywhere" "true")
+                                   ("tabsize" "4")))
+
   (setq org-latex-classes
         '(("article" "\\documentclass[11pt]{article}"
            ("\\section{%s}" . "\\section*{%s}")
@@ -249,19 +235,13 @@ We will now add the ~koma~ latex document classes and add support for code highl
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   )
 
-;; for syntax highlighting in org-mode
-;;  (setq org-latex-src-block-background 'minted
-(setq org-latex-listings 'minted
-      org-latex-packages-alist '(("" "minted"))
-      org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(setq doom-theme 'doom-one)
 
+(setq display-line-numbers-type 'relative)
 
-;; ------------------------------------------------------------------------------
-#+end_example
+(setq org-directory "~/org/")
 
+#+end_src
 
 
 #+begin_box Note
@@ -292,15 +272,17 @@ sh <(curl -L https://nixos.org/nix/install) --daemon
 https://nixos.org/download
 #+end_box
 
+# :wrap src text
+
 #+name: nix-config-cat
-#+attr_latex: :options frame=single :wrap src text
+#+attr_latex: :options frame=single
 #+caption: ~nix-shell~ config for generating a build environment
-#+begin_src shell :results output pp :exports both
+#+begin_src sh :results output raw :wrap src nix :exports both
 cat shell.nix
 #+end_src
 
 #+RESULTS: nix-config-cat
-#+begin_example
+#+begin_src nix
 { pkgs ? import <nixpkgs> {} }:
 
 pkgs.mkShell {
@@ -323,7 +305,7 @@ pkgs.mkShell {
     echo "entering dev environment"
   '';
 }
-#+end_example
+#+end_src
 
 
 Run ~nix-shell~ to enter the now defined development environment.
@@ -333,7 +315,7 @@ After entering our specified environment - you can run ~make doom~ to start Doom
 
 * start messing around
 
-Since everything should be ready by now - please feel free to mess around with the ~README.org~ file within Emacs.
+Since everything should be ready by now - please feel free to mess around with the ~thesis.org~ file within Emacs.
 
 1. start the nix development environment
 
@@ -347,13 +329,13 @@ nix-shell  # schould open a nix shell with all the packages defined in the local
 make doom  # should open a new doom emacs window (from within the nix shell)
    #+end_src
 
-3. open ~README.org~
+3. open ~thesis.org~
 
    in doom Emacs, you could either open a file with kbd:M-x ~dired~ or by using ~SPC-.~
 
 4. mess around
 
-   Finlay adapt the ~README.org~ file for your needs or just explore the file from within Emacs.
+   Finlay adapt the ~thesis.org~ file for your needs or just explore the file from within Emacs.
 
 
 #+begin_box Export to HTML and PDF
@@ -428,10 +410,12 @@ print(f"\\[ {latexify.get_latex(isPrime)} \\]\n" \
 
 #+RESULTS: genLatexForPrimeFunc
 :results:
+:end:
+
 \[ \mathrm{isPrime}(x) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \le {1}} \\ {1}, & \mathrm{if} \ {x = {2}} \\ \mathrm{recHelper}\left(x, {3}\right), & \mathrm{otherwise} \end{array} \right. \]
 \\
 \[ \mathrm{recHelper}(x, d) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \mathbin{\%} {2} = {0}} \\ {1}, & \mathrm{if} \ {d > \left\lfloor{\sqrt{x}}\right\rfloor} \\ {0}, & \mathrm{if} \ {x \mathbin{\%} d = {0}} \\ \mathrm{recHelper}\left(x, d + {2}\right), & \mathrm{otherwise} \end{array} \right. \]
-:end:
+
 
 
 #+name: checkIfPrime
@@ -520,13 +504,19 @@ Let
     \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} footnote \url{https://youtu.be/XkY2DOUCWMU}
     The Matrix $A$ can also be interpreted as a linear transformation in $\R^3$.
 
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[width=7cm]{rotate_shear_record.png}
-        \caption{Composition of Transformations}
-        Source: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
-        \label{fig:my_label_01}
-    \end{figure}
+    # \begin{figure}[!htb]
+    #    \centering
+    #    \includegraphics[width=7cm]{rotate_shear_record.png}
+    #    \caption{Composition of Transformations}
+    #    Source: \url{https://www.3blue1brown.com/lessons/matrix-multiplication}
+    #    \label{fig:my_label_01}
+    # \end{figure}
+
+# +NAME: fig:some-random-fig
+# +caption: Composition of Transformations
+# +ATTR_LATEX: :width 5cm
+# +ATTR_HTML: :width 600px :alt Some random alt text
+# [[file:./rotate_shear_record.png]
 
 
  This interpretation makes it easier to understand the theorem to be proven, and makes it seem almost trivial.
@@ -611,7 +601,7 @@ No matter how often you exponentiate this transformation, the $y$ and $z$ axes w
         \xLeftrightarrow{\star} \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \cdot \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
         \Leftrightarrow \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix}
     \end{align}
-    
+
 #+END_proof
 
 
@@ -660,7 +650,13 @@ plt.savefig("random-py-plot.png")
 #+RESULTS:
 : None
 
-[[file:random-py-plot.png]]
+# +ATTR_LATEX: :placement [H] :float nil :width 0.4\textwidth
+
+# +NAME: fig:some-random-fig-py
+# +caption: python function plot
+# +ATTR_LATEX: :width 5cm
+# +ATTR_HTML: :width 600px :alt Some random python functiono plot
+# [[file:random-py-plot.png]
 
 
 
@@ -690,7 +686,7 @@ plt.savefig("random-covariance-fig.png")
 : None
 
 
-[[file:random-covariance-fig.png]]
+# [[file:random-covariance-fig.png]
 
 
 ** tikzpicture
@@ -735,7 +731,7 @@ see https://orgmode.org/manual/Org-Plot.html
 | Stockholm |    134.19 |   14.33 |
 | Morelia   |    257.56 |   17.67 |
 
-[[file:./images/citas.png]]
+# [[file:./images/citas.png]
 
 
 
@@ -749,7 +745,7 @@ see https://orgmode.org/manual/Org-Plot.html
 | Markdown + Pandoc |                  2.5 |            2.5 |               2.5 |              3 |             3 |                   3 |           2 |
 
 
-[[file:./images/eval-of-plaintext-formats.png]]
+# [[file:./images/eval-of-plaintext-formats.png]
 
 
 
