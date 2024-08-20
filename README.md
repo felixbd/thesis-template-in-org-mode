@@ -1,6 +1,7 @@
 thesis in org-mode
 ==================
 
+see `out/*.pdf`
 
 see `thesis.org` and `Makefile`
 
