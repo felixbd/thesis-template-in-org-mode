@@ -1,7 +1,8 @@
 all: c
+	# DEBUG=1 doomscript ./export-org-files.el
 	doomscript ./export-org-files.el
 	@find . -maxdepth 1 \( -name 'thesis-*.pdf' -o -name 'thesis-*.html' -o -name 'thesis-*.txt' \) -exec mv {} ./out/ \; || true
-	# rm -fr ./thesis-template-in-org-mode.*
+	rm -fr ./thesis-template-in-org-mode.*
 
 x:
 	pdflatex -shell-escape thesis-template-in-org-mode.tex

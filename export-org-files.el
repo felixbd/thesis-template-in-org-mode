@@ -3,8 +3,6 @@
 ;; (defcli! export-notes (&args files)
   (require 'doom-start) ; load your user config
 
-  ;; (org-special-block-extras-mode)
-
   ;; Customize the LaTeX PDF process (if needed)
   (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 

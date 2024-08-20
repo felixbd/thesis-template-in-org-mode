@@ -11,6 +11,14 @@
 # --------
 # +SETUPFILE:           https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
+
+
+#+latex_compiler: latexmk
+
+#+bibliography: ./Literatur.bib
+# +cite_export: basic numeric noauthor/bare
+#+cite_export: basic numeric authoryear
+
 # FOR PDF / LaTeX
 # ---------------
 #+LATEX_CLASS:         koma-book
@@ -44,12 +52,13 @@
 # +EMAIL:
 # --------------------------------------------------------------------------------------------------
 
+#+LATEX: \frontmatter
 #+LATEX: \input{coverpage}
 
 
 #+name: englishAbstract
 #+begin_abstract
-The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis papers.
+The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis papers.[cite:see @mac2013categories p. 5]
 This article provides a detailed guide on how to seamlessly integrate these tools, facilitating a smooth transition
 between generating HTML and LaTeX documents, as well as PDFs, all from a single Org Mode file. Furthermore, a Nix shell,
 accompanied by a shell.nix file, is introduced to ensure efficient management of the development environment.
@@ -71,18 +80,21 @@ shell.nix-Datei vorgestellt, um eine effiziente Verwaltung der Entwicklungs- und
 # reset the language to English
 #+latex: \selectlanguage{british}
 
+#+TOC: headlines
+
+#+LATEX: \mainmatter
 
 # ==================================================================================================
 #
 #   TOC's for contents, code blocks, tables and figures
 #
 
-#+TOC: headlines
-#+TOC: listings
-#+TOC: tables
-#+latex: \listoffigures
+# +TOC: headlines
+# +TOC: listings
+# +TOC: tables
+# +latex: \listoffigures
 
-#+latex: \clearpage
+# +latex: \clearpage
 
 
 * Introduction / Motivation:
@@ -287,16 +299,16 @@ cat shell.nix
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    (python310.withPackages(ps: with ps; [
-	numpy         # for math
-	latexify-py   # for converting python funcs to latex
-	scipy         # for math and physics
-	pygments      # for syntax highlighting
-	matplotlib    # for plotting
-	seaborn       # for plotting
-	scikit-learn  # for ml stuff
+    (python312.withPackages(ps: with ps; [
+      numpy         # for math
+      # latexify-py   # for converting python funcs to latex
+      scipy         # for math and physics
+      pygments      # for syntax highlighting
+      matplotlib    # for plotting
+      seaborn       # for plotting
+      scikit-learn  # for ml stuff
     ]))
-    texlive.combined.scheme-full
+    # texlive.combined.scheme-full
     graphviz
     gnuplot
   ];
@@ -326,7 +338,7 @@ nix-shell  # schould open a nix shell with all the packages defined in the local
 2. open doom Emacs form within the development environment
 
    #+begin_src shell
-make doom  # should open a new doom emacs window (from within the nix shell)
+doom run &
    #+end_src
 
 3. open ~thesis.org~
@@ -350,22 +362,24 @@ You can export your derivative with the key binding: kbd:C-c kbd:C-e
 #+begin_src python :session main :exports code :results none :wrap src text
 import math
 import numpy as np
+import sys
 import scipy
-import latexify
+# import latexify
 #+end_src
+
 
 
 #+name: py2texImportTable
 #+begin_src python :results table :session main :exports results :hlines yes :colnames yes
-[line.split("=") for line in
- f"{latexify.__version__ = }\n{np.__version__ = }\n{scipy.__version__ = }".split("\n")]
+[line.split("=") for line in f"python: {sys.version = }\n{np.__version__ = }\n{scipy.__version__ = }".split("\n")]
+# latexify.__version__ = '0.0.0a0'\n
 #+end_src
 
 #+CAPTION: table of library's with corresponding version
 #+RESULTS: py2texImportTable
-| latexify.__version__ | '0.0.0a0' |
-| np.__version__       | '1.24.2'  |
-| scipy.__version__    | '1.10.1'  |
+| python: sys.version | '3.11.8 (main, Feb  7 2024, 21:52:08) [GCC 13.2.0]' |
+| np.__version__      | '1.26.4'                                            |
+| scipy.__version__   | '1.13.1'                                            |
 
 
 With the imported library's, we can now convert a ~python~ function to ~latex~
@@ -402,11 +416,11 @@ In line [[(isPrimeRef)]] is the main definition of the recursive basecase.
 [[(recHelperRef)][Line (recHelperRef)]] starts by declaring a recursive helper for the main prime checking function.
 
 
-#+name: genLatexForPrimeFunc
-#+begin_src python :results output drawer :session main :exports results
-print(f"\\[ {latexify.get_latex(isPrime)} \\]\n" \
-      f"\\\\\n\\[ {latexify.get_latex(recHelper)} \\]")
-#+end_src
+# +name: genLatexForPrimeFunc
+# +begin_src python :results output drawer :session main :exports results
+# print(f"\\[ {latexify.get_latex(isPrime)} \\]\n" \
+#      f"\\\\\n\\[ {latexify.get_latex(recHelper)} \\]")
+# +end_src
 
 #+RESULTS: genLatexForPrimeFunc
 :results:
@@ -424,7 +438,9 @@ bool(isPrime(x))
 #+end_src
 
 #+RESULTS: checkIfPrime
-: True
+#+begin_example
+True
+#+end_example
 
 
 Now we can call the ~isPrime~ function with the parameter ~5~ and ~6~:
@@ -438,7 +454,7 @@ Now we can call the ~isPrime~ function with the parameter ~5~ and ~6~:
 Graph using the ~dot~ language
 
 #+name: dotGraph
-#+BEGIN_SRC dot :file function-composition.png :cmdline -Kdot -Tpng :exports both
+#+BEGIN_SRC dot :file ./img-gen-dir/function-composition.png :cmdline -Kdot -Tpng :exports both
 digraph G {
     node [shape=circle, fontname="Courier", fontsize=16]
     edge [fontname="Courier", fontsize=16]
@@ -453,7 +469,7 @@ digraph G {
 #+ATTR_LATEX: :placement [H] :float nil :width 0.4\textwidth
 #+caption: function composition and identity
 #+RESULTS: dotGraph
-[[file:function-composition.png]]
+[[file:./img-gen-dir/function-composition.png]]
 
 
 Graph using latex ~tikz picture~
@@ -501,7 +517,7 @@ Let
 
     \[ A^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix}. \]
 
-    \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} footnote \url{https://youtu.be/XkY2DOUCWMU}
+    \enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} [fn:3b1b: see \url{https://youtu.be/XkY2DOUCWMU}]
     The Matrix $A$ can also be interpreted as a linear transformation in $\R^3$.
 
     # \begin{figure}[!htb]
@@ -522,13 +538,14 @@ Let
  This interpretation makes it easier to understand the theorem to be proven, and makes it seem almost trivial.
 
 
+
+ #+begin_export latex
 \begin{figure}[!h]
     \centering
     \label{fig:my_label}
-
     \begin{tikzpicture}
         \begin{scope}
-            \tdplotsetmaincoords{70}{110}
+            % \tdplotsetmaincoords{70}{110}
             \draw (0,0,0) node[above left] {};
             \draw[thick, ->] (0,0,0) -- (2,0,0) node[anchor=north west]{$y$};
             \draw[thick, ->] (0,0,0) -- (0,2,0) node[anchor=south west]{$z$};
@@ -551,9 +568,10 @@ Let
             %\tdplotdrawarc{(0,0)}{0.7}{0}{45}{}{};
         \end{scope}
     \end{tikzpicture}
-
     \caption{$\R^3$ with linearer transformation $A^1$}
 \end{figure}
+#+end_export
+
 
 \[ \text{With} \vec{i} = (1, 0, \beta)^T \text{ and } \vec{j} = (0, 1, 0)^T \text{ and } \vec{k} = (0, 0, 1)^T. \]
 
@@ -644,19 +662,20 @@ plt.title('Violin Plot')
 
 plt.tight_layout()
 # plt.show()
-plt.savefig("random-py-plot.png")
+plt.savefig("./img-gen-dirrandom-py-plot.png")
 #+end_src
 
 #+RESULTS:
-: None
+#+begin_example
+None
+#+end_example
 
-# +ATTR_LATEX: :placement [H] :float nil :width 0.4\textwidth
 
-# +NAME: fig:some-random-fig-py
-# +caption: python function plot
-# +ATTR_LATEX: :width 5cm
-# +ATTR_HTML: :width 600px :alt Some random python functiono plot
-# [[file:random-py-plot.png]
+#+NAME: fig:some-random-fig-py
+#+caption: python function plot
+#+ATTR_LATEX: :placement [H] :float nil :width 0.4\textwidth
+#+ATTR_HTML: :width 600px :alt Some random python functiono plot
+[[file:./img-gen-dir/random-py-plot.png]]
 
 
 
@@ -679,14 +698,17 @@ plt.figure(figsize=(8, 6))
 sns.heatmap(cov_matrix, annot=True, cmap='coolwarm', xticklabels=iris_feature_names, yticklabels=iris_feature_names)
 plt.title('Covariance Matrix of Iris Dataset Features')
 # plt.show()
-plt.savefig("random-covariance-fig.png")
+plt.savefig("./img-gen-dir/random-covariance-fig.png")
 #+end_src
 
 #+RESULTS:
-: None
+#+begin_example
+None
+#+end_example
 
 
-# [[file:random-covariance-fig.png]
+[[file:./img-gen-dir/random-covariance-fig.png]]
+
 
 
 ** tikzpicture
@@ -695,24 +717,24 @@ plt.savefig("random-covariance-fig.png")
 #+begin_export latex
 \begin{tikzpicture}
   \begin{axis}[
-    xlabel=$x$,
-    ylabel=$y$,
-    domain=0.1:5,
-    xmin=0, xmax=5,
-    ymin=-5, ymax=5,
+    xlabel={$x$},
+    ylabel={$y$},
+    domain=0.1:3.5,
+    xmin=0, xmax=3.5,
+    ymin=-5, ymax=10,
     samples=100,
     grid=major,
     legend pos=north west,
+    width=14cm, % Increased width
+    height=10cm, % Increased height
   ]
 
     \addplot[color=blue,smooth,thick] {sin(deg(x))};
-    \addplot[color=red,smooth,thick] {exp(x)};
     \addplot[color=green,smooth,thick] {ln(x)};
     \addplot[color=orange,smooth,thick] {log2(x)};
-    \addplot[color=purple,smooth,thick] {x^5 - x^3};
+    \addplot[color=purple,smooth,thick] {x^6 / x^2 * sin(x)};
 
-    \legend{$\sin(x)$, $e^x$, $\ln(x)$, $\log_2(x)$, $x^5 - x^3$}
-
+    \legend{$\sin(x)$, $\ln(x)$, $\log_2(x)$, $\frac{x^6}{x^2} \cdot \sin(x)$}
   \end{axis}
 \end{tikzpicture}
 #+end_export
@@ -722,7 +744,7 @@ plt.savefig("random-covariance-fig.png")
 
 see https://orgmode.org/manual/Org-Plot.html
 
-#+PLOT: title:"Citas" ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]" file:"./images/citas.png"
+#+PLOT: title:"Citas" ind:1 deps:(3) type:2d with:histograms set:"yrange [0:]" file:"./img-gen-dir/citas.png"
 | Sede      | Max cites | H-index |
 |-----------+-----------+---------|
 | Chile     |    257.72 |   21.39 |
@@ -731,11 +753,11 @@ see https://orgmode.org/manual/Org-Plot.html
 | Stockholm |    134.19 |   14.33 |
 | Morelia   |    257.56 |   17.67 |
 
-# [[file:./images/citas.png]
+[[file:./img-gen-dir/citas.png]]
 
+#+begin_comment
 
-
-#+PLOT: title:"An evaluation of plaintext document formats" transpose:yes type:radar min:0 max:4 file:"./images/eval-of-plaintext-formats.png"
+#+PLOT: title:"An evaluation of plaintext document formats" transpose:yes type:radar min:0 max:4 file:"./img-gen-dir/eval-of-plaintext-formats.png"
 | Format            | Fine-grained-control | Initial Effort | Syntax simplicity | Editor Support | Integration's | Ease-of-referencing | Versatility |
 |-------------------+----------------------+----------------+-------------------+----------------+---------------+---------------------+-------------|
 | Word              |                    2 |              4 |                 4 |              2 |             3 |                   2 |           2 |
@@ -744,8 +766,10 @@ see https://orgmode.org/manual/Org-Plot.html
 | Markdown          |                    1 |              3 |                 3 |              4 |             3 |                   3 |           1 |
 | Markdown + Pandoc |                  2.5 |            2.5 |               2.5 |              3 |             3 |                   3 |           2 |
 
+#+end_comment
 
-# [[file:./images/eval-of-plaintext-formats.png]
+
+[[file:./img-gen-dir/eval-of-plaintext-formats.png]]
 
 
 
@@ -765,6 +789,10 @@ see https://orgmode.org/manual/Org-Plot.html
 ** gnu plot
 
 see https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads by David O'Toole
+
+
+#+latex: \begin{comment}
+
 #+BEGIN: columnview :hlines 1 :id myid
 #+tblname: mydata
 | Date             | exercise minutes | sleep hours | nicotine doses | distress scale | missed doses | pain scale |
@@ -807,6 +835,8 @@ see https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads by David O
 | [2022-10-17 Mon] |                0 |         4.5 |              0 |              3 |            0 |          2 |
 #+END:
 
+#+latex: \end{comment}
+
 
 #+begin_src gnuplot :var data=mydata
 # clear graphics from any previous run
@@ -814,7 +844,7 @@ reset
 
 # define output parameters
 set terminal pngcairo font "Arial" size 900,900
-set output './example.png'
+set output './img-gen-dir/example.png'
 
 # use org-mode format for input
 set datafile separator "\t"
@@ -869,9 +899,9 @@ plot data using 1:($2 == 0 ? NaN : $2) with points title 'exercise (minutes)' lt
 
 
 
-# +CAPTION: This is the caption
-# +NAME: fig:org_label
-[[file:./example.png]]
+#+CAPTION: This is the caption
+#+NAME: fig:org_label
+[[file:./img-gen-dir/example.png]]
 
 
 
@@ -924,3 +954,33 @@ plot data using 1:($2 == 0 ? NaN : $2) with points title 'exercise (minutes)' lt
   - (A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A)
   - (\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)
 #+end_tree
+
+
+
+#+LATEX: \appendix
+
+
+* some random appendix
+
+maybe add a document or other related but not that important info, listings plots etc. here ...
+
+
+
+#+LATEX: \backmatter
+
+
+* TOC's
+
+
+#+LATEX: \section*{Bibliography}
+#+LATEX: \addcontentsline{toc}{section}{Bibliography}
+#+print_bibliography:
+
+#+LATEX: \addcontentsline{toc}{section}{Listings}
+#+TOC: listings
+
+#+LATEX: \addcontentsline{toc}{section}{Tables}
+#+TOC: tables
+
+#+LATEX: \addcontentsline{toc}{section}{Figures}
+#+LATEX: \listoffigures
