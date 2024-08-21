@@ -1,4 +1,4 @@
-all: c
+all:
 	rm -fr ./out/*
 
 	# DEBUG=1 doomscript ...
@@ -8,13 +8,13 @@ all: c
 
 	@find . -maxdepth 1 -name 'thesis-*.pdf' -exec mv {} ./out/ \; || true
 
-	rm -fr ./thesis-template-in-org-mode.*
-	latexmk -c
+	# rm -fr ./thesis-template-in-org-mode.*
+	# latexmk -c
 
 c: clean
 
 clean:
-	# rm thesis-template-in-org-mode-blx.bib
+	rm thesis-template-in-org-mode-blx.bib
 	latexmk -c
 	rm -fr ./thesis-template-in-org-mode.*
 	# rm -fr ./out/*
