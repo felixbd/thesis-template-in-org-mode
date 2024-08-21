@@ -13,11 +13,11 @@
 
 
 
-#+latex_compiler: latexmk
+# +latex_compiler: latexmk
 
-#+bibliography: ./Literatur.bib
-# +cite_export: basic numeric noauthor/bare
-#+cite_export: basic numeric authoryear
+#+bibliography: ./references.bib
+#+cite_export: biblatex alphabetic,backend=bibtex
+
 
 # FOR PDF / LaTeX
 # ---------------
@@ -32,8 +32,7 @@
 
 # GENERAL
 # -------
-#+OPTIONS:             toc:nil tex:t num:t
-#+OPTIONS:             title:nil
+#+OPTIONS:             toc:nil tex:t num:t title:nil
 # tex:verbatim
 #+PRIORITIES:          A B C
 #+TAGS:                Write(w) Update(u) Fix(f) Check(c)
@@ -43,7 +42,7 @@
 #+LANGUAGE:            en-GB
 #+EXPORT_FILE_NAME:    thesis-template-in-org-mode
 #+SELECT_TAGS:         export
-#+EXCLUDE_TAGS:        Toto
+#+EXCLUDE_TAGS:        todo
 # --------------------------------------------------------------------------------------------------
 #+TITLE: Unleashing the Power of GNU/Emacs and Org-Mode
 #+SUBTITLE: A Cache of Wisdom for Thesis Writing
@@ -81,20 +80,7 @@ shell.nix-Datei vorgestellt, um eine effiziente Verwaltung der Entwicklungs- und
 #+latex: \selectlanguage{british}
 
 #+TOC: headlines
-
 #+LATEX: \mainmatter
-
-# ==================================================================================================
-#
-#   TOC's for contents, code blocks, tables and figures
-#
-
-# +TOC: headlines
-# +TOC: listings
-# +TOC: tables
-# +latex: \listoffigures
-
-# +latex: \clearpage
 
 
 * Introduction / Motivation:
@@ -971,10 +957,16 @@ maybe add a document or other related but not that important info, listings plot
 
 * TOC's
 
+# +print_bibliography:
 
-#+LATEX: \section*{Bibliography}
-#+LATEX: \addcontentsline{toc}{section}{Bibliography}
-#+print_bibliography:
+#+BEGIN_SRC latex
+\addcontentsline{toc}{section}{Bibliography}
+\printbibheading
+\printbibliography[type=book,heading=subbibliography,title={Book Sources}]
+\printbibliography[nottype=book,heading=subbibliography,title={Other Sources}]
+
+% \printbibliography
+#+END_SRC
 
 #+LATEX: \addcontentsline{toc}{section}{Listings}
 #+TOC: listings
