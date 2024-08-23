@@ -32,8 +32,8 @@
 
 # GENERAL
 # -------
-#+OPTIONS:             toc:nil tex:t num:t title:nil
-# tex:verbatim
+#+OPTIONS:             toc:nil tex:t num:t
+# title:nil tex:verbatim
 #+PRIORITIES:          A B C
 #+TAGS:                Write(w) Update(u) Fix(f) Check(c)
 #+CATEGORY:            thesis
@@ -957,10 +957,31 @@ maybe add a document or other related but not that important info, listings plot
 
 * TOC's
 
+# +latex: \begin{comment}
+
+#+latex: \section*{Abkürzungsverzeichnis}
+
+| ABA | alternierender Büchi-Automat         | engl. alternating Büchi automaton     |
+| AFA | alternierender endlicher Automat     | engl. alternating f inite automaton   |
+| BA  | Büchi-Automat                        | engl. Büchi automaton                 |
+| BNF | Normalform kontextfreier Grammatiken | engl. Backus–N aur f orm              |
+| DFA | endlicher Automat                    | engl. deterministic f inite automaton |
+
+# +latex: \end{comment}
+
+
+#+begin_src latex
+\renewcommand{\listtheoremname}{Definitions- und Theoremverzeichnis}
+% \pdfbookmark{\listtheoremname}{listoftheorems}
+% \listoftheorems[ignoreall,show={Lemma,Theorem,Korollar,Definition}]
+\listoftheorems
+#+end_src
+
+
 # +print_bibliography:
 
 #+BEGIN_SRC latex
-\addcontentsline{toc}{section}{Bibliography}
+\addcontentsline{toc}{section}{Literatur}
 \printbibheading
 \printbibliography[type=book,heading=subbibliography,title={Book Sources}]
 \printbibliography[nottype=book,heading=subbibliography,title={Other Sources}]
@@ -968,11 +989,11 @@ maybe add a document or other related but not that important info, listings plot
 % \printbibliography
 #+END_SRC
 
-#+LATEX: \addcontentsline{toc}{section}{Listings}
+#+LATEX: \addcontentsline{toc}{section}{Quelltextverzeichnis}
 #+TOC: listings
 
-#+LATEX: \addcontentsline{toc}{section}{Tables}
+#+LATEX: \addcontentsline{toc}{section}{Tabellenverzeichnis}
 #+TOC: tables
 
-#+LATEX: \addcontentsline{toc}{section}{Figures}
+#+LATEX: \addcontentsline{toc}{section}{Abbildungsverzeichnis}
 #+LATEX: \listoffigures

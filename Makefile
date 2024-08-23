@@ -1,29 +1,47 @@
+SHELL := /bin/zsh
+
+# Extract the export file name from the Org file
+FILENAME := $(shell grep '#+EXPORT_FILE_NAME' thesis.org | cut -d':' -f2 | xargs)
+
 all:
-	rm -fr ./out/*
+	# rm -fr ./out/* || true
+	# if [ "$(ls -A ./out)" ]; then rm -fr ./out/*; fi
+	find ./out/ -mindepth 1 -delete
 
 	# DEBUG=1 doomscript ...
-	doomscript ./org-export-to-latex.el
+	doomscript ./org-export.el
 
-	latexmk -shell-escape -bibtex -pdf thesis-template-in-org-mode.tex
+	latexmk -shell-escape -bibtex -pdf "$(FILENAME).tex"
 
-	@find . -maxdepth 1 -name 'thesis-*.pdf' -exec mv {} ./out/ \; || true
+	@mv "$(FILENAME)".{pdf,html,txt} ./out
 
-	# rm -fr ./thesis-template-in-org-mode.*
-	# latexmk -c
+	# gen gitlab index page
+	@python3 gen-gitlab-index-page.py "$(FILENAME)"
+
 
 c: clean
 
 clean:
-	rm thesis-template-in-org-mode-blx.bib
 	latexmk -c
-	rm -fr ./thesis-template-in-org-mode.*
-	# rm -fr ./out/*
-	rm -fr _minted-thesis-template-in-org-mode
+	rm -f "./$(FILENAME)-blx.bib"
+	rm -f "./$(FILENAME)."*
+	rm -fr "_minted-$(FILENAME)"
+	# ".auctex-auto/"
 
 o: open
 
 open:
-	open ./out/thesis-template-in-org-mode.pdf
+	open "./out/index.html"
+
+op:
+	open "./out/$(FILENAME).pdf"
+
+oh:
+	open "./out/$(FILENAME).html"
+
+cat:
+	open "./out/$(FILENAME).txt"
 
 spell:
-	aspell -c thesis.org
+	# cat thesis.org | aspell --lang=de list | uniq | wc -l
+	aspell --lang=de -c thesis.org

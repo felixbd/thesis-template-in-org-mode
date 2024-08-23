@@ -1,0 +1,2771 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<head>
+<!-- 2024-08-23 Fri 17:57 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Unleashing the Power of GNU/Emacs and Org-Mode</title>
+<meta name="author" content="Felix Drees" />
+<meta name="description" content="tutorial for writing a thesis in gnu/Emacs's org-mode" />
+<meta name="keywords" content="inf cs thesis org latex PDF HTML template" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+          
+          <style>
+          /* From: https://endlessparentheses.com/public/css/endless.css */
+          /* See also: https://meta.superuser.com/questions/4788/css-for-the-new-kbd-style */
+          kbd
+          {
+            -moz-border-radius: 6px;
+            -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            -webkit-border-radius: 6px;
+            -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+            color: #333;
+            display: inline-block;
+            font-family: 'Droid Sans Mono', monospace;
+            font-size: 80%;
+            font-weight: normal;
+            line-height: inherit;
+            margin: 0 .1em;
+            padding: .08em .4em;
+            text-shadow: 0 1px 0 #fff;
+            word-spacing: -4px;
+        
+            box-shadow: 2px 2px 2px #222; /* MA: An extra I've added. */
+          }
+          </style>
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/tooltipster.bundle.min.css"/>
+        
+          <link rel="stylesheet" type="text/css" href="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-punk.min.css" />
+        
+          <script type="text/javascript">
+              if (typeof jQuery == 'undefined') {
+                  document.write(unescape('%3Cscript src="https://code.jquery.com/jquery-1.10.0.min.js"%3E%3C/script%3E'));
+              }
+          </script>
+        
+           <script type="text/javascript"            src="https://alhassy.github.io/org-special-block-extras/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
+        
+            <script>
+                   $(document).ready(function() {
+                       $('.tooltip').tooltipster({
+                           theme: 'tooltipster-punk',
+                           contentAsHTML: true,
+                           animation: 'grow',
+                           delay: [100,500],
+                           // trigger: 'click'
+                           trigger: 'custom',
+                           triggerOpen: {
+                               mouseenter: true
+                           },
+                           triggerClose: {
+                               originClick: true,
+                               scroll: true
+                           }
+           });
+                   });
+               </script>
+        
+          <style>
+             abbr {color: red;}
+        
+             .tooltip { border-bottom: 1px dotted #000;
+                        color:red;
+                        text-decoration: none;}
+          </style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Unleashing the Power of GNU/Emacs and Org-Mode
+<br />
+<span class="subtitle">A Cache of Wisdom for Thesis Writing</span>
+</h1>
+<div class="abstract" id="org4e3093b">
+<p>
+The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis papers.\autocite[see][p. 5]{mac2013categories}
+This article provides a detailed guide on how to seamlessly integrate these tools, facilitating a smooth transition
+between generating HTML and LaTeX documents, as well as PDFs, all from a single Org Mode file. Furthermore, a Nix shell,
+accompanied by a shell.nix file, is introduced to ensure efficient management of the development environment.
+</p>
+
+</div>
+
+<div class="abstract" id="orgba5ebc5">
+<p>
+Die Vereinigung von Doom/Emacs, Org Mode und LaTeX bietet eine leistungsstarke Plattform zur Verfassung eleganter Abschlussarbeiten.
+Dieser Artikel erläutert detailliert, wie man diese Werkzeuge optimal kombiniert, um nahtlos zwischen der Erstellung von HTML- und
+LaTeX-Dokumenten sowie PDFs aus einer einzigen Org-Mode-Datei zu wechseln.  Zusätzlich wird eine Nix-Shell mit einer begleitenden
+shell.nix-Datei vorgestellt, um eine effiziente Verwaltung der Entwicklungs- und Arbeitsumgebung zu gewährleisten.
+</p>
+
+</div>
+
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org9aba496">1. Introduction / Motivation:</a>
+<ul>
+<li><a href="#org405f7b8">1.1. Why bother writing Org-Mode when I can use LaTeX instead?</a>
+<ul>
+<li><a href="#org8ea5c83">1.1.1. The possibilities with Org-Mode are endless!</a></li>
+</ul>
+</li>
+<li><a href="#orga324252">1.2. summery</a>
+<ul>
+<li><a href="#org50f0d48">1.2.1. motivating videos</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org74cf057">2. (Doom) GNU/Emacs setup and configuration</a>
+<ul>
+<li><a href="#orgaca390f">2.1. packages <code>~/.config/doom/package.el</code></a></li>
+<li><a href="#orgcb43ace">2.2. config <code>~/.config/doom/config.el</code></a></li>
+</ul>
+</li>
+<li><a href="#orge7ff39a">3. nix shell environment</a></li>
+<li><a href="#orged253cb">4. start messing around</a></li>
+<li><a href="#org0906540">5. convert python 2 latex</a></li>
+<li><a href="#org19b4ab1">6. Function composition</a></li>
+<li><a href="#org04d1870">7. Some random Proof</a></li>
+<li><a href="#org14ee4f0">8. plotting functions and their root function / derivation</a>
+<ul>
+<li><a href="#orgca067a6">8.1. python</a></li>
+<li><a href="#org80b3695">8.2. tikzpicture</a></li>
+<li><a href="#orgfa7c03d">8.3. org plot</a></li>
+<li><a href="#orgfe9593a">8.4. gnu plot</a></li>
+</ul>
+</li>
+<li><a href="#orgf105d02">9. logic resolution proof</a>
+<ul>
+<li><a href="#org7c03dde">9.1. forward direction (&rarr;)</a></li>
+<li><a href="#orgb2d0739">9.2. back direction (&larr;)</a></li>
+<li><a href="#orgd30ca5f">9.3. both directions (&harr;)</a></li>
+</ul>
+</li>
+<li><a href="#org81eabbc">10. some random appendix</a></li>
+<li><a href="#orgb1ea229">11. TOC's</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org9aba496" class="outline-2">
+<h2 id="org9aba496"><span class="section-number-2">1.</span> Introduction / Motivation:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Embarking on the journey of using GNU/Emacs with Org-Mode for thesis writing may seem like a daunting task, especially if you're unfamiliar with the intricate workings of GNU/Emacs itself. Some may question the need to delve into Org-Mode when alternatives like LaTeX are readily available and widely embraced. However, dismissing the potential of GNU/Emacs and Org-Mode prematurely might mean overlooking a transformative experience that can redefine your approach to document creation.
+</p>
+</div>
+
+
+<div id="outline-container-org405f7b8" class="outline-3">
+<h3 id="org405f7b8"><span class="section-number-3">1.1.</span> Why bother writing Org-Mode when I can use LaTeX instead?</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+While LaTeX is a formidable typesetting system, Org-Mode complements it by offering a more versatile and flexible platform for document creation. Org-Mode's simplicity and ease of use, coupled with the ability to seamlessly integrate LaTeX, provide a unique writing experience that combines the best of both worlds.
+</p>
+</div>
+
+
+<div id="outline-container-org8ea5c83" class="outline-4">
+<h4 id="org8ea5c83"><span class="section-number-4">1.1.1.</span> The possibilities with Org-Mode are endless!</h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgfa9f385"></a>Include and evaluate code:<br />
+<div class="outline-text-5" id="text-1-1-1-1">
+<p>
+Integrate code seamlessly within your document, making it a dynamic and interactive platform for technical content.
+</p>
+</div>
+</li>
+
+
+<li><a id="orga4b0e67"></a>Write LaTeX in a more relaxed surrounding:<br />
+<div class="outline-text-5" id="text-1-1-1-2">
+<p>
+Org-Mode simplifies the LaTeX integration, providing a more user-friendly and intuitive environment for crafting your documents.
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orga324252" class="outline-3">
+<h3 id="orga324252"><span class="section-number-3">1.2.</span> summery</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+For this tutorial, we will be using a distribution of GNU/Emacs called DOOM Emacs.  Additionally, on our GNU/Linux platform, we'll leverage a package manager known as Nix to generate an environment for building both PDF and HTML versions of your thesis.  This powerful combination of tools will enhance your writing experience and streamline the process of creating, editing, and compiling your thesis documents.
+</p>
+</div>
+
+
+<div id="outline-container-org50f0d48" class="outline-4">
+<h4 id="org50f0d48"><span class="section-number-4">1.2.1.</span> motivating videos</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li><a href="https://youtu.be/BAFZ-vTnfSo?feature=shared">Literate Documentation with Emacs and Org Mode</a></li>
+<li><a href="https://youtu.be/0g9BcZvQbXU?feature=shared">Consistent Technical Documents Using Emacs and Org Mode</a></li>
+<li><a href="https://youtu.be/cklJ58i-HUY?feature=shared">EmacsConf 2023: Authoring and presenting university courses with Emacs and a full libre software &#x2026;</a></li>
+<li><a href="https://www.youtube.com/live/vz9aLmxYJB0?feature=shared">Emacs Tips - How to Give Presentations with Org Mode</a></li>
+<li><a href="https://youtu.be/YmQ1CYMz-OY?feature=shared">EmacsConf 2022: Health data journaling and visualization with Org Mode and GNUplot - David O'Toole</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-org74cf057" class="outline-2">
+<h2 id="org74cf057"><span class="section-number-2">2.</span> (Doom) GNU/Emacs setup and configuration</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Start by installing Doom Emacs.
+</p>
+
+<p>
+<a href="https://youtu.be/37H7bD-G7nE?feature=shared">https://youtu.be/37H7bD-G7nE?feature=shared</a>
+</p>
+</div>
+
+
+<div id="outline-container-orgaca390f" class="outline-3">
+<h3 id="orgaca390f"><span class="section-number-3">2.1.</span> packages <code>~/.config/doom/package.el</code></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+After installing Doom Emacs - follow up by installing useful packages.
+If you are not familiar with Doom Emacs's <code>evil</code> mode (which is a vim style set of key bindings in Emacs),
+it might be a good idea to install <code>evil-tutor</code> and check out the tutorial for <code>evil</code> mode.
+</p>
+
+<p>
+The <code>pdf-tools</code> (optional for this tutorial) will give you additional functionality for working with PDF documents in Doom Emacs, the most important being the support for viewing the PDF document in a Emacs buffer.
+</p>
+
+<p>
+Finlay install <code>org-special-block-extras</code> for additional <code>org-mode</code> blocks for math and other usefull stuff.
+</p>
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+If you want to use the special blocks in you current org mode session - do not forget to enable it with:
+<abbr class="tooltip" style="border: none; text-decoration: none;" title="M-x ∷ execute-extended-command<br>Read a command name, then read the arguments and call the command.<br>To pass a prefix argument to the command you are<br>invoking, give a prefix argument to ‘execute-extended-command’.<br><br>This command provides completion when reading the command name.<br>Which completion candidates are shown can be controlled by<br>customizing ‘read-extended-command-predicate’.<br><br>(fn PREFIXARG &optional COMMAND-NAME TYPED)"><kbd style="border-color: red">M-x</kbd></abbr> <code>org-special-block-extras-mode</code>
+</p>
+
+</div>
+
+<div class="org-src-container">
+<pre class="src src-sh" id="org59f63e2"><span style="font-weight: bold; text-decoration: underline;">grep</span> <span style="font-style: italic;">"^(package"</span> ~/.config/doom/packages.el | sed <span style="font-style: italic;">'s/).*//; s/$/)/'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="font-weight: bold;">package!</span> evil-tutor)
+(<span style="font-weight: bold;">package!</span> pdf-tools)
+(<span style="font-weight: bold;">package!</span> org-special-block-extras)
+(<span style="font-weight: bold;">package!</span> gnuplot)
+(<span style="font-weight: bold;">package!</span> gnuplot-mode)
+(<span style="font-weight: bold;">package!</span> smex)
+(<span style="font-weight: bold;">package!</span> fireplace)
+</pre>
+</div>
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+Do not forget to <code>doom sync</code> after adding new packages to your <code>package.el</code> file and reload Emacs.
+</p>
+
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgcb43ace" class="outline-3">
+<h3 id="orgcb43ace"><span class="section-number-3">2.2.</span> config <code>~/.config/doom/config.el</code></h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+To complete the Doom Emacs setup / configuration you only have to addapt your <code>config.el</code> file.
+We will now add the <code>koma</code> latex document classes and add support for code highlighting.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh" id="org1c1d4da"><span style="font-weight: bold; text-decoration: underline;">grep</span> -v <span style="font-style: italic;">'^\s*;'</span> ~/.config/doom/config.el | awk <span style="font-style: italic;">'NF {print $0; blank=0} !NF &amp;&amp; !blank {print ""; blank=1}'</span>
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">sed '/^$/N;/^\n$/D;P;D'</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+(global-set-key (kbd <span style="font-style: italic;">"C-x &lt;up&gt;"</span>) 'windmove-up)
+(global-set-key (kbd <span style="font-style: italic;">"C-x &lt;down&gt;"</span>) 'windmove-down)
+(global-set-key (kbd <span style="font-style: italic;">"C-x &lt;left&gt;"</span>) 'windmove-left)
+(global-set-key (kbd <span style="font-style: italic;">"C-x &lt;right&gt;"</span>) 'windmove-right)
+
+(ido-mode <span style="font-weight: bold; text-decoration: underline;">1</span>)
+(ido-everywhere <span style="font-weight: bold; text-decoration: underline;">1</span>)
+
+(<span style="font-weight: bold;">setq</span> tramp-auto-save-directory <span style="font-style: italic;">"/tmp"</span>)
+
+(advice-add 'highlight-indent-guides-auto-set-faces <span style="font-weight: bold;">:override</span> #'ignore)
+
+(<span style="font-weight: bold;">setq</span> debug-on-error t)
+
+(remove-hook 'prog-mode-hook #'yas-minor-mode)
+(remove-hook 'text-mode-hook #'yas-minor-mode)
+
+(set-face-attribute 'default nil <span style="font-weight: bold;">:family</span> <span style="font-style: italic;">"Fira Code"</span> <span style="font-weight: bold;">:height</span> <span style="font-weight: bold; text-decoration: underline;">120</span>)
+
+(<span style="font-weight: bold;">after!</span> org
+
+  (<span style="font-weight: bold;">setq</span> org-babel-min-lines-for-block-output <span style="font-weight: bold; text-decoration: underline;">0</span>)
+  (<span style="font-weight: bold;">setq</span> org-babel-default-header-args
+        (cons '(<span style="font-weight: bold;">:session</span> . <span style="font-style: italic;">"none"</span>)
+              (assq-delete-all <span style="font-weight: bold;">:session</span> org-babel-default-header-args)))
+
+  (add-hook #'org-mode-hook #'org-special-block-extras-mode)
+
+  (<span style="font-weight: bold;">setq</span> org-ascii-text-width <span style="font-weight: bold; text-decoration: underline;">120</span>)
+
+  (<span style="font-weight: bold;">setq</span> org-latex-listings 'minted
+        org-latex-packages-alist '((<span style="font-style: italic;">""</span> <span style="font-style: italic;">"minted"</span>))
+        org-latex-pdf-process
+        '(<span style="font-style: italic;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>
+          <span style="font-style: italic;">"pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"</span>))
+
+  (<span style="font-weight: bold;">setq</span> org-latex-minted-options '((<span style="font-style: italic;">"frame"</span> <span style="font-style: italic;">"lines"</span>)
+                                   (<span style="font-style: italic;">"linenos"</span> <span style="font-style: italic;">"true"</span>)
+                                   (<span style="font-style: italic;">"fontsize"</span> <span style="font-style: italic;">"\\small"</span>)
+                                   (<span style="font-style: italic;">"breaklines"</span> <span style="font-style: italic;">"true"</span>)
+                                   (<span style="font-style: italic;">"breakanywhere"</span> <span style="font-style: italic;">"true"</span>)
+                                   (<span style="font-style: italic;">"tabsize"</span> <span style="font-style: italic;">"4"</span>)))
+
+  (<span style="font-weight: bold;">setq</span> org-latex-classes
+        '((<span style="font-style: italic;">"article"</span> <span style="font-style: italic;">"\\documentclass[11pt]{article}"</span>
+           (<span style="font-style: italic;">"\\section{%s}"</span> . <span style="font-style: italic;">"\\section*{%s}"</span>)
+           (<span style="font-style: italic;">"\\subsection{%s}"</span> . <span style="font-style: italic;">"\\subsection*{%s}"</span>)
+           (<span style="font-style: italic;">"\\subsubsection{%s}"</span> . <span style="font-style: italic;">"\\subsubsection*{%s}"</span>)
+           (<span style="font-style: italic;">"\\paragraph{%s}"</span> . <span style="font-style: italic;">"\\paragraph*{%s}"</span>)
+           (<span style="font-style: italic;">"\\subparagraph{%s}"</span> . <span style="font-style: italic;">"\\subparagraph*{%s}"</span>))))
+
+  (add-to-list 'org-latex-classes
+               '(<span style="font-style: italic;">"koma-book"</span> <span style="font-style: italic;">"\\documentclass{scrbook}"</span>
+                 (<span style="font-style: italic;">"\\chapter{%s}"</span> . <span style="font-style: italic;">"\\chapter*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\section{%s}"</span> . <span style="font-style: italic;">"\\section*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subsection{%s}"</span> . <span style="font-style: italic;">"\\subsection*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subsubsection{%s}"</span> . <span style="font-style: italic;">"\\subsubsection*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\paragraph{%s}"</span> . <span style="font-style: italic;">"\\paragraph*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subparagraph{%s}"</span> . <span style="font-style: italic;">"\\subparagraph*{%s}"</span>)))
+
+  (add-to-list 'org-latex-classes
+               '(<span style="font-style: italic;">"koma-article"</span>
+                 <span style="font-style: italic;">"\\documentclass{scrartcl}"</span>
+                 (<span style="font-style: italic;">"\\section{%s}"</span> . <span style="font-style: italic;">"\\section*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subsection{%s}"</span> . <span style="font-style: italic;">"\\subsection*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subsubsection{%s}"</span> . <span style="font-style: italic;">"\\subsubsection*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\paragraph{%s}"</span> . <span style="font-style: italic;">"\\paragraph*{%s}"</span>)
+                 (<span style="font-style: italic;">"\\subparagraph{%s}"</span> . <span style="font-style: italic;">"\\subparagraph*{%s}"</span>)))
+  )
+
+(<span style="font-weight: bold;">setq</span> doom-theme 'doom-one)
+
+(<span style="font-weight: bold;">setq</span> display-line-numbers-type 'relative)
+
+(<span style="font-weight: bold;">setq</span> org-directory <span style="font-style: italic;">"~/org/"</span>)
+
+</pre>
+</div>
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Note</h3> 
+<p>
+Before running <kbd style="">SPC-h-r-r</kbd> (M-x doom/reload) - either wait for the <code>nix</code> <code>env</code> setup or
+install <code>pygments</code> yourself via <code>pip3 install pygments</code>.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge7ff39a" class="outline-2">
+<h2 id="orge7ff39a"><span class="section-number-2">3.</span> nix shell environment</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Now that Emacs is ready - we can procued by declaring an <code>shell.nix</code> environment file, in which we will
+specify all the  packages we will use for compiling the <code>org-mode</code> file and all library's and other stuff used in the thesis (e.g. <code>numpy</code> <code>python</code> <code>haskell</code>).
+</p>
+
+<p>
+We will use <code>gnuplot</code> for plotting stuff, <code>graphics</code> for generating nice graphs in the <code>dot</code> language.
+In addition we need <code>texlive</code> and therefore can use <code>tikz</code> to generate nice plots/graphs.
+Last but not least, we install the <code>pygments</code> lib we are using for highlighting the code blocks in addition to the
+<code>python</code> packages used in the source code in the thesis.
+</p>
+
+<p>
+If you want to install <code>haskell</code> or <code>R</code> for your thesis and haven't done so system wide - this might be a good opportunity to add the software.
+</p>
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Install Nix (the package manager)</h3> 
+
+<div class="org-src-container">
+<pre class="src src-shell">sh &lt;(<span style="font-weight: bold; text-decoration: underline;">curl</span> -L https://nixos.org/nix/install) --daemon
+</pre>
+</div>
+
+<p>
+<a href="https://nixos.org/download">https://nixos.org/download</a>
+</p>
+
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span><code>nix-shell</code> config for generating a build environment</label><pre class="src src-sh" id="org68f1779"><span style="font-weight: bold; text-decoration: underline;">cat</span> shell.nix
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-nix">{ pkgs ? <span style="font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">&lt;nixpkgs&gt;</span> {} }:
+
+pkgs.mkShell {
+  <span style="font-weight: bold; font-style: italic;">buildInputs</span> = <span style="font-weight: bold;">with</span> pkgs; [
+    (python312.withPackages(ps: <span style="font-weight: bold;">with</span> ps; [
+      numpy         <span style="font-weight: bold; font-style: italic;"># for math</span>
+      <span style="font-weight: bold; font-style: italic;"># latexify-py   # for converting python funcs to latex</span>
+      scipy         <span style="font-weight: bold; font-style: italic;"># for math and physics</span>
+      pygments      <span style="font-weight: bold; font-style: italic;"># for syntax highlighting</span>
+      matplotlib    <span style="font-weight: bold; font-style: italic;"># for plotting</span>
+      seaborn       <span style="font-weight: bold; font-style: italic;"># for plotting</span>
+      scikit-learn  <span style="font-weight: bold; font-style: italic;"># for ml stuff</span>
+    ]))
+    <span style="font-weight: bold; font-style: italic;"># texlive.combined.scheme-full</span>
+    graphviz
+    gnuplot
+  ];
+
+  <span style="font-weight: bold; font-style: italic;">shellHook</span> = <span style="font-style: italic;">''</span>
+<span style="font-style: italic;">    echo "entering dev environment"</span>
+<span style="font-style: italic;">  ''</span>;
+}
+</pre>
+</div>
+
+
+<p>
+Run <code>nix-shell</code> to enter the now defined development environment.
+</p>
+
+<p>
+After entering our specified environment - you can run <code>make doom</code> to start Doom Emacs.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orged253cb" class="outline-2">
+<h2 id="orged253cb"><span class="section-number-2">4.</span> start messing around</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Since everything should be ready by now - please feel free to mess around with the <code>thesis.org</code> file within Emacs.
+</p>
+
+<ol class="org-ol">
+<li><p>
+start the nix development environment
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">nix-shell  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">schould open a nix shell with all the packages defined in the local shell.nix config</span>
+</pre>
+</div></li>
+
+<li><p>
+open doom Emacs form within the development environment
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">doom run &amp;
+</pre>
+</div></li>
+
+<li><p>
+open <code>thesis.org</code>
+</p>
+
+<p>
+in doom Emacs, you could either open a file with <abbr class="tooltip" style="border: none; text-decoration: none;" title="M-x ∷ execute-extended-command<br>Read a command name, then read the arguments and call the command.<br>To pass a prefix argument to the command you are<br>invoking, give a prefix argument to ‘execute-extended-command’.<br><br>This command provides completion when reading the command name.<br>Which completion candidates are shown can be controlled by<br>customizing ‘read-extended-command-predicate’.<br><br>(fn PREFIXARG &optional COMMAND-NAME TYPED)"><kbd style="border-color: red">M-x</kbd></abbr> <code>dired</code> or by using <code>SPC-.</code>
+</p></li>
+
+<li><p>
+mess around
+</p>
+
+<p>
+Finlay adapt the <code>thesis.org</code> file for your needs or just explore the file from within Emacs.
+</p></li>
+</ol>
+
+
+<div style="padding: 1em;background-color: #CCFFCC;border-radius: 15px;font-size: 0.9em;"> <h3>Export to HTML and PDF</h3> 
+<p>
+You can export your derivative with the key binding: <abbr class="tooltip" style="border: none; text-decoration: none;" title="C-c ∷ (keymap (keymap (36 . flyspell-correct-word-before-point)) (keymap (keymap (22 keymap (27 keymap (8 . org-babel-mark-block)) (107 . org-babel-remove-result-one-or-many) (120 . org-babel-do-key-sequence-in-edit-buffer) (24 . org-babel-do-key-sequence-in-edit-buffer) (104 . org-babel-describe-bindings) (97 . org-babel-sha1-hash) (1 . org-babel-sha1-hash) (122 . org-babel-switch-to-session-with-code) (26 . org-babel-switch-to-session) (73 . org-babel-view-src-block-info) (105 . org-babel-lob-ingest) (9 . org-babel-view-src-block-info) (108 . org-babel-load-in-session) (12 . org-babel-load-in-session) (106 . org-babel-insert-header-arg) (10 . org-babel-insert-header-arg) (99 . org-babel-check-src-block) (3 . org-babel-check-src-block) (102 . org-babel-tangle-file) (6 . org-babel-tangle-file) (116 . org-babel-tangle) (20 . org-babel-tangle) (100 . org-babel-demarcate-block) (4 . org-babel-demarcate-block) (115 . org-babel-execute-subtree) (19 . org-babel-execute-subtree) (98 . org-babel-execute-buffer) (2 . org-babel-execute-buffer) (18 . org-babel-goto-named-result) (114 . org-babel-goto-named-result) (103 . org-babel-goto-named-src-block) (21 . org-babel-goto-src-block-head) (117 . org-babel-goto-src-block-head) (118 . org-babel-expand-src-block) (22 . org-babel-expand-src-block) (15 . org-babel-open-src-block-result) (111 . org-babel-open-src-block-result) (5 . org-babel-execute-maybe) (101 . org-babel-execute-maybe) (14 . org-babel-next-src-block) (110 . org-babel-next-src-block) (16 . org-babel-previous-src-block) (112 . org-babel-previous-src-block)) (67108908 . org-insert-structure-template) (67108906 . org-list-make-subtree) (64 . org-mark-subtree) (58 . org-toggle-fixed-width) (5 . org-export-dispatch) (123 . org-table-toggle-formula-debugger) (125 . org-table-toggle-coordinate-overlays) (1 . org-attach) (126 . org-table-create-with-table.el) (124 . org-table-create-or-convert-from-region) (34 keymap (103 . org-plot/gnuplot) (97 . orgtbl-ascii-plot)) (96 . org-table-edit-field) (39 . org-edit-special) (61 . org-table-eval-formula) (43 . org-table-sum) (63 . org-table-field-info) (35 . org-update-statistics-cookies) (11 . org-kill-note-or-show-branches) (3 . org-ctrl-c-ctrl-c) (94 . org-sort) (9 . org-ctrl-c-tab) (42 . org-ctrl-c-star) (45 . org-ctrl-c-minus) (93 . org-remove-file) (91 . org-agenda-file-to-front) (60 . org-date-from-calendar) (62 . org-goto-calendar) (25 . org-evaluate-time-range) (44 . org-priority) (33 . org-time-stamp-inactive) (46 . org-time-stamp) (26 . org-add-note) (38 . org-mark-ring-goto) (37 . org-mark-ring-push) (15 . org-open-at-point) (12 . org-insert-link) (13 . org-ctrl-c-ret) (92 . org-match-sparse-tree) (47 . org-sparse-tree) (23 . org-refile) (59 . org-toggle-comment) (4 . org-deadline) (19 . org-schedule) (17 . org-set-tags-command) (20 . org-todo) (10 . org-goto) (36 . org-archive-subtree) (27 keymap (12 . org-insert-all-links) (108 . org-insert-last-stored-link) (23 . org-refile-reverse) (119 . org-refile-copy) (98 . org-previous-block) (102 . org-next-block)) (2 . org-backward-heading-same-level) (6 . org-forward-heading-same-level) (31 . org-down-element) (30 . org-up-element) (18 . org-fold-reveal) (right . org-shiftright) (left . org-shiftleft) (down . org-shiftdown) (up . org-shiftup) (C-tab . org-cycle-force-archived) (24 keymap (73 . org-info-find-node) (91 . org-reftex-citation) (64 . org-cite-insert) (71 . org-feed-goto-inbox) (103 . org-feed-update-all) (33 . org-reload) (3 . org-columns) (44 . org-timer-pause-or-continue) (59 . org-timer-set-timer) (95 . org-timer-stop) (48 . org-timer-start) (45 . org-timer-item) (46 . org-timer) (111 . org-toggle-ordered-property) (69 . org-inc-effort) (101 . org-set-effort) (80 . org-set-property-and-value) (112 . org-set-property) (18 . org-toggle-radio-button) (2 . org-toggle-checkbox) (92 . org-toggle-pretty-entities) (22 . org-toggle-inline-images) (12 . org-latex-preview) (21 . org-dblock-update) (120 . org-dynamic-block-insert-dblock) (4 . org-clock-display) (17 . org-clock-cancel) (10 . org-clock-goto) (15 . org-clock-out) (26 . org-resolve-clocks) (24 . org-clock-in-last) (9 . org-clock-in) (20 . org-toggle-time-stamp-overlays) (25 . org-paste-special) (27 keymap (22 . org-redisplay-inline-images) (119 . org-copy-special)) (23 . org-cut-special) (102 . org-footnote-action) (6 . org-emphasize) (62 . org-agenda-remove-restriction-lock) (60 . org-agenda-set-restriction-lock) (16 . org-previous-link) (14 . org-next-link) (118 . org-copy-visible) (113 . org-toggle-tags-groups) (98 . org-tree-to-indirect-buffer) (65 . org-archive-to-archive-sibling) (97 . org-toggle-archive-tag) (1 . org-archive-subtree-default) (19 . org-archive-subtree) (left . org-shiftcontrolleft) (right . org-shiftcontrolright) (68 . org-shiftmetadown) (85 . org-shiftmetaup) (82 . org-shiftmetaright) (76 . org-shiftmetaleft) (100 . org-insert-drawer) (117 . org-metaup) (114 . org-metaright) (108 . org-metaleft) (13 . org-meta-return) (77 . org-insert-todo-heading) (109 . org-meta-return) (99 . org-clone-subtree-with-time-shift))) keymap (13 . outline-insert-heading) (67108926 . outline-demote) (67108924 . outline-promote) (22 . outline-move-subtree-down) (30 . outline-move-subtree-up) (15 . outline-hide-other) (17 . outline-hide-sublevels) (11 . outline-show-branches) (12 . outline-hide-leaves) (5 . outline-show-entry) (3 . outline-hide-entry) (1 . outline-show-all) (20 . outline-hide-body) (2 . outline-backward-same-level) (6 . outline-forward-same-level) (21 . outline-up-heading) (4 . outline-hide-subtree) (19 . outline-show-subtree) (9 . outline-show-children) (16 . outline-previous-visible-heading) (14 . outline-next-visible-heading) (64 . outline-mark-subtree)) mode-specific-command-prefix)<br>Prefix command (definition is a keymap associating keystrokes with commands)."><kbd style="border-color: red">C-c</kbd></abbr> <abbr class="tooltip" style="border: none; text-decoration: none;" title="C-e ∷ evil-scroll-line-down<br>Scroll the window COUNT lines downwards.<br><br>(fn COUNT)"><kbd style="border-color: red">C-e</kbd></abbr>
+</p>
+
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0906540" class="outline-2">
+<h2 id="org0906540"><span class="section-number-2">5.</span> convert python 2 latex</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-python" id="org2ea9830"><span style="font-weight: bold;">import</span> math
+<span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+<span style="font-weight: bold;">import</span> sys
+<span style="font-weight: bold;">import</span> scipy
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">import latexify</span>
+</pre>
+</div>
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> table of library's with corresponding version</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">python: sys.version</td>
+<td class="org-left">'3.12.3 (main, Apr  9 2024, 08:09:14) [GCC 13.2.0]'</td>
+</tr>
+
+<tr>
+<td class="org-left">np._<sub>version</sub>__</td>
+<td class="org-left">'1.26.4'</td>
+</tr>
+
+<tr>
+<td class="org-left">scipy._<sub>version</sub>__</td>
+<td class="org-left">'1.13.0'</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+With the imported library's, we can now convert a <code>python</code> function to <code>latex</code>
+</p>
+
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>code block containing prime checking functions</label><pre class="src src-python" id="org641f9ac"><span id="coderef-recHelperRef" class="coderef-off"><span class="linenr"> 1: </span><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">recHelper</span>(x: <span style="font-weight: bold;">int</span>, d: <span style="font-weight: bold;">int</span> = <span style="font-weight: bold; text-decoration: underline;">3</span>) -&gt; <span style="font-weight: bold;">int</span>:</span>
+<span class="linenr"> 2: </span>    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">forall x in [3, infty)</span>
+<span class="linenr"> 3: </span>    <span style="font-weight: bold;">if</span> x % <span style="font-weight: bold; text-decoration: underline;">2</span> == <span style="font-weight: bold; text-decoration: underline;">0</span>:
+<span class="linenr"> 4: </span>        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">0</span>
+<span class="linenr"> 5: </span>    <span style="font-weight: bold;">elif</span> d &gt; math.floor(math.sqrt(x)):
+<span class="linenr"> 6: </span>        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">1</span>
+<span class="linenr"> 7: </span>    <span style="font-weight: bold;">elif</span> x % d == <span style="font-weight: bold; text-decoration: underline;">0</span>:
+<span class="linenr"> 8: </span>        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">0</span>
+<span class="linenr"> 9: </span>    <span style="font-weight: bold;">else</span>:
+<span class="linenr">10: </span>        <span style="font-weight: bold;">return</span> recHelper(x, d + <span style="font-weight: bold; text-decoration: underline;">2</span>)
+<span class="linenr">11: </span>
+<span id="coderef-isPrimeRef" class="coderef-off"><span class="linenr">12: </span><span style="font-weight: bold;">def</span> <span style="font-weight: bold;">isPrime</span>(x: <span style="font-weight: bold;">int</span>) -&gt; <span style="font-weight: bold;">int</span>:</span>
+<span class="linenr">13: </span>    <span style="font-weight: bold;">if</span> x &lt;= <span style="font-weight: bold; text-decoration: underline;">1</span>:  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">forall x in (infty, 1] : 1</span>
+<span class="linenr">14: </span>        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">0</span>
+<span class="linenr">15: </span>    <span style="font-weight: bold;">elif</span> x == <span style="font-weight: bold; text-decoration: underline;">2</span>:
+<span class="linenr">16: </span>        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">1</span>
+<span class="linenr">17: </span>    <span style="font-weight: bold;">else</span>:  <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">forall x in (2, infty)</span>
+<span class="linenr">18: </span>        <span style="font-weight: bold;">return</span> recHelper(x, <span style="font-weight: bold; text-decoration: underline;">3</span>)
+</pre>
+</div>
+
+
+<p>
+In line <a href="#coderef-isPrimeRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-isPrimeRef');" onmouseout="CodeHighlightOff(this, 'coderef-isPrimeRef');">12</a> is the main definition of the recursive basecase.
+<a href="#coderef-recHelperRef" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-recHelperRef');" onmouseout="CodeHighlightOff(this, 'coderef-recHelperRef');">Line 1</a> starts by declaring a recursive helper for the main prime checking function.
+</p>
+
+
+<p>
+\[ \mathrm{isPrime}(x) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \le {1}} \\ {1}, & \mathrm{if} \ {x = {2}} \\ \mathrm{recHelper}\left(x, {3}\right), & \mathrm{otherwise} \end{array} \right. \]
+<br />
+\[ \mathrm{recHelper}(x, d) = \left\{ \begin{array}{ll} {0}, & \mathrm{if} \ {x \mathbin{\%} {2} = {0}} \\ {1}, & \mathrm{if} \ {d > \left\lfloor{\sqrt{x}}\right\rfloor} \\ {0}, & \mathrm{if} \ {x \mathbin{\%} d = {0}} \\ \mathrm{recHelper}\left(x, d + {2}\right), & \mathrm{otherwise} \end{array} \right. \]
+</p>
+
+
+
+<p>
+Now we can call the <code>isPrime</code> function with the parameter <code>5</code> and <code>6</code>:
+</p>
+
+<ul class="org-ul">
+<li>is <code>5</code> a prime number? result of <code>isPrime</code> function: <code>True</code></li>
+<li>is <code>6</code> a prime number? result of <code>isPrime</code> function: <code>False</code></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org19b4ab1" class="outline-2">
+<h2 id="org19b4ab1"><span class="section-number-2">6.</span> Function composition</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Graph using the <code>dot</code> language
+</p>
+
+<div class="org-src-container">
+<pre class="src src-dot" id="org94a8e79">digraph G {
+    node [shape=circle, fontname="Courier", fontsize=16]
+    edge [fontname="Courier", fontsize=16]
+    A:nw -&gt; A [label="id"]
+    A -&gt; B [label="f"]
+    B -&gt; C [label="g"]
+    A -&gt; C [xlabel="g . f "]
+    {rank=same; A B}
+}
+</pre>
+</div>
+
+
+<div id="orgb5fbac5" class="figure">
+<p><img src="./img-gen-dir/function-composition.png" alt="function-composition.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>function composition and identity</p>
+</div>
+
+
+<p>
+Graph using latex <code>tikz picture</code>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org04d1870" class="outline-2">
+<h2 id="org04d1870"><span class="section-number-2">7.</span> Some random Proof</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Let
+</p>
+
+<p>
+\[ A = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} \in \mathbb{R}^{3 \times 3}. \]
+</p>
+
+<p>
+Proof that the following applies to all \(\beta \in \mathbb{N}_{>0}\) :
+</p>
+
+<p>
+\[ A^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix}. \]
+</p>
+
+<p>
+\enquote{Matrix multiplication as composition | Chapter 4, Essence of linear algebra} <sup><a id="fnr.1" class="footref" href="#fn.1" role="doc-backlink">1</a></sup>
+The Matrix \(A\) can also be interpreted as a linear transformation in \(\R^3\).
+</p>
+
+
+<p>
+This interpretation makes it easier to understand the theorem to be proven, and makes it seem almost trivial.
+</p>
+
+
+
+<p>
+\[ \text{With} \vec{i} = (1, 0, \beta)^T \text{ and } \vec{j} = (0, 1, 0)^T \text{ and } \vec{k} = (0, 0, 1)^T. \]
+</p>
+
+<p>
+This means that only the \(x\) coordinate is transformed.
+No matter how often you exponentiate this transformation, the \(y\) and \(z\) axes will not change, but the \(x\) axis will increasingly approach the \(y\) axis.
+</p>
+
+<p>
+\(\mathrm{Z\kern-.3em\raise-0.5ex\hbox{Z}}\)
+</p>
+
+<p>
+\[ \forall \beta \in \N^* \mid \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
+</p>
+
+
+<div class="proof" id="org4ff145b">
+<p>
+
+</p>
+
+<p>
+\induction{\beta}
+</p>
+
+<p>
+\indv
+</p>
+
+<p>
+\[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \]
+</p>
+
+
+
+<p>
+\vspace{1cm}
+</p>
+
+<p>
+\rem
+</p>
+
+\begin{quote}
+    $~~$\\
+    \indb{\beta}{0} is also a valid starting point ...
+\end{quote}
+
+
+<p>
+\vspace{1cm}
+</p>
+
+
+<p>
+\indb{\beta}{1}
+</p>
+
+<p>
+\[ \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^1 = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} \]
+</p>
+
+<p>
+\inds{\beta}
+</p>
+
+\begin{align}
+    \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^{\beta + 1} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+    \Leftrightarrow \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix}^\beta \cdot \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+    \xLeftrightarrow{\star} \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta & 0 & 1 \end{pmatrix} \cdot \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ (\beta + 1) & 0 & 1 \end{pmatrix} \\
+    \Leftrightarrow \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix} &= \begin{pmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ \beta + 1 & 0 & 1 \end{pmatrix}
+\end{align}
+
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org14ee4f0" class="outline-2">
+<h2 id="org14ee4f0"><span class="section-number-2">8.</span> plotting functions and their root function / derivation</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-orgca067a6" class="outline-3">
+<h3 id="orgca067a6"><span class="section-number-3">8.1.</span> python</h3>
+<div class="outline-text-3" id="text-8-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+<span style="font-weight: bold;">import</span> matplotlib.pyplot <span style="font-weight: bold;">as</span> plt
+<span style="font-weight: bold;">import</span> seaborn <span style="font-weight: bold;">as</span> sns
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Set seed for reproducibility</span>
+np.random.seed(<span style="font-weight: bold; text-decoration: underline;">42</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Generate random 5x5 covariance matrix</span>
+<span style="font-weight: bold; font-style: italic;">cov_matrix</span> = np.random.rand(<span style="font-weight: bold; text-decoration: underline;">5</span>, <span style="font-weight: bold; text-decoration: underline;">5</span>)
+<span style="font-weight: bold; font-style: italic;">cov_matrix</span> = np.dot(cov_matrix, cov_matrix.T)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Generate random data with the specified covariance matrix</span>
+<span style="font-weight: bold; font-style: italic;">data</span> = np.random.multivariate_normal(mean=[<span style="font-weight: bold; text-decoration: underline;">0</span>, <span style="font-weight: bold; text-decoration: underline;">0</span>, <span style="font-weight: bold; text-decoration: underline;">0</span>, <span style="font-weight: bold; text-decoration: underline;">0</span>, <span style="font-weight: bold; text-decoration: underline;">0</span>], cov=cov_matrix, size=<span style="font-weight: bold; text-decoration: underline;">100</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create scatter plot</span>
+plt.figure(figsize=(<span style="font-weight: bold; text-decoration: underline;">12</span>, <span style="font-weight: bold; text-decoration: underline;">6</span>))
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Scatter plot</span>
+plt.subplot(<span style="font-weight: bold; text-decoration: underline;">1</span>, <span style="font-weight: bold; text-decoration: underline;">3</span>, <span style="font-weight: bold; text-decoration: underline;">1</span>)
+sns.scatterplot(x=data[:, <span style="font-weight: bold; text-decoration: underline;">0</span>], y=data[:, <span style="font-weight: bold; text-decoration: underline;">1</span>])
+plt.title(<span style="font-style: italic;">'Scatter Plot'</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Box plot</span>
+plt.subplot(<span style="font-weight: bold; text-decoration: underline;">1</span>, <span style="font-weight: bold; text-decoration: underline;">3</span>, <span style="font-weight: bold; text-decoration: underline;">2</span>)
+sns.boxplot(data=data)
+plt.title(<span style="font-style: italic;">'Box Plot'</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Violin plot</span>
+plt.subplot(<span style="font-weight: bold; text-decoration: underline;">1</span>, <span style="font-weight: bold; text-decoration: underline;">3</span>, <span style="font-weight: bold; text-decoration: underline;">3</span>)
+sns.violinplot(data=data, inner=<span style="font-style: italic;">'quartile'</span>, palette=<span style="font-style: italic;">'muted'</span>)
+plt.title(<span style="font-style: italic;">'Violin Plot'</span>)
+
+plt.tight_layout()
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">plt.show()</span>
+plt.savefig(<span style="font-style: italic;">"./img-gen-dirrandom-py-plot.png"</span>)
+</pre>
+</div>
+
+
+
+<div id="orgf92d484" class="figure">
+<p><img src="./img-gen-dir/random-py-plot.png" alt="Some random python functiono plot" width="600px" />
+</p>
+<p><span class="figure-number">Figure 2: </span>python function plot</p>
+</div>
+
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">import</span> seaborn <span style="font-weight: bold;">as</span> sns
+<span style="font-weight: bold;">import</span> matplotlib.pyplot <span style="font-weight: bold;">as</span> plt
+<span style="font-weight: bold;">from</span> sklearn.datasets <span style="font-weight: bold;">import</span> load_iris
+<span style="font-weight: bold;">import</span> numpy <span style="font-weight: bold;">as</span> np
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Load the Iris dataset from scikit-learn</span>
+<span style="font-weight: bold; font-style: italic;">iris</span> = load_iris()
+<span style="font-weight: bold; font-style: italic;">iris_data</span> = iris.data
+<span style="font-weight: bold; font-style: italic;">iris_feature_names</span> = iris.feature_names
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create a covariance matrix</span>
+<span style="font-weight: bold; font-style: italic;">cov_matrix</span> = np.cov(iris_data, rowvar=<span style="font-weight: bold; text-decoration: underline;">False</span>)
+
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create a heatmap using Seaborn</span>
+plt.figure(figsize=(<span style="font-weight: bold; text-decoration: underline;">8</span>, <span style="font-weight: bold; text-decoration: underline;">6</span>))
+sns.heatmap(cov_matrix, annot=<span style="font-weight: bold; text-decoration: underline;">True</span>, cmap=<span style="font-style: italic;">'coolwarm'</span>, xticklabels=iris_feature_names, yticklabels=iris_feature_names)
+plt.title(<span style="font-style: italic;">'Covariance Matrix of Iris Dataset Features'</span>)
+<span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">plt.show()</span>
+plt.savefig(<span style="font-style: italic;">"./img-gen-dir/random-covariance-fig.png"</span>)
+</pre>
+</div>
+
+
+
+<div id="orgbef0b09" class="figure">
+<p><img src="./img-gen-dir/random-covariance-fig.png" alt="random-covariance-fig.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org80b3695" class="outline-3">
+<h3 id="org80b3695"><span class="section-number-3">8.2.</span> tikzpicture</h3>
+<div class="outline-text-3" id="text-8-2">
+</div>
+</div>
+
+
+<div id="outline-container-orgfa7c03d" class="outline-3">
+<h3 id="orgfa7c03d"><span class="section-number-3">8.3.</span> org plot</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+see <a href="https://orgmode.org/manual/Org-Plot.html">https://orgmode.org/manual/Org-Plot.html</a>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Sede</th>
+<th scope="col" class="org-right">Max cites</th>
+<th scope="col" class="org-right">H-index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Chile</td>
+<td class="org-right">257.72</td>
+<td class="org-right">21.39</td>
+</tr>
+
+<tr>
+<td class="org-left">Leeds</td>
+<td class="org-right">165.77</td>
+<td class="org-right">19.68</td>
+</tr>
+
+<tr>
+<td class="org-left">Sao Paolo</td>
+<td class="org-right">71.00</td>
+<td class="org-right">11.50</td>
+</tr>
+
+<tr>
+<td class="org-left">Stockholm</td>
+<td class="org-right">134.19</td>
+<td class="org-right">14.33</td>
+</tr>
+
+<tr>
+<td class="org-left">Morelia</td>
+<td class="org-right">257.56</td>
+<td class="org-right">17.67</td>
+</tr>
+</tbody>
+</table>
+
+
+<div id="org7bc80dc" class="figure">
+<p><img src="./img-gen-dir/citas.png" alt="citas.png" />
+</p>
+</div>
+
+
+
+<div id="org27077b4" class="figure">
+<p><img src="./img-gen-dir/eval-of-plaintext-formats.png" alt="eval-of-plaintext-formats.png" />
+</p>
+</div>
+
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Sede</th>
+<th scope="col" class="org-right">Max cites</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Chile</td>
+<td class="org-right">257.72</td>
+<td class="org-left">WWWWWWWWWWWW</td>
+</tr>
+
+<tr>
+<td class="org-left">Leeds</td>
+<td class="org-right">165.77</td>
+<td class="org-left">WWWWWWWh</td>
+</tr>
+
+<tr>
+<td class="org-left">Sao Paolo</td>
+<td class="org-right">71.00</td>
+<td class="org-left">WWW;</td>
+</tr>
+
+<tr>
+<td class="org-left">Stockholm</td>
+<td class="org-right">134.19</td>
+<td class="org-left">WWWWWW:</td>
+</tr>
+
+<tr>
+<td class="org-left">Morelia</td>
+<td class="org-right">257.56</td>
+<td class="org-left">WWWWWWWWWWWW</td>
+</tr>
+
+<tr>
+<td class="org-left">Rochefourchat</td>
+<td class="org-right">0.00</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">test &#x2026;</td>
+<td class="org-right">42.0</td>
+<td class="org-left">WW</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgfe9593a" class="outline-3">
+<h3 id="orgfe9593a"><span class="section-number-3">8.4.</span> gnu plot</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+see <a href="https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads">https://gitlab.com/dto/health-template/-/tree/main?ref_type=heads</a> by David O'Toole
+</p>
+
+
+<table id="orga37ba9e" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-right">exercise minutes</th>
+<th scope="col" class="org-right">sleep hours</th>
+<th scope="col" class="org-right">nicotine doses</th>
+<th scope="col" class="org-right">distress scale</th>
+<th scope="col" class="org-right">missed doses</th>
+<th scope="col" class="org-right">pain scale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-13 Tue]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">8</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-14 Wed]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-15 Thu]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">12</td>
+<td class="org-right">8</td>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-16 Fri]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">14</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-17 Sat]</span></span></td>
+<td class="org-right">30</td>
+<td class="org-right">12</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-18 Sun]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">9</td>
+<td class="org-right">7</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-19 Mon]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">7</td>
+<td class="org-right">6</td>
+<td class="org-right">6</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-20 Tue]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">8</td>
+<td class="org-right">7</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-21 Wed]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-22 Thu]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">11</td>
+<td class="org-right">6</td>
+<td class="org-right">3.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-23 Fri]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">9</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-24 Sat]</span></span></td>
+<td class="org-right">10</td>
+<td class="org-right">13</td>
+<td class="org-right">6</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-25 Sun]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-26 Mon]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">13</td>
+<td class="org-right">7</td>
+<td class="org-right">6</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-27 Tue]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-28 Wed]</span></span></td>
+<td class="org-right">30</td>
+<td class="org-right">10</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-29 Thu]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">12</td>
+<td class="org-right">4</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-09-30 Fri]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">6</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-01 Sat]</span></span></td>
+<td class="org-right">10</td>
+<td class="org-right">7.5</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-02 Sun]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">8</td>
+<td class="org-right">7</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-03 Mon]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-04 Tue]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-05 Wed]</span></span></td>
+<td class="org-right">15</td>
+<td class="org-right">8</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-06 Thu]</span></span></td>
+<td class="org-right">25</td>
+<td class="org-right">8.5</td>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-07 Fri]</span></span></td>
+<td class="org-right">25</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-08 Sat]</span></span></td>
+<td class="org-right">20</td>
+<td class="org-right">9</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-09 Sun]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-10 Mon]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6</td>
+<td class="org-right">5</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-11 Tue]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">6.5</td>
+<td class="org-right">4</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-12 Wed]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-13 Thu]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-14 Fri]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-15 Sat]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-16 Sun]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">4</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2022-10-17 Mon]</span></span></td>
+<td class="org-right">0</td>
+<td class="org-right">4.5</td>
+<td class="org-right">0</td>
+<td class="org-right">3</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+</tr>
+</tbody>
+</table>
+
+
+<div id="org5b51613" class="figure">
+<p><img src="./img-gen-dir/example.png" alt="example.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>This is the caption</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgf105d02" class="outline-2">
+<h2 id="orgf105d02"><span class="section-number-2">9.</span> logic resolution proof</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+\lipsum[2-4]
+</p>
+</div>
+
+
+<div id="outline-container-org7c03dde" class="outline-3">
+<h3 id="org7c03dde"><span class="section-number-3">9.1.</span> forward direction (&rarr;)</h3>
+<div class="outline-text-3" id="text-9-1">
+\[\frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad [A]^3 \qquad [A \rightarrow B]^1}{B}[\text{mp}] \qquad [\lnot B]^2}{\perp}[\text{$\lnot E$}]}{\lnot A}[\text{$\lnot I^3$}]}{\lnot B \rightarrow \lnot A}[\text{$\rightarrow I^2$}]}{(A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A)}[\text{$\rightarrow I^1$}]\]
+
+</br></br>
+</div>
+</div>
+
+
+<div id="outline-container-orgb2d0739" class="outline-3">
+<h3 id="orgb2d0739"><span class="section-number-3">9.2.</span> back direction (&larr;)</h3>
+<div class="outline-text-3" id="text-9-2">
+\[\frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad \frac{\displaystyle  \qquad [A]^5 \qquad \frac{\displaystyle  \qquad [\lnot B]^6 \qquad [\lnot B \rightarrow \lnot A]^4}{\lnot A}[\text{mp}]}{\perp}[\text{$\lnot E$}]}{B}[\text{$\text{raa}^6$}]}{A \rightarrow B}[\text{$\rightarrow I^5$}]}{(\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)}[\text{$\rightarrow I^4$}]\]
+
+</br></br>
+</div>
+</div>
+
+
+<div id="outline-container-orgd30ca5f" class="outline-3">
+<h3 id="orgd30ca5f"><span class="section-number-3">9.3.</span> both directions (&harr;)</h3>
+<div class="outline-text-3" id="text-9-3">
+\[\frac{\displaystyle  \qquad (A \rightarrow B) \rightarrow (\lnot B \rightarrow \lnot A) \qquad (\lnot B \rightarrow \lnot A) \rightarrow (A \rightarrow B)}{\vdash (A \rightarrow B) \leftrightarrow (\lnot B \rightarrow \lnot A)}[\text{$\leftrightarrow$ I}]\]
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org81eabbc" class="outline-2">
+<h2 id="org81eabbc"><span class="section-number-2">10.</span> some random appendix</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+maybe add a document or other related but not that important info, listings plots etc. here &#x2026;
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgb1ea229" class="outline-2">
+<h2 id="orgb1ea229"><span class="section-number-2">11.</span> TOC's</h2>
+<div class="outline-text-2" id="text-11">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">ABA</td>
+<td class="org-left">alternierender Büchi-Automat</td>
+<td class="org-left">engl. alternating Büchi automaton</td>
+</tr>
+
+<tr>
+<td class="org-left">AFA</td>
+<td class="org-left">alternierender endlicher Automat</td>
+<td class="org-left">engl. alternating f inite automaton</td>
+</tr>
+
+<tr>
+<td class="org-left">BA</td>
+<td class="org-left">Büchi-Automat</td>
+<td class="org-left">engl. Büchi automaton</td>
+</tr>
+
+<tr>
+<td class="org-left">BNF</td>
+<td class="org-left">Normalform kontextfreier Grammatiken</td>
+<td class="org-left">engl. Backus–N aur f orm</td>
+</tr>
+
+<tr>
+<td class="org-left">DFA</td>
+<td class="org-left">endlicher Automat</td>
+<td class="org-left">engl. deterministic f inite automaton</td>
+</tr>
+</tbody>
+</table>
+
+
+<div id="list-of-listings">
+<h2>List of Listings</h2>
+<div id="text-list-of-listings">
+<ul>
+<li><a href="#org68f1779"><span class="listing-number">Listing 1:</span> <code>nix-shell</code> config for generating a build environment</a></li>
+<li><a href="#org641f9ac"><span class="listing-number">Listing 2:</span> code block containing prime checking functions</a></li>
+</ul>
+</div>
+</div>
+
+<div id="list-of-tables">
+<h2>List of Tables</h2>
+<div id="text-list-of-tables">
+<ul>
+<li><span class="table-number">Table 1:</span> table of library's with corresponding version</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1" role="doc-backlink">1</a></sup> <div class="footpara" role="doc-footnote"><p class="footpara">see \url{https://youtu.be/XkY2DOUCWMU}</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Date: 2024-08-23T17:57:29+0200</p>
+<p class="author">Author: Felix Drees</p>
+<p class="date">Created: 2024-08-23 Fri 17:57</p>
+</div>
+</body>
+</html>
