@@ -7,8 +7,12 @@
                                     ________________________________________________
 
 
-                                                2024-08-23T17:57:27+0200
+                                                2024-08-25T00:00:49+0200
 
+
+Version: `db84e07e1a3'
+Abstract
+--------
 
 The fusion of Doom/Emacs, Org Mode, and LaTeX presents a potent platform for crafting sophisticated thesis
 papers.\autocite[see][p. 5]{mac2013categories} This article provides a detailed guide on how to seamlessly integrate

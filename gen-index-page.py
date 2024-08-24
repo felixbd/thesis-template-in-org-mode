@@ -4,11 +4,12 @@ import os
 import sys
 from datetime import datetime
 
+
 def get_file_info(filename):
     filename = f"./out/{filename}"
     file_size = os.path.getsize(filename) / (1024 * 1024)
     mod_time = os.path.getmtime(filename)
-    mod_date = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%d %H:%M:%S')
+    mod_date = datetime.fromtimestamp(mod_time).strftime("%Y-%m-%d %H:%M:%S")
     return file_size, mod_date
 
 
@@ -48,22 +49,33 @@ HEAD = """
 
 FOOTER = """
     </table>
+</br>
+</br>
+Note: All files are generated automatically via the GNU/Emacs Org-Mode export functions.
+</br>
+see: <a href="https://github.com/felixbd/thesis-template-in-org-mode/">https://github.com/felixbd/thesis-template-in-org-mode/</a>
 </body>
 </html>
 """
 
 
 def main() -> None:
-    x = sys.argv[1]
+    fen = sys.argv[1]  # file export name
 
-    body = "".join([f"""
+    body = ""
+
+    for suffix in ["pdf", "txt", "html"]:
+        file_name = f"{fen}.{suffix}"
+        s, d = get_file_info(file_name)
+
+        body += f"""
             <tr>
                 <td><a href="{file_name}">{file_name}</a></td>
-                <td>{get_file_info(file_name)[1]}</td>
-                <td>{get_file_info(file_name)[0]:.2f} MB</td>
+                <td>{d}</td>
+                <td>{s:.2f} MB</td>
                 <td>-</td>
             </tr>
-    """ for file_name in [f"{x}.pdf", f"{x}.txt", f"{x}.html"]])
+        """
 
     index_content = HEAD + body + FOOTER
 
@@ -72,6 +84,6 @@ def main() -> None:
 
     print("index.html generated successfully.")
 
+
 if __name__ == "__main__":
     main()
-

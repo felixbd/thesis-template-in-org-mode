@@ -1,16 +1,19 @@
 # thesis-template-in-org-mode -*- mode: org; coding: utf-8; -*-
-# --------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
 #
 # The Documentation (either in its HTML/LaTeX/PDF format or in its Org-Mode format)
 # is licensed under the *GNU Free Documentation License version 1.3* or later.
 #
 # The code examples are licensed under the *GNU General Public License v3* or later.
 #
-# --------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
+
+#+INCLUDE: code.inc
+
+
 # FOR HTML
 # --------
 # +SETUPFILE:           https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
-
 
 
 # +latex_compiler: latexmk
@@ -43,17 +46,29 @@
 #+EXPORT_FILE_NAME:    thesis-template-in-org-mode
 #+SELECT_TAGS:         export
 #+EXCLUDE_TAGS:        todo
-# --------------------------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------------
 #+TITLE: Unleashing the Power of GNU/Emacs and Org-Mode
 #+SUBTITLE: A Cache of Wisdom for Thesis Writing
 #+DATE: {{{time(%Y-%m-%dT%H:%M:%S%z)}}}
 #+AUTHOR: Felix Drees
 # +EMAIL:
-# --------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
 
 #+LATEX: \frontmatter
 #+LATEX: \input{coverpage}
 
+
+#+latex: \begin{comment}
+Version: call_git_version()
+#+latex: \end{comment}
+
+
+
+#+begin_export ascii
+Abstract
+--------
+#+end_export
 
 #+name: englishAbstract
 #+begin_abstract
