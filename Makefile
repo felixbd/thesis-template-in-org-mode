@@ -16,7 +16,7 @@ all:
 	@mv "$(FILENAME)".{pdf,html,txt} ./out
 
 	# gen gitlab index page
-	@python3 gen-gitlab-index-page.py "$(FILENAME)"
+	@python3 gen-index-page.py "$(FILENAME)"
 
 
 c: clean
