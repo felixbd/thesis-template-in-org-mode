@@ -13,6 +13,9 @@ pages:
   stage: deploy
   script:
     - echo "Pages accessible through ${CI_PAGES_URL}/${PAGES_PREFIX}"
+    - mkdir -p ./public
+    - cp -r ./out/* ./public
+    - ls -laRh ./public
   variables:
     PAGES_PREFIX: "" # no prefix by default (master)
   pages:
@@ -22,7 +25,7 @@ pages:
     url: "${CI_PAGES_URL}/${PAGES_PREFIX}"
   artifacts:
     paths:
-    - out
+    - public
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH # Run on default branch (with default PAGES_PREFIX)
     - if: $CI_COMMIT_BRANCH == "staging" # ensure to run on master (with default PAGES_PREFIX)
@@ -32,3 +35,4 @@ pages:
       when: manual # run pages manually on Merge Requests
       variables:
         PAGES_PREFIX: 'mr-$CI_MERGE_REQUEST_IID' # prefix with the mr-<iid>, like `mr-123`
+
