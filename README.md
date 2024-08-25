@@ -9,3 +9,14 @@ thesis in org-mode
 see [final pdf](./out/thesis-template-in-org-mode.pdf)
 
 see `out/index.html`
+
+
+![](./images/web.png)
+
+<table>
+  <tr>
+    <td><img src="./images/pdf.png" alt="pdf"></td>
+    <td><img src="./images/web.png" alt="html"></td>
+    <td><img src="./images/ascii.png" alt="ascii"></td>
+  </tr>
+</table>

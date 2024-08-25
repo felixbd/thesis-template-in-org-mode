@@ -13,10 +13,11 @@ all:
 
 	latexmk -shell-escape -bibtex -pdf "$(FILENAME).tex"
 
-	@mv "$(FILENAME)".{pdf,html,txt} ./out
+	mv "$(FILENAME)".{pdf,html,txt} ./out
+	cp -r img-gen-dir out
 
 	# gen gitlab index page
-	@python3 gen-index-page.py "$(FILENAME)"
+	python3 gen-index-page.py "$(FILENAME)"
 
 
 c: clean
