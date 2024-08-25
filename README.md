@@ -11,7 +11,7 @@ see [final pdf](./out/thesis-template-in-org-mode.pdf)
 see `out/index.html`
 
 
-![](./images/web.png)
+![](./images/index.png)
 
 <table>
   <tr>
